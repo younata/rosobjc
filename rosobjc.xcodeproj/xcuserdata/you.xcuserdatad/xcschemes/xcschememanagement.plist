@@ -4,10 +4,15 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>rosobjc.xcscheme</key>
+		<key>rosobjc-ios.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
+		</dict>
+		<key>rosobjc-osx.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
@@ -18,6 +23,16 @@
 			<true/>
 		</dict>
 		<key>891F1C821770245400E4C321</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>891F1CA01770255500E4C321</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>891F1CB51770255500E4C321</key>
 		<dict>
 			<key>primary</key>
 			<true/>
