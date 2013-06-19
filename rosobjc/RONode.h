@@ -9,8 +9,14 @@
 #import <Foundation/Foundation.h>
 #import "RODelegate.h"
 
-@interface ROObject : NSObject
+@interface RONode : NSObject
 
 @property (nonatomic, weak) id<RODelegate> delegate;
+@property (nonatomic, strong) NSString *name;
+
+-(id)initWithName:(NSString *)name;
+-(void)shutdown:(NSString *)reason;
+
+-(NSArray *)getPublishedTopics:(NSString *)NameSpace;
 
 @end

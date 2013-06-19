@@ -12,4 +12,6 @@ To compile a static library under iOS, select the "rosobjc-ios" target.
 
 To compile a framework under osx, select the "rosobjec-osx" target.
 
+This may or may not compile under xcode 4, it is currently being developed using the developer preview of xcode 5.
+
 Note that this is still very much so in development. It is not even usable at this point.

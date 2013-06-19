@@ -28,9 +28,12 @@
 		891F1CD5177028F800E4C321 /* ROCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F1CD3177028F800E4C321 /* ROCore.m */; };
 		891F1CD6177028F800E4C321 /* ROCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F1CD3177028F800E4C321 /* ROCore.m */; };
 		891F1CD817702F4100E4C321 /* RODelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 891F1CD717702F4100E4C321 /* RODelegate.h */; };
-		891F1CDB1770318300E4C321 /* ROObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 891F1CD91770318300E4C321 /* ROObject.h */; };
-		891F1CDC1770318300E4C321 /* ROObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F1CDA1770318300E4C321 /* ROObject.m */; };
-		891F1CDD1770318300E4C321 /* ROObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F1CDA1770318300E4C321 /* ROObject.m */; };
+		891F1CDB1770318300E4C321 /* RONode.h in Headers */ = {isa = PBXBuildFile; fileRef = 891F1CD91770318300E4C321 /* RONode.h */; };
+		891F1CDC1770318300E4C321 /* RONode.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F1CDA1770318300E4C321 /* RONode.m */; };
+		891F1CDD1770318300E4C321 /* RONode.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F1CDA1770318300E4C321 /* RONode.m */; };
+		891F1CE0177142C900E4C321 /* ROMsg.h in Headers */ = {isa = PBXBuildFile; fileRef = 891F1CDE177142C900E4C321 /* ROMsg.h */; };
+		891F1CE1177142C900E4C321 /* ROMsg.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F1CDF177142C900E4C321 /* ROMsg.m */; };
+		891F1CE2177142C900E4C321 /* ROMsg.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F1CDF177142C900E4C321 /* ROMsg.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,8 +90,10 @@
 		891F1CD2177028F800E4C321 /* ROCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ROCore.h; path = ../ROCore.h; sourceTree = "<group>"; };
 		891F1CD3177028F800E4C321 /* ROCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ROCore.m; path = ../ROCore.m; sourceTree = "<group>"; };
 		891F1CD717702F4100E4C321 /* RODelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RODelegate.h; sourceTree = "<group>"; };
-		891F1CD91770318300E4C321 /* ROObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ROObject.h; sourceTree = "<group>"; };
-		891F1CDA1770318300E4C321 /* ROObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ROObject.m; sourceTree = "<group>"; };
+		891F1CD91770318300E4C321 /* RONode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RONode.h; sourceTree = "<group>"; };
+		891F1CDA1770318300E4C321 /* RONode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RONode.m; sourceTree = "<group>"; };
+		891F1CDE177142C900E4C321 /* ROMsg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ROMsg.h; sourceTree = "<group>"; };
+		891F1CDF177142C900E4C321 /* ROMsg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ROMsg.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,8 +178,10 @@
 				891F1C7D1770245400E4C321 /* rosobjc.m */,
 				891F1CD2177028F800E4C321 /* ROCore.h */,
 				891F1CD3177028F800E4C321 /* ROCore.m */,
-				891F1CD91770318300E4C321 /* ROObject.h */,
-				891F1CDA1770318300E4C321 /* ROObject.m */,
+				891F1CDE177142C900E4C321 /* ROMsg.h */,
+				891F1CDF177142C900E4C321 /* ROMsg.m */,
+				891F1CD91770318300E4C321 /* RONode.h */,
+				891F1CDA1770318300E4C321 /* RONode.m */,
 				891F1CD717702F4100E4C321 /* RODelegate.h */,
 				891F1C791770245400E4C321 /* Supporting Files */,
 			);
@@ -242,10 +249,11 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				891F1CDB1770318300E4C321 /* ROObject.h in Headers */,
+				891F1CDB1770318300E4C321 /* RONode.h in Headers */,
 				891F1CD4177028F800E4C321 /* ROCore.h in Headers */,
 				891F1CD817702F4100E4C321 /* RODelegate.h in Headers */,
 				891F1CCB1770284500E4C321 /* rosobjc.h in Headers */,
+				891F1CE0177142C900E4C321 /* ROMsg.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -392,8 +400,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				891F1CDC1770318300E4C321 /* ROObject.m in Sources */,
+				891F1CDC1770318300E4C321 /* RONode.m in Sources */,
 				891F1C7E1770245400E4C321 /* rosobjc.m in Sources */,
+				891F1CE1177142C900E4C321 /* ROMsg.m in Sources */,
 				891F1CD5177028F800E4C321 /* ROCore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -410,8 +419,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				891F1CDD1770318300E4C321 /* ROObject.m in Sources */,
+				891F1CDD1770318300E4C321 /* RONode.m in Sources */,
 				891F1CCA1770284200E4C321 /* rosobjc.m in Sources */,
+				891F1CE2177142C900E4C321 /* ROMsg.m in Sources */,
 				891F1CD6177028F800E4C321 /* ROCore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

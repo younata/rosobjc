@@ -8,10 +8,13 @@
 
 #import "ROCore.h"
 
-@interface ROCore ()
+@interface ROCore () {
+    RONode *masterProxy;
+}
 -(void)setInitialized:(BOOL)inited;
-
 @end
+
+static ROCore *rocoreSingleton = nil;
 
 @implementation ROCore
 
@@ -28,8 +31,27 @@
     return @[destLoc, @(destPort)];
 }
 
++(ROCore *)sharedCore
+{
+    if (rocoreSingleton == nil)
+        [ROCore initialize];
+    return rocoreSingleton;
+}
+
++(void)initialize
+{
+    static BOOL initialized = NO;
+    if(!initialized)
+    {
+        initialized = YES;
+        rocoreSingleton = [[ROCore alloc] init];
+    }
+}
+
 -(id)init
 {
+    if (rocoreSingleton != nil)
+        return nil;
     if ((self = [super init]) != nil) {
         clientReady = NO;
         shutdownFlag = NO;
@@ -64,11 +86,41 @@
     if (inShutdown || shutdownFlag)
         return;
     inShutdown = YES;
-    for (id rosobject in rosobjects) {
-        [rosobject shutdown];
+    for (RONode *node in rosobjects) {
+        [node shutdown:reason];
     }
-    [rosobjects removeAllObjects];
     rosobjects = nil;
+}
+
+-(void)removeNode:(RONode *)node
+{
+    [rosobjects removeObject:node];
+}
+
+-(RONode *)getMaster
+{
+    if (masterProxy == nil) {
+        
+    }
+    return masterProxy;
+}
+
+-(RONode *)createNode:(NSString *)name
+{
+    for (RONode *node in rosobjects) {
+        if ([node.name isEqualToString:name])
+            return nil;
+    }
+    RONode *ret = [[RONode alloc] initWithName:name];
+    [rosobjects addObject:ret];
+    return ret;
+}
+
+-(NSArray *)getPublishedTopics:(NSString *)NameSpace
+{
+    NSArray *t = [[self getMaster] getPublishedTopics:NameSpace];
+    NSAssert1([[t objectAtIndex:0] intValue] == 1, @"unable to get published topics: %@", [t objectAtIndex:1]);
+    return ([t objectAtIndex:2]);
 }
 
 @end
