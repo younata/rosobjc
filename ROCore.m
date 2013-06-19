@@ -14,7 +14,7 @@
 -(void)setInitialized:(BOOL)inited;
 @end
 
-static ROCore *rocoreSingleton = nil;
+//static ROCore *rocoreSingleton = nil;
 
 @implementation ROCore
 
@@ -31,12 +31,14 @@ static ROCore *rocoreSingleton = nil;
     return @[destLoc, @(destPort)];
 }
 
+/*
 +(ROCore *)sharedCore
 {
     if (rocoreSingleton == nil)
         [ROCore initialize];
     return rocoreSingleton;
 }
+
 
 +(void)initialize
 {
@@ -47,9 +49,12 @@ static ROCore *rocoreSingleton = nil;
         rocoreSingleton = [[ROCore alloc] init];
     }
 }
+*/
 
 -(id)init
 {
+    return nil;
+    /*
     if (rocoreSingleton != nil)
         return nil;
     if ((self = [super init]) != nil) {
@@ -59,7 +64,22 @@ static ROCore *rocoreSingleton = nil;
         rosobjects = [[NSMutableArray alloc] init];
     }
     return self;
+     */
 }
+
+-(id)initWithMasterURI:(NSString *)uri
+{
+    if ((self = [super init]) != nil) {
+        clientReady = NO;
+        shutdownFlag = NO;
+        inShutdown = NO;
+        rosobjects = [[NSMutableArray alloc] init];
+        [ROCore ParseRosObjcURI:uri];
+        _uri = uri;
+    }
+    return self;
+}
+
 
 -(BOOL)isInitialized
 {
@@ -112,6 +132,8 @@ static ROCore *rocoreSingleton = nil;
             return nil;
     }
     RONode *ret = [[RONode alloc] initWithName:name];
+    ret.core = self;
+    ret.masterURI = _uri;
     [rosobjects addObject:ret];
     return ret;
 }

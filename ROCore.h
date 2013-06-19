@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "RONode.h"
+#import "xmlrpc/XMLRPC.h"
 
 static NSString *schema = @"rosrpc";
 static NSString *master = @"master"; // reserved for master node...
@@ -21,16 +22,18 @@ static NSString *master = @"master"; // reserved for master node...
     NSMutableArray *rosobjects;
 }
 
-@property (nonatomic, strong) NSString *uri;
+@property (nonatomic, strong, readonly) NSString *uri;
 
 // takes a string, outputs an array of form [address, port]
 +(NSArray *)ParseRosObjcURI:(NSString *)uri;
-+(ROCore *)sharedCore;
+//+(ROCore *)sharedCore;
 
 -(BOOL)isInitialized;
 -(BOOL)isShutdown;
 -(BOOL)isShutdownRequested;
 -(void)signalShutdown:(NSString *)reason;
+
+-(id)initWithMasterURI:(NSString *)uri;
 
 -(RONode *)getMaster;
 -(RONode *)createNode:(NSString *)name;

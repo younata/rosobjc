@@ -7,12 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "RODelegate.h"
+#import "RONodeDelegate.h"
+
+@class ROCore;
 
 @interface RONode : NSObject
+{
+    NSMutableArray *publishedTopics;
+    NSMutableArray *subscribedTopics;
+}
 
-@property (nonatomic, weak) id<RODelegate> delegate;
+@property (nonatomic, weak) id<RONodeDelegate> delegate;
 @property (nonatomic, strong) NSString *name;
+@property (nonatomic, weak) ROCore *core;
+@property (nonatomic, weak) NSString *masterURI;
 
 -(id)initWithName:(NSString *)name;
 -(void)shutdown:(NSString *)reason;

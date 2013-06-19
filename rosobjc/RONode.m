@@ -36,7 +36,7 @@
     keepRunning = NO;
     if ([_delegate respondsToSelector:@selector(onShutdown:)])
         [_delegate onShutdown:reason];
-    [[ROCore sharedCore] removeNode:self];
+    [_core removeNode:self];
 }
 
 -(NSArray *)getPublishedTopics:(NSString *)NameSpace

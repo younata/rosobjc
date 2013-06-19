@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol RODelegate <NSObject>
+@protocol RONodeDelegate <NSObject>
 
 @optional
 -(void)onShutdown:(NSString *)reason;
