@@ -31,40 +31,9 @@
     return @[destLoc, @(destPort)];
 }
 
-/*
-+(ROCore *)sharedCore
-{
-    if (rocoreSingleton == nil)
-        [ROCore initialize];
-    return rocoreSingleton;
-}
-
-
-+(void)initialize
-{
-    static BOOL initialized = NO;
-    if(!initialized)
-    {
-        initialized = YES;
-        rocoreSingleton = [[ROCore alloc] init];
-    }
-}
-*/
-
 -(id)init
 {
     return nil;
-    /*
-    if (rocoreSingleton != nil)
-        return nil;
-    if ((self = [super init]) != nil) {
-        clientReady = NO;
-        shutdownFlag = NO;
-        inShutdown = NO;
-        rosobjects = [[NSMutableArray alloc] init];
-    }
-    return self;
-     */
 }
 
 -(id)initWithMasterURI:(NSString *)uri

@@ -27,4 +27,18 @@
 
 -(NSArray *)getPublishedTopics:(NSString *)NameSpace;
 
+-(NSArray *)getBusStats:(NSString *)callerID;
+-(NSArray *)getBusInfo:(NSString *)callerID;
+-(NSArray *)getMasterUri:(NSString *)callerID;
+-(NSArray *)shutdown:(NSString *)callerID msg:(NSString *)msg; // msg can be nil.
+
+-(NSArray *)getSubscriptions:(NSString *)callerID;
+-(NSArray *)getPublications:(NSString *)callerID;
+
+-(NSArray *)paramUpdate:(NSString *)callerID key:(NSString *)key val:(id)value;
+
+-(NSArray *)publisherUpdate:(NSString *)callerID topic:(NSString *)topic publishers:(NSArray *)publishers;
+
+-(NSArray *)requestTopic:(NSString *)callerID topic:(NSString *)topic protocols:(NSArray *)protocols;
+
 @end
