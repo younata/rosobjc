@@ -42,6 +42,11 @@
 
 @end
 
+enum RORegistration {
+    RORegistrationSub = 0,
+    RORegistrationPub = 1
+};
+
 @interface ROTopicManager : NSObject
 {
     NSMutableDictionary *pubs;
@@ -55,5 +60,15 @@
 -(NSArray *)getPubSubStats;
 
 -(void)closeAll;
+
+-(void)add:(ROTopic *)ps map:(NSMutableDictionary *)map regType:(RORegistration)regType;
+-(void)recalculateTopics;
+-(void)remove:(ROTopic *)ps map:(NSMutableDictionary *)map regType:(RORegistration)regType;
+-(Class)getImplementation:(NSString *)resolvedName regType(RORegistration)regType;
+-(Class)getPubImpl:(NSString *)resolvedName;
+-(Class)getSubImpl:(NSString *)resolvedName;
+-(BOOL)hasSubscription:(NSString *)resolvedName;
+-(BOOL)hasPublication:(NSString *)resolvedName;
+-(NSArray *)getTopics;
 
 @end
