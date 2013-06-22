@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ROMsg : NSObject
+@interface ROSMsg : NSObject
 {
     NSData *_buffer;
 }
@@ -23,7 +23,7 @@
 
 
 
-@interface ROHeader : NSObject
+@interface ROSHeader : NSObject
 
 @property (nonatomic) int seq;
 @property (nonatomic, strong) NSString *frameID;
@@ -32,7 +32,7 @@
 
 
 
-@interface ROAnyMsg : ROMsg
+@interface ROSAnyMsg : ROMsg
 
 @end
 

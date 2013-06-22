@@ -8,7 +8,7 @@ This is intended to be a simple drop-in library that you can use to communicate 
 
 I'm providing it under the same BSD license that ROS is under, to encourage others to adopt and use it. There is also an example (iOS) application that I wrote, which you can download on the app store, and has the source code here, it basically behaves like rostopic.
 
-This framework uses the RO (RosObjc) prefix for all classes and files, with the exception of rosobjc.h
+This framework uses the ROS prefix for all classes and files, with the exception of rosobjc.h
 
 To compile a static library under iOS, select the "rosobjc-ios" target.
 

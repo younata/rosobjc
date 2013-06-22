@@ -7,13 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "RONode.h"
+#import "ROSNode.h"
 #import "xmlrpc/XMLRPC.h"
 
 static NSString *schema = @"rosrpc";
 static NSString *master = @"master"; // reserved for master node...
 
-@interface ROCore : NSObject
+@interface ROSCore : NSObject
 {
     BOOL clientReady;
     BOOL shutdownFlag;
@@ -35,8 +35,8 @@ static NSString *master = @"master"; // reserved for master node...
 
 -(id)initWithMasterURI:(NSString *)uri;
 
--(RONode *)getMaster;
--(RONode *)createNode:(NSString *)name;
+-(ROSNode *)getMaster;
+-(ROSNode *)createNode:(NSString *)name;
 -(void)removeNode:(RONode *)node;
 -(void)startNode:(RONode *)node;
 

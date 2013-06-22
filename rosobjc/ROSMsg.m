@@ -6,16 +6,16 @@
 //  Copyright (c) 2013 Rachel Brindle. All rights reserved.
 //
 
-#import "ROMsg.h"
+#import "ROSMsg.h"
 
-@interface ROMsg ()
+@interface ROSMsg ()
 {
     
 }
 
 @end
 
-@implementation ROMsg
+@implementation ROSMsg
 
 -(id)init
 {
@@ -47,7 +47,7 @@
 
 @end
 
-@interface ROAnyMsg ()
+@interface ROSAnyMsg ()
 {
     NSString *md5sum;
     id type;
@@ -58,7 +58,7 @@
 
 @end
 
-@implementation ROAnyMsg
+@implementation ROSAnyMsg
 
 -(id)init
 {
@@ -87,11 +87,11 @@
 
 @end
 
-void serializeMessage(NSMutableData *buffer, int seq, ROMsg *msg)
+void serializeMessage(NSMutableData *buffer, int seq, ROSMsg *msg)
 {
     NSRange r = NSMakeRange(4, [buffer length]-4);
     if ([[msg.slots allKeys] containsObject:@"header"]) {
-        ROHeader *header = [msg.slots objectForKey:@"header"];
+        ROSHeader *header = [msg.slots objectForKey:@"header"];
         header.seq = seq;
         if (header.frameID == nil)
             header.frameID = @"0";
@@ -108,7 +108,7 @@ void serializeMessage(NSMutableData *buffer, int seq, ROMsg *msg)
 void deserializeMessages(NSMutableData *buffer, NSMutableArray *msgQueue, Class msgClass, int maxMsgs, int start)
 {
     id msg = [[msgClass alloc] init];
-    NSCAssert1(![msg isKindOfClass:[ROMsg class]], @"%p is not a subclass of ROMsg", msgClass);
+    NSCAssert1(![msg isKindOfClass:[ROSMsg class]], @"%p is not a subclass of ROMsg", msgClass);
     int pos = 0;
     int len = [buffer length];
     if (len < 4)

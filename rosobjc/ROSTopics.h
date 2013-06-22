@@ -11,7 +11,7 @@
 
 #include <pthread.h>
 
-@interface ROTopic : NSObject
+@interface ROSTopic : NSObject
 {
     XMLRPCConnection *connection;
     NSString *_master;
@@ -30,7 +30,7 @@
 
 @end
 
-@interface ROSubscriber : ROTopic
+@interface ROSSubscriber : ROSTopic
 {
     void (^callback)(id);
 }
@@ -40,7 +40,7 @@
 
 @end
 
-@interface ROPublisher : ROTopic
+@interface ROSPublisher : ROSTopic
 
 -(void)publish:(id)msg;
 
@@ -51,7 +51,7 @@ typedef enum {
     RORegistrationPub = 1
 } RORegistration;
 
-@interface ROTopicManager : NSObject
+@interface ROSTopicManager : NSObject
 {
     NSMutableDictionary *pubs;
     NSMutableDictionary *subs;
@@ -60,7 +60,7 @@ typedef enum {
     BOOL closed;
 }
 
-+(ROTopicManager *)sharedTopicManager;
++(ROSTopicManager *)sharedTopicManager;
 
 -(NSArray *)getPubSubInfo;
 -(NSArray *)getPubSubStats;
@@ -72,9 +72,9 @@ typedef enum {
 -(void)recalculateTopics;
 -(void)remove:(ROTopic *)ps map:(NSMutableDictionary *)map regType:(RORegistration)regType;
 
--(ROTopic *)getImplementation:(NSString *)resolvedName regType:(RORegistration)regType;
--(ROTopic *)getPubImpl:(NSString *)resolvedName;
--(ROTopic *)getSubImpl:(NSString *)resolvedName;
+-(ROSTopic *)getImplementation:(NSString *)resolvedName regType:(RORegistration)regType;
+-(ROSTopic *)getPubImpl:(NSString *)resolvedName;
+-(ROSTopic *)getSubImpl:(NSString *)resolvedName;
 -(BOOL)hasSubscription:(NSString *)resolvedName;
 -(BOOL)hasPublication:(NSString *)resolvedName;
 -(NSArray *)getSubscriptions;

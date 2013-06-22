@@ -6,11 +6,11 @@
 //  Copyright (c) 2013 Rachel Brindle. All rights reserved.
 //
 
-#import "RONode.h"
-#import "ROCore.h"
-#import "ROTopics.h"
+#import "ROSNode.h"
+#import "ROSCore.h"
+#import "ROSTopics.h"
 
-@implementation RONode
+@implementation ROSNode
 
 // in rospy, this is actually the ROSHandler class.
 // because we're NOT doing the master part of the
@@ -59,13 +59,13 @@
 
 -(NSArray *)getBusStats:(NSString *)callerID
 {
-    NSArray *foo = [[ROTopicManager sharedTopicManager] getPubSubStats];
+    NSArray *foo = [[ROSTopicManager sharedTopicManager] getPubSubStats];
     return @[@1, @"", [foo arrayByAddingObject:@[]]];
 }
 
 -(NSArray *)getBusInfo:(NSString *)callerID
 {
-    return @[@1, @"bus info", [[ROTopicManager sharedTopicManager] getPubSubInfo]];
+    return @[@1, @"bus info", [[ROSTopicManager sharedTopicManager] getPubSubInfo]];
 }
 
 -(NSArray *)getMasterUri:(NSString *)callerID
@@ -83,18 +83,18 @@
 
 -(NSArray *)getSubscriptions:(NSString *)callerID
 {
-    return @[@1, @"subscriptions", [[ROTopicManager sharedTopicManager] getSubscriptions]];
+    return @[@1, @"subscriptions", [[ROSTopicManager sharedTopicManager] getSubscriptions]];
 }
 
 -(NSArray *)getPublications:(NSString *)callerID
 {
-    return @[@1, @"publications", [[ROTopicManager sharedTopicManager] getPublications]];
+    return @[@1, @"publications", [[ROSTopicManager sharedTopicManager] getPublications]];
 }
 
 #pragma mark - internal
 -(NSArray *)connectTopic:(NSString*)topic uri:(NSString *)URI
 {
-    ROTopic *t = [[ROTopicManager sharedTopicManager] getSubImpl:topic];
+    ROTopic *t = [[ROSTopicManager sharedTopicManager] getSubImpl:topic];
     if (t == nil)
         return @[@(-1), [NSString stringWithFormat:@"No subscriber for topic [%@]", topic], @0];
     else if ([t hasConnection:URI])

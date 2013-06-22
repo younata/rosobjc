@@ -6,10 +6,10 @@
 //  Copyright (c) 2013 Rachel Brindle. All rights reserved.
 //
 
-#import "ROTopics.h"
-#import "ROMsg.h"
+#import "ROSTopics.h"
+#import "ROSMsg.h"
 
-@implementation ROTopic
+@implementation ROSTopic
 
 -(id)initWithMaster:(NSString *)master method:(NSString *)method
 {
@@ -46,7 +46,7 @@
 
 
 
-@implementation ROSubscriber
+@implementation ROSSubscriber
 
 -(void)spin
 {
@@ -68,7 +68,7 @@
 
 
 
-@implementation ROPublisher
+@implementation ROSPublisher
 
 -(void)publish:(id)msg
 {
@@ -77,20 +77,20 @@
 
 @end
 
-ROTopicManager *topicManager;
+ROSTopicManager *topicManager;
 
-@implementation ROTopicManager
+@implementation ROSTopicManager
 
 +(void)initialize
 {
     static BOOL initialized = NO;
     if (!initialized) {
         initialized = YES;
-        topicManager = [[ROTopicManager alloc] init];
+        topicManager = [[ROSTopicManager alloc] init];
     }
 }
 
-+(ROTopicManager *)sharedTopicManager
++(ROSTopicManager *)sharedTopicManager
 {
     return topicManager;
 }
@@ -126,7 +126,7 @@ ROTopicManager *topicManager;
 {
     [self lock];
     NSMutableArray *ret = [[NSMutableArray alloc] init];
-    for (ROTopic *s in [self pubsAndSubs]) {
+    for (ROSTopic *s in [self pubsAndSubs]) {
         [ret addObject:[s getStatsInfo]];
     }
     [self unlock];
@@ -137,11 +137,11 @@ ROTopicManager *topicManager;
 {
     [self lock];
     NSMutableArray *pubInfo = [[NSMutableArray alloc] initWithCapacity:[pubs count]];
-    for (ROTopic *s in [pubs allValues]) {
+    for (ROSTopic *s in [pubs allValues]) {
         [pubInfo addObject:[s getStats]];
     }
     NSMutableArray *subInfo = [[NSMutableArray alloc] initWithCapacity:[subs count]];
-    for (ROTopic *s in [subs allValues]) {
+    for (ROSTopic *s in [subs allValues]) {
         [subInfo addObject:[s getStats]];
     }
     [self unlock];
@@ -152,7 +152,7 @@ ROTopicManager *topicManager;
 {
     closed = YES;
     [self lock];
-    for (ROTopic *t in [self pubsAndSubs]) {
+    for (ROSTopic *t in [self pubsAndSubs]) {
         [t close];
     }
     [pubs removeAllObjects];
@@ -160,7 +160,7 @@ ROTopicManager *topicManager;
     [self unlock];
 }
 
--(void)add:(ROTopic *)ps map:(NSMutableDictionary *)map regType:(RORegistration)regType
+-(void)add:(ROSTopic *)ps map:(NSMutableDictionary *)map regType:(RORegistration)regType
 {
     NSString *resolvedName = [ps name];
     [self lock];
@@ -176,12 +176,12 @@ ROTopicManager *topicManager;
 {
     NSArray *foo = [self pubsAndSubs];
     topics = [[NSMutableSet alloc] initWithCapacity:[foo count]];
-    for (ROTopic *t in foo) {
+    for (ROSTopic *t in foo) {
         [topics addObject:t.name];
     }
 }
 
--(void)remove:(ROTopic *)ps map:(NSMutableDictionary *)map regType:(RORegistration)regType
+-(void)remove:(ROSTopic *)ps map:(NSMutableDictionary *)map regType:(RORegistration)regType
 {
     NSString *resolvedName = [ps name];
     [self lock];
@@ -192,7 +192,7 @@ ROTopicManager *topicManager;
     [self unlock];
 }
 
--(ROTopic *)getImplementation:(NSString *)resolvedName regType:(RORegistration)regType
+-(ROSTopic *)getImplementation:(NSString *)resolvedName regType:(RORegistration)regType
 {
     NSMutableDictionary *a;
     if (regType == RORegistrationPub)
@@ -204,12 +204,12 @@ ROTopicManager *topicManager;
     return [a objectForKey:resolvedName];
 }
 
--(ROTopic *)getPubImpl:(NSString *)resolvedName
+-(ROSTopic *)getPubImpl:(NSString *)resolvedName
 {
     return [pubs objectForKey:resolvedName];
 }
 
--(ROTopic *)getSubImpl:(NSString *)resolvedName
+-(ROSTopic *)getSubImpl:(NSString *)resolvedName
 {
     return [subs objectForKey:resolvedName];
 }

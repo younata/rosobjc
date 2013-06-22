@@ -6,17 +6,17 @@
 //  Copyright (c) 2013 Rachel Brindle. All rights reserved.
 //
 
-#import "ROCore.h"
+#import "ROSCore.h"
 
-@interface ROCore () {
-    RONode *masterProxy;
+@interface ROSCore () {
+    ROSNode *masterProxy;
 }
 -(void)setInitialized:(BOOL)inited;
 @end
 
 //static ROCore *rocoreSingleton = nil;
 
-@implementation ROCore
+@implementation ROSCore
 
 +(NSArray *)ParseRosObjcURI:(NSString *)uri
 {
@@ -43,7 +43,7 @@
         shutdownFlag = NO;
         inShutdown = NO;
         rosobjects = [[NSMutableArray alloc] init];
-        [ROCore ParseRosObjcURI:uri];
+        [ROSCore ParseRosObjcURI:uri];
         _uri = uri;
     }
     return self;
@@ -75,18 +75,18 @@
     if (inShutdown || shutdownFlag)
         return;
     inShutdown = YES;
-    for (RONode *node in rosobjects) {
+    for (ROSNode *node in rosobjects) {
         [node shutdown:reason];
     }
     rosobjects = nil;
 }
 
--(void)removeNode:(RONode *)node
+-(void)removeNode:(ROSNode *)node
 {
     [rosobjects removeObject:node];
 }
 
--(RONode *)getMaster
+-(ROSNode *)getMaster
 {
     if (masterProxy == nil) {
         
@@ -94,13 +94,13 @@
     return masterProxy;
 }
 
--(RONode *)createNode:(NSString *)name
+-(ROSNode *)createNode:(NSString *)name
 {
-    for (RONode *node in rosobjects) {
+    for (ROSNode *node in rosobjects) {
         if ([node.name isEqualToString:name])
             return nil;
     }
-    RONode *ret = [[RONode alloc] initWithName:name];
+    ROSNode *ret = [[ROSNode alloc] initWithName:name];
     ret.core = self;
     ret.masterURI = _uri;
     [rosobjects addObject:ret];
