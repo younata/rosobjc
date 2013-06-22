@@ -37,6 +37,8 @@ static NSString *master = @"master"; // reserved for master node...
 
 -(RONode *)getMaster;
 -(RONode *)createNode:(NSString *)name;
+-(void)removeNode:(RONode *)node;
+-(void)startNode:(RONode *)node;
 
 -(NSArray *)getPublishedTopics:(NSString *)NameSpace;
 

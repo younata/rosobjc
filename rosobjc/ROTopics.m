@@ -27,6 +27,21 @@
     _msgClass = msgClass;
 }
 
+-(id)getStats
+{
+    return nil;
+}
+
+-(id)getStatsInfo
+{
+    return nil;
+}
+
+-(void)close
+{
+    
+}
+
 @end
 
 
@@ -62,8 +77,23 @@
 
 @end
 
+ROTopicManager *topicManager;
 
 @implementation ROTopicManager
+
++(void)initialize
+{
+    static BOOL initialized = NO;
+    if (!initialized) {
+        initialized = YES;
+        topicManager = [[ROTopicManager alloc] init];
+    }
+}
+
++(ROTopicManager *)sharedTopicManager
+{
+    return topicManager;
+}
 
 -(id)init
 {

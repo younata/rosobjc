@@ -15,6 +15,8 @@
 {
     NSMutableArray *publishedTopics;
     NSMutableArray *subscribedTopics;
+    BOOL keepRunning;
+    NSArray *protocols;
 }
 
 @property (nonatomic, weak) id<RONodeDelegate> delegate;

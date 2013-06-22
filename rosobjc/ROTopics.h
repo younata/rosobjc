@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "xmlrpc/XMLRPC.h"
+#import "XMLRPC/XMLRPC.h"
 
 #include <pthread.h>
 
@@ -26,6 +26,7 @@
 -(id)getStats;
 -(id)getStatsInfo;
 -(void)close;
+-(BOOL)hasConnection:(NSString *)URI;
 
 @end
 
@@ -59,6 +60,8 @@ typedef enum {
     BOOL closed;
 }
 
++(ROTopicManager *)sharedTopicManager;
+
 -(NSArray *)getPubSubInfo;
 -(NSArray *)getPubSubStats;
 
@@ -69,11 +72,14 @@ typedef enum {
 -(void)recalculateTopics;
 -(void)remove:(ROTopic *)ps map:(NSMutableDictionary *)map regType:(RORegistration)regType;
 
--(ROTopic *)getImplementation:(NSString *)resolvedName regType(RORegistration)regType;
+-(ROTopic *)getImplementation:(NSString *)resolvedName regType:(RORegistration)regType;
 -(ROTopic *)getPubImpl:(NSString *)resolvedName;
 -(ROTopic *)getSubImpl:(NSString *)resolvedName;
 -(BOOL)hasSubscription:(NSString *)resolvedName;
 -(BOOL)hasPublication:(NSString *)resolvedName;
+-(NSArray *)getSubscriptions;
+-(NSArray *)getPublications;
 -(NSArray *)getTopics;
+
 
 @end
