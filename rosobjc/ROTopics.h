@@ -18,6 +18,9 @@
     NSString *_method;
 }
 @property (nonatomic) Class msgClass;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) id type;
+
 -(id)initWithMaster:(NSString *)master method:(NSString *)method;
 
 -(id)getStats;
@@ -42,10 +45,10 @@
 
 @end
 
-enum RORegistration {
+typedef enum {
     RORegistrationSub = 0,
     RORegistrationPub = 1
-};
+} RORegistration;
 
 @interface ROTopicManager : NSObject
 {
@@ -61,12 +64,14 @@ enum RORegistration {
 
 -(void)closeAll;
 
+#pragma mark - Internal methods
 -(void)add:(ROTopic *)ps map:(NSMutableDictionary *)map regType:(RORegistration)regType;
 -(void)recalculateTopics;
 -(void)remove:(ROTopic *)ps map:(NSMutableDictionary *)map regType:(RORegistration)regType;
--(Class)getImplementation:(NSString *)resolvedName regType(RORegistration)regType;
--(Class)getPubImpl:(NSString *)resolvedName;
--(Class)getSubImpl:(NSString *)resolvedName;
+
+-(ROTopic *)getImplementation:(NSString *)resolvedName regType(RORegistration)regType;
+-(ROTopic *)getPubImpl:(NSString *)resolvedName;
+-(ROTopic *)getSubImpl:(NSString *)resolvedName;
 -(BOOL)hasSubscription:(NSString *)resolvedName;
 -(BOOL)hasPublication:(NSString *)resolvedName;
 -(NSArray *)getTopics;
