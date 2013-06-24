@@ -16,7 +16,6 @@
 		891F1C8B1770245400E4C321 /* librosobjc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 891F1C731770245400E4C321 /* librosobjc.a */; };
 		891F1C911770245400E4C321 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 891F1C8F1770245400E4C321 /* InfoPlist.strings */; };
 		891F1C931770245400E4C321 /* rosobjcTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F1C921770245400E4C321 /* rosobjcTests.m */; };
-		891F1CA31770255500E4C321 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 891F1CA21770255500E4C321 /* Cocoa.framework */; };
 		891F1CB71770255500E4C321 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 891F1C841770245400E4C321 /* XCTest.framework */; };
 		891F1CB81770255500E4C321 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 891F1CA21770255500E4C321 /* Cocoa.framework */; };
 		891F1CBB1770255500E4C321 /* rosobjc-osx.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 891F1CA11770255500E4C321 /* rosobjc-osx.framework */; };
@@ -40,6 +39,7 @@
 		891F1CF61776170100E4C321 /* ROSProtocols.h in Headers */ = {isa = PBXBuildFile; fileRef = 891F1CF41776170100E4C321 /* ROSProtocols.h */; };
 		891F1CF71776170100E4C321 /* ROSProtocols.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F1CF51776170100E4C321 /* ROSProtocols.m */; };
 		891F1CF81776170100E4C321 /* ROSProtocols.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F1CF51776170100E4C321 /* ROSProtocols.m */; };
+		8961B0A91778040D005564A5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8961B0A81778040D005564A5 /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -126,6 +126,8 @@
 		891F1CF0177175CC00E4C321 /* ROSTopics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ROSTopics.m; sourceTree = "<group>"; };
 		891F1CF41776170100E4C321 /* ROSProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ROSProtocols.h; sourceTree = "<group>"; };
 		891F1CF51776170100E4C321 /* ROSProtocols.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ROSProtocols.m; sourceTree = "<group>"; };
+		8961B0A81778040D005564A5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		8961B0AA17780432005564A5 /* libcommonCrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcommonCrypto.dylib; path = usr/lib/system/libcommonCrypto.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,7 +154,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				891F1CA31770255500E4C321 /* Cocoa.framework in Frameworks */,
+				8961B0A91778040D005564A5 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -195,6 +197,8 @@
 		891F1C751770245400E4C321 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8961B0AA17780432005564A5 /* libcommonCrypto.dylib */,
+				8961B0A81778040D005564A5 /* Foundation.framework */,
 				891F1C761770245400E4C321 /* Foundation.framework */,
 				891F1C841770245400E4C321 /* XCTest.framework */,
 				891F1C871770245400E4C321 /* UIKit.framework */,
@@ -624,6 +628,10 @@
 				DSTROOT = /tmp/rosobjc.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "rosobjc/rosobjc-Prefix.pch";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/system",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -636,6 +644,10 @@
 				DSTROOT = /tmp/rosobjc.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "rosobjc/rosobjc-Prefix.pch";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/system",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -801,6 +813,7 @@
 				891F1C981770245400E4C321 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		891F1C991770245400E4C321 /* Build configuration list for PBXNativeTarget "rosobjcTests" */ = {
 			isa = XCConfigurationList;
@@ -809,6 +822,7 @@
 				891F1C9B1770245400E4C321 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		891F1CC41770255500E4C321 /* Build configuration list for PBXNativeTarget "rosobjc-osx" */ = {
 			isa = XCConfigurationList;
@@ -817,6 +831,7 @@
 				891F1CC61770255500E4C321 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		891F1CC71770255500E4C321 /* Build configuration list for PBXNativeTarget "rosobjc-osxTests" */ = {
 			isa = XCConfigurationList;
@@ -825,6 +840,7 @@
 				891F1CC91770255500E4C321 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

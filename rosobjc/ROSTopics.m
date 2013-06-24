@@ -23,7 +23,7 @@
 -(void)setMsgClass:(Class)msgClass
 {
     id foo = [[msgClass alloc] init];
-    NSAssert1([foo isKindOfClass:[ROMsg class]], @"%p is not a subclass of ROMsg", msgClass);
+    NSAssert1([foo isKindOfClass:[ROSMsg class]], @"%p is not a subclass of ROSMsg", msgClass);
     _msgClass = msgClass;
 }
 
@@ -40,6 +40,11 @@
 -(void)close
 {
     
+}
+
+-(BOOL)hasConnection:(NSString *)URI
+{
+    return NO;
 }
 
 @end

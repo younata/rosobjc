@@ -10,8 +10,26 @@
 
 @interface ROSProtocol : NSObject
 
+@property (nonatomic, strong) NSString *msgType;
+
+-(uint8_t *)generateConnectionHeader;
+
 @end
 
+enum ROSTCPConnectionType {
+    ROSTCPSubscriber = 0,
+    ROSTCPPublisher = 1,
+    ROSTCPService = 2,
+    ROSTCPServiceClient = 3,
+};
+
+// Implements TCPROS
 @interface ROSTCP : ROProtocol
+
+@property (nonatomic) ROSTCPConnectionType connectionType;
+
+@end
+
+@interface ROSUDP : ROProtocol
 
 @end

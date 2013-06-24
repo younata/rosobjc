@@ -54,6 +54,7 @@
         NameSpace = @"/";
     }
     // TODO: fix
+#error Not implemented
     return @[@0, @"Not Implemented", @[]];
 }
 
@@ -94,7 +95,7 @@
 #pragma mark - internal
 -(NSArray *)connectTopic:(NSString*)topic uri:(NSString *)URI
 {
-    ROTopic *t = [[ROSTopicManager sharedTopicManager] getSubImpl:topic];
+    ROSTopic *t = [[ROSTopicManager sharedTopicManager] getSubImpl:topic];
     if (t == nil)
         return @[@(-1), [NSString stringWithFormat:@"No subscriber for topic [%@]", topic], @0];
     else if ([t hasConnection:URI])
@@ -131,7 +132,7 @@
 
 -(NSArray *)requestTopic:(NSString *)callerID topic:(NSString *)topic protocols:(NSArray *)_protocols
 {
-    if (![[ROTopicManager sharedTopicManager] hasPublication:topic])
+    if (![[ROSTopicManager sharedTopicManager] hasPublication:topic])
         return @[@(-1), [NSString stringWithFormat:@"Not a publisher of %@", topic], @[]];
 #error implement protocols...
     NSAssert([_protocols containsObject:@"TCPROS"], @"Only supported protocol is tcpros");
