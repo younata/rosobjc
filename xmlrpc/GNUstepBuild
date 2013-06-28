@@ -1,7 +1,0 @@
-# GNUstepBuild
-# $Id: GNUstepBuild,v 1.1 2003/10/21 16:54:12 znek Exp $
-
-
-ifeq "$(OBJC_RUNTIME_LIB)" "gnu"
-ADDITIONAL_OBJCFLAGS += -DGNU_RUNTIME
-endif
