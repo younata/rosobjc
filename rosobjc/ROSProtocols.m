@@ -229,6 +229,7 @@ NSString *generateField(NSString *kind, NSString *content, int length)
 
 -(NSString *)generateConnectionHeader
 {
+    // there has got to be better ways of implementing each of the below methods...
     switch (_connectionType) {
         case ROSTCPSubscriber:
             return [self generateSubscriberHeaders];

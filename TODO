@@ -1,0 +1,22 @@
+From the "Implementing Client Libraries" page:
+MANDATORY:
+    Slave side of master/slave API (managing xmlrpc SERVER, issuing/responding to xmlrpc requests)
+    handle node-to-node transport negotiation and connection setup. A client library may only support a subset of the possible transport mechanisms, most likely ROS/TCPROS
+    handle transport-specific serialization and deserialization of messages. 
+
+We currently do a subset of each of the above, but none.
+
+SHOULD:
+    parse command-line Remapping Arguments. A node that cannot do this will not be reconfigurable.
+    Subscribe to a simulated Clock
+    publish debugging messages to rosout
+    depend on the roslang package, which allows rosbuild and other tools to perform appropriate actions, such as msg- and srv-based code generation 
+
+We may implement subscribing to simulated clcok, and publish debugging messages to rosout.
+
+NICE TO HAVE:
+    object representation of message types
+    event loop for connection servicing
+    user callback invocation on message receipt 
+
+yes, all of these will be doable.
