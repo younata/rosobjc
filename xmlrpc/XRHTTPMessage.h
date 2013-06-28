@@ -1,9 +1,9 @@
 //
-//  XMLRPC.h
+//  XRHTTPMessage.h
 //  XMLRPC
 //
 //  Created by znek on Tue Aug 14 2001.
-//  $Id: XMLRPC.h,v 1.9 2003/03/28 13:12:01 znek Exp $
+//  $Id: XRHTTPMessage.h,v 1.3 2002/07/10 00:38:05 znek Exp $
 //
 //  Copyright (c) 2001 by Marcus MŸller <znek@mulle-kybernetik.com>.
 //  All rights reserved.
@@ -29,30 +29,37 @@
 //---------------------------------------------------------------------------------------
 
 
-#ifndef	__XMLRPC_h_INCLUDE
-#define	__XMLRPC_h_INCLUDE
+#ifndef	__XRHTTPMessage_h_INCLUDE
+#define	__XRHTTPMessage_h_INCLUDE
 
 
 #import <Foundation/Foundation.h>
 
-#include "XRDefines.h"
-#include "XRProtocols.h"
-#include "XRConstants.h"
 
-#include "XRConnection.h"
-#include "XRProxy.h"
+@interface XRHTTPMessage : NSObject
+{
+	NSMutableDictionary *headersLUT;
+	NSString *httpVersion;
+	NSStringEncoding contentEncoding;
+	NSData *content;
+}
 
-#include "XRCoder.h"
-#include "XREncoder.h"
-#include "XRDecoder.h"
+- (id)initWithTransferData:(NSData *)data;
 
-#include "XRHTTPAuthenticationHandler.h"
-#include "XRHTTPBasicAuthenticationHandler.h"
+- (NSArray *)headerKeys;
+- (void)setHeader:(NSString *)aHeader forKey:(NSString *)aKey;
+- (void)setHeaders:(NSArray *)headers forKey:(NSString *)aKey;
+- (NSArray *)headersForKey:(NSString *)aKey;
+- (NSString *)headerForKey:(NSString *)aKey;
 
-// these are for more ambitious implementations
-#include "XRMethodSignature.h"
-#include "XRInvocationStorage.h"
-#include "XRInvocation.h"
-#include "XRGenericInvocation.h"
+- (void)setHTTPVersion:(NSString *)aVersion;
+- (NSString *)httpVersion;
 
-#endif	/* __XMLRPC_h_INCLUDE */
+- (void)setContent:(NSData *)data;
+- (NSData *)content;
+- (void)setContentEncoding:(NSStringEncoding)anEncoding;
+- (NSStringEncoding)contentEncoding;
+
+@end
+
+#endif	/* __XRHTTPMessage_h_INCLUDE */

@@ -1,9 +1,9 @@
 //
-//  XMLRPC.h
+//  XREArray.m
 //  XMLRPC
 //
-//  Created by znek on Tue Aug 14 2001.
-//  $Id: XMLRPC.h,v 1.9 2003/03/28 13:12:01 znek Exp $
+//  Created by znek on Wed Aug 15 2001.
+//  $Id: XREArray.m,v 1.2 2003/03/28 13:12:01 znek Exp $
 //
 //  Copyright (c) 2001 by Marcus MŸller <znek@mulle-kybernetik.com>.
 //  All rights reserved.
@@ -29,30 +29,53 @@
 //---------------------------------------------------------------------------------------
 
 
-#ifndef	__XMLRPC_h_INCLUDE
-#define	__XMLRPC_h_INCLUDE
-
-
-#import <Foundation/Foundation.h>
-
+#include "XREArray.h"
 #include "XRDefines.h"
-#include "XRProtocols.h"
-#include "XRConstants.h"
 
-#include "XRConnection.h"
-#include "XRProxy.h"
 
-#include "XRCoder.h"
-#include "XREncoder.h"
-#include "XRDecoder.h"
+@implementation XREArray
 
-#include "XRHTTPAuthenticationHandler.h"
-#include "XRHTTPBasicAuthenticationHandler.h"
+////////////////////////////////////////////////////
+//
+//	OVERRIDING FUN
+//
+////////////////////////////////////////////////////
 
-// these are for more ambitious implementations
-#include "XRMethodSignature.h"
-#include "XRInvocationStorage.h"
-#include "XRInvocation.h"
-#include "XRGenericInvocation.h"
 
-#endif	/* __XMLRPC_h_INCLUDE */
+- (void)addContainedElement:(MXElement *)someElement
+{
+    // <array/> tags have exactly one <data/> tag.
+    // This <data/> tag consists of multiple <value/> tags.
+
+    // NOTE: we really do mean member, NOT kind
+    if([someElement isMemberOfClass:[MXContainerElement class]])
+    {
+        NSMutableArray *values;
+        NSEnumerator *valuesEnum;
+        XREValue *valueElement;
+
+//        EDLog1(XRLogXRE, @"XREArray: receiving %@", someElement);
+
+        values = [[[NSMutableArray allocWithZone:[self zone]] initWithCapacity:[[(MXContainerElement *)someElement containedElements] count]] autorelease];
+        valuesEnum = [[(MXContainerElement *)someElement containedElements] objectEnumerator];
+        
+        while((valueElement = [valuesEnum nextObject]) != nil)
+        {
+            if([valueElement isKindOfClass:[XREValue class]])
+                [values addObject:[valueElement objectValue]];
+        }
+        [self takeValue:values forAttribute:@"object"];
+        EDLog1(XRLogXRE, @"XREArray: %@", [self description]);
+    }
+    else
+    {
+        [super addContainedElement:someElement];
+    }
+}
+
+- (id)emptyValue
+{
+    return [NSArray array];
+}
+
+@end

@@ -1,0 +1,16 @@
+{
+"&" = "&amp;";
+"<" = "&lt;";
+// THIS IS NO LONGER XML COMPLIANT!
+//
+// These were removed due to the fact that the XML-RPC specs state that the above entities are the only ones that need
+// to be escaped.
+// While on the one hand I do think that this violates the XML specs (which state that actually all these 5 entities have to be
+// encoded unless you do provide a DTD saying otherwise) on the other hand there seem to be implementations that actually
+// rely on this to be true. Since interoperability is the major goal here, I do adhere to the XML-RPC spec by removing these.
+/*
+">" = "&gt;";
+"'" = "&apos;";
+"\"" = "&quot;";
+*/
+}

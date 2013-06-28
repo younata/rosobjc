@@ -1,11 +1,11 @@
 //
-//  XMLRPC.h
+//  common.h
 //  XMLRPC
 //
-//  Created by znek on Tue Aug 14 2001.
-//  $Id: XMLRPC.h,v 1.9 2003/03/28 13:12:01 znek Exp $
+//  Created by znek on Tue Oct 28 2004.
+//  $Id$
 //
-//  Copyright (c) 2001 by Marcus MŸller <znek@mulle-kybernetik.com>.
+//  Copyright (c) 2004 by Marcus MŸller <znek@mulle-kybernetik.com>.
 //  All rights reserved.
 //
 //  Permission to use, copy, modify and distribute this software and its documentation
@@ -28,31 +28,5 @@
 //  OR OF ANY DERIVATIVE WORK.
 //---------------------------------------------------------------------------------------
 
-
-#ifndef	__XMLRPC_h_INCLUDE
-#define	__XMLRPC_h_INCLUDE
-
-
 #import <Foundation/Foundation.h>
-
-#include "XRDefines.h"
-#include "XRProtocols.h"
-#include "XRConstants.h"
-
-#include "XRConnection.h"
-#include "XRProxy.h"
-
-#include "XRCoder.h"
-#include "XREncoder.h"
-#include "XRDecoder.h"
-
-#include "XRHTTPAuthenticationHandler.h"
-#include "XRHTTPBasicAuthenticationHandler.h"
-
-// these are for more ambitious implementations
-#include "XRMethodSignature.h"
-#include "XRInvocationStorage.h"
-#include "XRInvocation.h"
-#include "XRGenericInvocation.h"
-
-#endif	/* __XMLRPC_h_INCLUDE */
+#import <EDCommon/EDCommon.h>

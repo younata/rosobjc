@@ -1,9 +1,9 @@
 //
-//  XMLRPC.h
+//  TestController.m
 //  XMLRPC
 //
-//  Created by znek on Tue Aug 14 2001.
-//  $Id: XMLRPC.h,v 1.9 2003/03/28 13:12:01 znek Exp $
+//  Created by znek on Tue Aug 21 2001.
+//  $Id: TestController.m,v 1.3 2003/03/28 13:12:08 znek Exp $
 //
 //  Copyright (c) 2001 by Marcus MŸller <znek@mulle-kybernetik.com>.
 //  All rights reserved.
@@ -29,30 +29,33 @@
 //---------------------------------------------------------------------------------------
 
 
-#ifndef	__XMLRPC_h_INCLUDE
-#define	__XMLRPC_h_INCLUDE
+#include "TestController.h"
+#include <EDCommon/EDCommon.h>
+#include <XMLRPC/XMLRPC.h>
+#include "TestServerProxy.h"
 
 
-#import <Foundation/Foundation.h>
+@implementation TestController
 
-#include "XRDefines.h"
-#include "XRProtocols.h"
-#include "XRConstants.h"
+- (id)init
+{
+    [super init];
+    [DNC addObserver:self selector:@selector(registerConnectionDeath:) name:XRConnectionDidDieNotification object:nil];
+    return self;
+}
 
-#include "XRConnection.h"
-#include "XRProxy.h"
+- (void)registerConnectionDeath:(NSNotification *)notification
+{
+    EDLog1(XRLogDebug, @"Connection %@ did die", [notification object]);
+}
 
-#include "XRCoder.h"
-#include "XREncoder.h"
-#include "XRDecoder.h"
 
-#include "XRHTTPAuthenticationHandler.h"
-#include "XRHTTPBasicAuthenticationHandler.h"
+- (Class)classOfProxyWithHandle:(NSString *)handle forConnection:(XRConnection *)connection
+{
+    // very simple example
+    if([handle isEqualToString:@"sample"])
+        return [TestServerProxy class];
+    return [XRProxy class];
+}
 
-// these are for more ambitious implementations
-#include "XRMethodSignature.h"
-#include "XRInvocationStorage.h"
-#include "XRInvocation.h"
-#include "XRGenericInvocation.h"
-
-#endif	/* __XMLRPC_h_INCLUDE */
+@end

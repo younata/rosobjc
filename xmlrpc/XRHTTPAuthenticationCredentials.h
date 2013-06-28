@@ -1,9 +1,9 @@
 //
-//  XMLRPC.h
+//  XRHTTPAuthenticationCredentials.h
 //  XMLRPC
 //
-//  Created by znek on Tue Aug 14 2001.
-//  $Id: XMLRPC.h,v 1.9 2003/03/28 13:12:01 znek Exp $
+//  Created by znek on Tue Jul 09 2002.
+//  $Id: XRHTTPAuthenticationCredentials.h,v 1.1 2002/07/18 00:11:35 znek Exp $
 //
 //  Copyright (c) 2001 by Marcus MŸller <znek@mulle-kybernetik.com>.
 //  All rights reserved.
@@ -29,30 +29,28 @@
 //---------------------------------------------------------------------------------------
 
 
-#ifndef	__XMLRPC_h_INCLUDE
-#define	__XMLRPC_h_INCLUDE
+#ifndef	__XRHTTPAuthenticationCredentials_h_INCLUDE
+#define	__XRHTTPAuthenticationCredentials_h_INCLUDE
 
 
 #import <Foundation/Foundation.h>
 
-#include "XRDefines.h"
-#include "XRProtocols.h"
-#include "XRConstants.h"
 
-#include "XRConnection.h"
-#include "XRProxy.h"
+@interface XRHTTPAuthenticationCredentials : NSObject
+{
+    NSString *scheme;
+    NSString *rawResponse;
+}
 
-#include "XRCoder.h"
-#include "XREncoder.h"
-#include "XRDecoder.h"
++ (id)credentialsFromCredentials:(NSString *)someCredentials;
+- (id)initWithCredentials:(NSString *)someCredentials;
 
-#include "XRHTTPAuthenticationHandler.h"
-#include "XRHTTPBasicAuthenticationHandler.h"
+/*" i.e. "basic". For simplicity's sake this string is lower case."*/
+- (NSString *)scheme;
 
-// these are for more ambitious implementations
-#include "XRMethodSignature.h"
-#include "XRInvocationStorage.h"
-#include "XRInvocation.h"
-#include "XRGenericInvocation.h"
+/*"Credentials excluding the scheme, i.e. QWxhZGRpbjpvcGVuIHNlc2FtZQ== "*/
+- (NSString *)rawResponse;
 
-#endif	/* __XMLRPC_h_INCLUDE */
+@end
+
+#endif	/* __XRHTTPAuthenticationCredentials_h_INCLUDE */

@@ -1,9 +1,6 @@
-//
-//  XMLRPC.h
-//  XMLRPC
-//
-//  Created by znek on Tue Aug 14 2001.
-//  $Id: XMLRPC.h,v 1.9 2003/03/28 13:12:01 znek Exp $
+//---------------------------------------------------------------------------------------
+// created as MXStringElement.h by znek on Sun 29-Oct-2000
+// $Id: MXStringElement.h,v 1.4 2003/03/28 13:12:01 znek Exp $
 //
 //  Copyright (c) 2001 by Marcus MŸller <znek@mulle-kybernetik.com>.
 //  All rights reserved.
@@ -29,30 +26,19 @@
 //---------------------------------------------------------------------------------------
 
 
-#ifndef	__XMLRPC_h_INCLUDE
-#define	__XMLRPC_h_INCLUDE
+#ifndef	__MXStringElement_h_INCLUDE
+#define	__MXStringElement_h_INCLUDE
 
 
-#import <Foundation/Foundation.h>
+#include "MXElement.h"
 
-#include "XRDefines.h"
-#include "XRProtocols.h"
-#include "XRConstants.h"
 
-#include "XRConnection.h"
-#include "XRProxy.h"
+@interface MXStringElement : MXElement
+{
+}
 
-#include "XRCoder.h"
-#include "XREncoder.h"
-#include "XRDecoder.h"
+- (void)appendToString:(NSMutableString *)buffer;
 
-#include "XRHTTPAuthenticationHandler.h"
-#include "XRHTTPBasicAuthenticationHandler.h"
+@end
 
-// these are for more ambitious implementations
-#include "XRMethodSignature.h"
-#include "XRInvocationStorage.h"
-#include "XRInvocation.h"
-#include "XRGenericInvocation.h"
-
-#endif	/* __XMLRPC_h_INCLUDE */
+#endif	/* __MXStringElement_h_INCLUDE */

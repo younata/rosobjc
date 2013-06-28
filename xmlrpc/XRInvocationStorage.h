@@ -1,9 +1,9 @@
 //
-//  XMLRPC.h
+//  XRInvocationStorage.h
 //  XMLRPC
 //
-//  Created by znek on Tue Aug 14 2001.
-//  $Id: XMLRPC.h,v 1.9 2003/03/28 13:12:01 znek Exp $
+//  Created by znek on Fri Jun 07 2002.
+//  $Id: XRInvocationStorage.h,v 1.3 2002/07/17 23:03:56 znek Exp $
 //
 //  Copyright (c) 2001 by Marcus MŸller <znek@mulle-kybernetik.com>.
 //  All rights reserved.
@@ -29,30 +29,34 @@
 //---------------------------------------------------------------------------------------
 
 
-#ifndef	__XMLRPC_h_INCLUDE
-#define	__XMLRPC_h_INCLUDE
+#ifndef	__XRInvocationStorage_h_INCLUDE
+#define	__XRInvocationStorage_h_INCLUDE
 
 
 #import <Foundation/Foundation.h>
 
-#include "XRDefines.h"
-#include "XRProtocols.h"
-#include "XRConstants.h"
+@class EDObjectPair;
+@class XRInvocation;
 
-#include "XRConnection.h"
-#include "XRProxy.h"
 
-#include "XRCoder.h"
-#include "XREncoder.h"
-#include "XRDecoder.h"
+/**
+Store and retrieve invocations for XML-RPC methods
+*/
+@interface XRInvocationStorage : NSObject
+{
+    NSMutableDictionary *handleInvocationsLUT;
+}
 
-#include "XRHTTPAuthenticationHandler.h"
-#include "XRHTTPBasicAuthenticationHandler.h"
+// helper method
+- (EDObjectPair *)getHandleAndMethodFromUnqualifiedMethod:(NSString *)method;
 
-// these are for more ambitious implementations
-#include "XRMethodSignature.h"
-#include "XRInvocationStorage.h"
-#include "XRInvocation.h"
-#include "XRGenericInvocation.h"
+- (void)registerInvocation:(XRInvocation *)invocation forMethod:(NSString *)method;
+- (void)unregisterInvocationsForMethod:(NSString *)method;
+- (void)removeInvocationsWithHandle:(NSString *)handle;
 
-#endif	/* __XMLRPC_h_INCLUDE */
+- (XRInvocation *)invocationForMethod:(NSString *)method xmlrpcArgumentTypes:(NSString *)xmlrpcTypes;
+- (NSArray *)methodSignaturesForMethod:(NSString *)method;
+
+@end
+
+#endif	/* __XRInvocationStorage_h_INCLUDE */

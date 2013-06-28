@@ -1,9 +1,9 @@
 //
-//  XMLRPC.h
+//  XRHTTPConnection.h
 //  XMLRPC
 //
-//  Created by znek on Tue Aug 14 2001.
-//  $Id: XMLRPC.h,v 1.9 2003/03/28 13:12:01 znek Exp $
+//  Created by znek on Wed Aug 15 2001.
+//  $Id: XRHTTPConnection.h,v 1.3 2002/04/09 01:00:41 znek Exp $
 //
 //  Copyright (c) 2001 by Marcus MŸller <znek@mulle-kybernetik.com>.
 //  All rights reserved.
@@ -29,30 +29,48 @@
 //---------------------------------------------------------------------------------------
 
 
-#ifndef	__XMLRPC_h_INCLUDE
-#define	__XMLRPC_h_INCLUDE
+#ifndef	__XRHTTPConnection_h_INCLUDE
+#define	__XRHTTPConnection_h_INCLUDE
 
 
 #import <Foundation/Foundation.h>
 
-#include "XRDefines.h"
-#include "XRProtocols.h"
-#include "XRConstants.h"
 
-#include "XRConnection.h"
-#include "XRProxy.h"
+@class XRHTTPRequest;
+@class XRHTTPResponse;
+@class EDTCPSocket;
 
-#include "XRCoder.h"
-#include "XREncoder.h"
-#include "XRDecoder.h"
 
-#include "XRHTTPAuthenticationHandler.h"
-#include "XRHTTPBasicAuthenticationHandler.h"
+@interface XRHTTPConnection : NSObject
+{
+    NSString *hostName;
+    unsigned int port;
+    NSTimeInterval sendTimeout;
+    NSTimeInterval receiveTimeout;
 
-// these are for more ambitious implementations
-#include "XRMethodSignature.h"
-#include "XRInvocationStorage.h"
-#include "XRInvocation.h"
-#include "XRGenericInvocation.h"
+    struct {
+        unsigned int shouldKeepAlive: 1;
+        unsigned int RESERVED: 31;
+    } flags;
 
-#endif	/* __XMLRPC_h_INCLUDE */
+    EDTCPSocket *socket;
+}
+
+
++ (id)connectionWithHost:(NSString*)aHost port:(unsigned int)aPortNumber;
+- (id)initWithHost:(NSString*)aHost onPort:(unsigned int)aPortNumber;
+
+- (BOOL)sendRequest:(XRHTTPRequest *)request;
+- (XRHTTPResponse *)readResponse;
+
+- (BOOL)isConnected;
+- (void)setKeepAliveEnabled:(BOOL)yn;
+- (BOOL)keepAliveEnabled;
+- (void)setSendTimeout:(NSTimeInterval)timeout;
+- (NSTimeInterval)sendTimeout;
+- (void)setReceiveTimeout:(NSTimeInterval)timeout;
+- (NSTimeInterval)receiveTimeout;
+
+@end
+
+#endif	/* __XRHTTPConnection_h_INCLUDE */

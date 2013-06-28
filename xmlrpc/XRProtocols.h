@@ -1,9 +1,9 @@
 //
-//  XMLRPC.h
+//  XRProtocols.h
 //  XMLRPC
 //
-//  Created by znek on Tue Aug 14 2001.
-//  $Id: XMLRPC.h,v 1.9 2003/03/28 13:12:01 znek Exp $
+//  Created by znek on Wed Aug 15 2001.
+//  $Id: XRProtocols.h,v 1.6 2003/03/28 13:12:02 znek Exp $
 //
 //  Copyright (c) 2001 by Marcus MŸller <znek@mulle-kybernetik.com>.
 //  All rights reserved.
@@ -29,30 +29,41 @@
 //---------------------------------------------------------------------------------------
 
 
-#ifndef	__XMLRPC_h_INCLUDE
-#define	__XMLRPC_h_INCLUDE
+#ifndef	__XRProtocols_h_INCLUDE
+#define	__XRProtocols_h_INCLUDE
 
 
 #import <Foundation/Foundation.h>
-
-#include "XRDefines.h"
-#include "XRProtocols.h"
-#include "XRConstants.h"
-
-#include "XRConnection.h"
-#include "XRProxy.h"
-
 #include "XRCoder.h"
-#include "XREncoder.h"
-#include "XRDecoder.h"
 
-#include "XRHTTPAuthenticationHandler.h"
-#include "XRHTTPBasicAuthenticationHandler.h"
 
-// these are for more ambitious implementations
-#include "XRMethodSignature.h"
-#include "XRInvocationStorage.h"
-#include "XRInvocation.h"
-#include "XRGenericInvocation.h"
+@protocol XRServing
 
-#endif	/* __XMLRPC_h_INCLUDE */
+// An array of XRInvocation objects that has to be
+// invoked on this target.
+
+/** TypeInfo XRInvocation */
+- (NSArray *)invocationsForXMLRPC;
+@end
+
+// Introspection
+@protocol XRListing
+
+// The returned methods may just be a subset of all implemented XMLRPC
+// methods so you can exclude them from being listed.
+
+/** TypeInfo NSString */
+- (NSArray *)listPublicXMLRPCMethods;
+
+// This may be called for all methods, not just for the ones listed as being public.
+// So take care if you don't want to reveal private information.
+ 
+- (NSString *)descriptionForXMLRPCMethod:(NSString *)selector;
+@end
+
+@protocol XRCoding
+- (void)encodeWithXMLRPCCoder:(XRCoder *)aCoder;
+- (id)initWithXMLRPCCoder:(XRCoder *)aDecoder;
+@end
+
+#endif	/* __XRProtocols_h_INCLUDE */

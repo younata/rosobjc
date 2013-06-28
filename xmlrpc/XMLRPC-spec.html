@@ -1,0 +1,395 @@
+<html>
+	<head><title>XML-RPC Specification</title>
+ <style type="text/css">
+
+	</style> <script language="JavaScript">
+  <!-- Begin hiding from older browsers
+
+  //End hiding-->
+  </script> </head> <body bgcolor="#DCDCDC" alink="#FF0000" vlink="#800080" link="#0000FF" text="#000000"> <div align="center"></div> 
+<center>
+	<table width="741" border="0" cellspacing="0" cellpadding="0">
+		<tr>
+			<td valign="top" background="http://static.userland.com/weblogsCom/images/scripting2weblogscom/leftBG.jpg"><img src="http://static.userland.com/weblogsCom/images/scripting2weblogscom/topLeftCorner.jpg" width="11" height="163"></td>
+			<td valign="top" bgcolor="#FFFFFF">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" background="http://static.userland.com/images/XML-RPC/HeaderBG.jpg">
+					<tr background="http://static.userland.com/images/XML-RPC/HeaderBG.jpg"> 
+						<td><img src="http://static.userland.com/images/XML-RPC/Header.jpg" width="718" height="163" usemap="#Map" border="0"></td>
+					</tr>
+				</table>
+				<map name="Map"><area shape="rect" coords="9,98,371,163" href="/" alt="XML-RPC.Com" title="XML-RPC.Com"><area shape="rect" coords="3,12,135,33" href="http://www.userland.com" alt="UserLand" title="UserLand"></map> 
+				<table width="718" border="0" cellspacing="0" cellpadding="0" bgcolor="#FFFFFF">
+					<tr> 
+						<td width="100%" valign="top"> 
+							<table width="718" border="0" cellspacing="0" cellpadding="0" bgcolor="#FFFFFF">
+								<tr> 
+									<td width="100%" valign="top"> 
+										<table border="0" cellspacing="0" cellpadding="0">
+											<tr> 
+												<td><i>&nbsp;&nbsp;&nbsp;</i></td>
+												<td><i><font size="-1">Simple cross-platform distributed computing, based on the standards of the Internet.</font></i> </td>
+											</tr>
+										</table>
+										<br>
+									</td>
+									<td align="right" width="108" valign="top"><img src="http://static.userland.com/images/XML-RPC/doveBase.jpg" width="108" height="12"></td>
+								</tr>
+							</table>
+							
+						</td>
+					</tr>
+				</table>
+				<table width="100%" border="0" cellspacing="0" cellpadding="0">
+					<tr align="right"> 
+						<td><img src="http://static.userland.com/weblogsCom/images/uservilleweblogscom/shadow.jpg" width="718" height="14"></td>
+					</tr>
+				</table>
+				<table width="100%" border="0" cellspacing="0" cellpadding="0">
+					<tr> 
+						<td width="100" valign="top"> 
+							<table width="100" border="0" cellspacing="0" cellpadding="7">
+								<tr align="right"> 
+									<td><font size="-2"><p><a href="/">Home</a></p>
+<p>Spec</p>
+<p><a href="/news">News</a></p>
+<p><a href="http://groups.yahoo.com/group/xml-rpc">Mail List</a></p>
+<p><a href="/directory/1568">Directory</a></p>
+<p><a href="/discuss/">Discuss</a></p>
+<p><a href="/discuss/edit/newTopic">New Topic</a></p>
+<p><a href="http://xmlrpc-c.sourceforge.net/xmlrpc-howto/xmlrpc-howto.html">HowTo</a></p>
+<p><a href="/stats/mostReadMessages">Top 50</a></p>
+<p><a href="/stats/referers">Referers</a></p></font><br>
+										<br><br>
+										<table border="0" cellpadding="0" cellspacing="0" bgcolor="#000000">
+	<tr bgcolor="black">
+		<td>
+			<table border="0" cellpadding="3" cellspacing="1" bgcolor="black">
+				<tr>
+					<td valign="top" align="right" bgcolor="black">
+						<font color="white" size="-1"><b>Members</b></font>
+						</td>
+					</tr>
+				<tr>
+					<td valign="top" align="right" bgcolor="white">
+						<font size="-1">
+							<a href="http://www.xmlrpc.com/member/signup">Join Now</a><br>
+							</font>
+						</td>
+					</tr>
+				<tr>
+					<td valign="top" align="right" bgcolor="white">
+						<font size="-1">
+							<a href="http://www.xmlrpc.com/member/login">Login</a><br>
+							</font>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+ 
+										<p> 
+									</td>
+								</tr>
+							</table>
+						</td>
+						<td bgcolor="#DDDDDD" width="1"><img src="http://static.userland.com/weblogsCom/images/scripting2weblogscom/shim.gif" width="1" height="1"> 
+						</td>
+						<td width="100%" valign="top"> 
+							<table width="100%" border="0" cellspacing="0" cellpadding="7">
+								<tr> 
+									<td>
+										<p></p>
+										<h2>XML-RPC Specification</h2>
+										<p><p>
+<i><a href="#update2">Updated 10/16/99 DW</a></i><p>
+
+<i><a href="#update1">Updated 1/21/99 DW</a></i><p>
+
+This specification documents the XML-RPC protocol implemented in <a href="http://frontier.userland.com/">Frontier</a> 5.1. <p>
+
+For a non-technical explanation, see <a href="http://davenet.userland.com/1998/07/14/xmlRpcForNewbies">XML-RPC for Newbies</a>. <p>
+
+This page provides all the information that an implementor needs.<p>
+
+<b>Overview</b><p>
+
+XML-RPC is a Remote Procedure Calling protocol that works over the Internet.<p>
+
+An XML-RPC message is an HTTP-POST request. The body of the request is in XML. A procedure executes on the server and the value it returns is also formatted in XML.<p>
+
+Procedure parameters can be scalars, numbers, strings, dates, etc.; and can also be complex record and list structures.<p>
+
+<b>Request example</b><p>
+
+Here's an example of an XML-RPC request:<p>
+
+<pre>
+POST /RPC2 HTTP/1.0
+User-Agent: Frontier/5.1.2 (WinNT)
+Host: betty.userland.com
+Content-Type: text/xml
+Content-length: 181<p>
+
+&lt;?xml version="1.0"?>
+&lt;methodCall>
+   &lt;methodName>examples.getStateName&lt;/methodName>
+   &lt;params>
+      &lt;param>
+         &lt;value>&lt;i4>41&lt;/i4>&lt;/value>
+         &lt;/param>
+      &lt;/params>
+   &lt;/methodCall>
+</pre><p>
+
+<b>Header requirements</b><p>
+
+The format of the URI in the first line of the header is not specified. For example, it could be empty, a single slash, if the server is only handling XML-RPC calls. However, if the server is handling a mix of incoming HTTP requests, we allow the URI to help route the request to the code that handles XML-RPC requests. (In the example, the URI is /RPC2, telling the server to route the request to the "RPC2" responder.)<p>
+
+A User-Agent and Host must be specified. <p>
+
+The Content-Type is text/xml. <p>
+
+The Content-Length must be specified and must be correct.<p>
+
+<b>Payload format</b><p>
+
+The payload is in XML, a single &lt;methodCall> structure.<p>
+
+The &lt;methodCall> must contain a &lt;methodName> sub-item, a string, containing the name of the method to be called. The string may only contain identifier characters, upper and lower-case A-Z, the numeric characters, 0-9, underscore, dot, colon and slash. It's entirely up to the server to decide how to interpret the characters in a methodName. <p>
+
+For example, the methodName could be the name of a file containing a script that executes on an incoming request. It could be the name of a cell in a database table. Or it could be a path to a file contained within a hierarchy of folders and files.<p>
+
+If the procedure call has parameters, the &lt;methodCall> must contain a &lt;params> sub-item. The &lt;params> sub-item can contain any number of &lt;param>s, each of which has a &lt;value>. <p>
+
+<b><a name="scalars">Scalar &lt;value>s</a></b><p>
+
+&lt;value>s can be scalars, type is indicated by nesting the value inside one of the tags listed in this table:<p>
+
+<table cellspacing=3 border=0>
+<tr><td valign="top"><b>Tag</b></td><td valign="top" width="35%"><b>Type</b></td><td valign="top"><b>Example</b></td></tr><p>
+
+<tr><td valign="top">&lt;i4> or &lt;int></td><td valign="top" width="35%">four-byte signed integer</td><td valign="top">-12</td></tr><p>
+
+<tr><td valign="top">&lt;boolean></td><td valign="top">0 (false) or 1 (true)</td><td valign="top">1</td></tr><p>
+
+<tr><td valign="top">&lt;string></td><td valign="top">ASCII string</td><td valign="top">hello world</td></tr><p>
+
+<tr><td valign="top">&lt;double></td><td valign="top">double-precision signed floating point number</td><td valign="top">-12.214</td></tr><p>
+
+<tr><td valign="top">&lt;dateTime.iso8601></td><td valign="top">date/time</td><td valign="top">19980717T14:08:55</td></tr><p>
+
+<tr><td valign="top">&lt;base64></td><td valign="top">base64-encoded binary</td><td valign="top">eW91IGNhbid0IHJlYWQgdGhpcyE=</td></tr>
+</table><p>
+
+If no type is indicated, the type is string.<p>
+
+<b>&lt;struct>s</b><p>
+
+A value can also be of type &lt;struct>.<p>
+
+A &lt;struct> contains &lt;member>s and each &lt;member> contains a &lt;name> and a &lt;value>. <p>
+
+Here's an example of a two-element &lt;struct>:<p>
+
+<pre>
+&lt;struct>
+   &lt;member>
+      &lt;name>lowerBound&lt;/name>
+      &lt;value>&lt;i4>18&lt;/i4>&lt;/value>
+      &lt;/member>
+   &lt;member>
+      &lt;name>upperBound&lt;/name>
+      &lt;value>&lt;i4>139&lt;/i4>&lt;/value>
+      &lt;/member>
+   &lt;/struct>
+</pre><p>
+
+&lt;struct>s can be recursive, any &lt;value> may contain a &lt;struct> or any other type, including an &lt;array>, described below.<p>
+
+<b>&lt;array>s</b><p>
+
+A value can also be of type &lt;array>.<p>
+
+An &lt;array> contains a single &lt;data> element, which can contain any number of &lt;value>s.<p>
+
+Here's an example of a four-element array:<p>
+
+<pre>
+&lt;array>
+   &lt;data>
+      &lt;value>&lt;i4>12&lt;/i4>&lt;/value>
+      &lt;value>&lt;string>Egypt&lt;/string>&lt;/value>
+      &lt;value>&lt;boolean>0&lt;/boolean>&lt;/value>
+      &lt;value>&lt;i4>-31&lt;/i4>&lt;/value>
+      &lt;/data>
+   &lt;/array>
+</pre><p>
+
+&lt;array> elements do not have names. <p>
+
+You can mix types as the example above illustrates.<p>
+
+&lt;arrays>s can be recursive, any value may contain an &lt;array> or any other type, including a &lt;struct>, described above.<p>
+
+<b>Response example</b><p>
+
+Here's an example of a response to an XML-RPC request:<p>
+
+<pre>
+HTTP/1.1 200 OK
+Connection: close
+Content-Length: 158
+Content-Type: text/xml
+Date: Fri, 17 Jul 1998 19:55:08 GMT
+Server: UserLand Frontier/5.1.2-WinNT<p>
+
+&lt;?xml version="1.0"?>
+&lt;methodResponse>
+   &lt;params>
+      &lt;param>
+         &lt;value>&lt;string>South Dakota&lt;/string>&lt;/value>
+         &lt;/param>
+      &lt;/params>
+   &lt;/methodResponse>
+</pre><p>
+
+<b>Response format</b><p>
+
+Unless there's a lower-level error, always return 200 OK.<p>
+
+The Content-Type is text/xml. Content-Length must be present and correct.<p>
+
+The body of the response is a single XML structure, a &lt;methodResponse>, which can contain a single &lt;params> which contains a single &lt;param> which contains a single &lt;value>.<p>
+
+The &lt;methodResponse> could also contain a &lt;fault> which contains a &lt;value> which is a &lt;struct> containing two elements, one named &lt;faultCode>, an &lt;int> and one named &lt;faultString>, a &lt;string>.<p>
+
+A &lt;methodResponse> can not contain both a &lt;fault> and a &lt;params>.<p>
+
+<b>Fault example</b><p>
+
+<pre>
+HTTP/1.1 200 OK
+Connection: close
+Content-Length: 426
+Content-Type: text/xml
+Date: Fri, 17 Jul 1998 19:55:02 GMT
+Server: UserLand Frontier/5.1.2-WinNT<p>
+
+&lt;?xml version="1.0"?>
+&lt;methodResponse>
+   &lt;fault>
+      &lt;value>
+         &lt;struct>
+            &lt;member>
+               &lt;name>faultCode&lt;/name>
+               &lt;value>&lt;int>4&lt;/int>&lt;/value>
+               &lt;/member>
+            &lt;member>
+               &lt;name>faultString&lt;/name>
+               &lt;value>&lt;string>Too many parameters.&lt;/string>&lt;/value>
+               &lt;/member>
+            &lt;/struct>
+         &lt;/value>
+      &lt;/fault>
+   &lt;/methodResponse>
+</pre><p>
+
+<b>Strategies/Goals</b><p>
+
+<i>Firewalls.</i> The goal of this protocol is to lay a compatible foundation across different environments, no new power is provided beyond the capabilities of the CGI interface. Firewall software can watch for POSTs whose Content-Type is text/xml. <p>
+
+<i>Discoverability.</i> We wanted a clean, extensible format that's very simple. It should be possible for an HTML coder to be able to look at a file containing an XML-RPC procedure call, understand what it's doing, and be able to modify it and have it work on the first or second try. <p>
+
+<i>Easy to implement.</i> We also wanted it to be an easy to implement protocol that could quickly be adapted to run in other environments or on other operating systems.<p>
+
+<b><a name="update1">Updated 1/21/99 DW</a></b><p>
+
+The following questions came up on the UserLand <a href="http://discuss.userland.com/">discussion group</a> as XML-RPC was being implemented in Python. <ul><p>
+
+<li>The Response Format section says "The body of the response is a single XML structure, a &lt;methodResponse>, which <i>can</i> contain a single &lt;params>..." This is confusing. Can we leave out the  &lt;params>?<p>
+
+No you cannot leave it out if the procedure executed successfully. There are only two options, either a response contains a &lt;params> structure or it contains a &lt;fault> structure. That's why we used the word "can" in that sentence.<p>
+
+<li>Is "boolean" a distinct data type, or can boolean values be interchanged with integers (e.g. zero=false, non-zero=true)? <p>
+
+Yes, boolean is a distinct data type. Some languages/environments allow for an easy coercion from zero to false and one to true, but if you mean true, send a boolean type with the value true, so your intent can't possibly be misunderstood.<p>
+
+<li>What is the legal syntax (and range) for integers? How to deal with leading zeros? Is a leading plus sign allowed? How to deal with whitespace? <p>
+
+An integer is a 32-bit signed number. You can include a plus or minus at the beginning of a string of numeric characters. Leading zeros are collapsed. Whitespace is not permitted. Just numeric characters preceeded by a plus or minus.<p>
+
+<li>What is the legal syntax (and range) for floating point values (doubles)? How is the exponent represented? How to deal with whitespace? Can infinity and "not a number" be represented? <p>
+
+There is no representation for infinity or negative infinity or "not a number". At this time, only decimal point notation is allowed, a plus or a minus, followed by any number of numeric characters, followed by a period and any number of numeric characters. Whitespace is not allowed. The range of allowable values is implementation-dependent, is not specified.<p>
+
+<li>What characters are allowed in strings? Non-printable characters? Null characters? Can a "string" be used to hold an arbitrary chunk of binary data? <p>
+
+Any characters are allowed in a string except &lt; and &, which are encoded as &amp;lt; and &amp;amp;. A string can be used to encode binary data.<p>
+
+<li>Does the "struct" element keep the order of keys. Or in other words, is the struct "foo=1, bar=2" equivalent to "bar=2, foo=1" or not? <p>
+
+The struct element does not preserve the order of the keys. The two structs are equivalent.<p>
+
+<li>Can the &lt;fault> struct contain other members than &lt;faultCode> and &lt;faultString>? Is there a global list of faultCodes? (so they can be mapped to distinct exceptions for languages like Python and Java)? <p>
+
+A &lt;fault> struct <b>may not</b> contain members other than those specified. This is true for all other structures. We believe the specification is flexible enough so that all reasonable data-transfer needs can be accomodated within the specified structures. If you believe strongly that this is not true, please post a message on the discussion group.<p>
+
+There is no global list of fault codes. It is up to the server implementer, or higher-level standards to specify fault codes.<p>
+
+<li>What timezone should be assumed for the dateTime.iso8601 type? UTC? localtime? <p>
+
+Don't assume a timezone. It should be specified by the server in its documentation what assumptions it makes about timezones.
+</ul><p>
+
+<b>Additions</b><p>
+
+<ul>
+<li>&lt;base64> type. 1/21/99 DW.
+</ul><p>
+
+<b><a name="update2">Copyright and disclaimer</a></b><p>
+
+&copy; Copyright 1998-99 UserLand Software. All Rights Reserved.<p>
+
+This document and translations of it may be copied and furnished to others, and derivative works that comment on or otherwise explain it or assist in its implementation may be prepared, copied, published and distributed, in whole or in part, without restriction of any kind, provided that the above copyright notice and these paragraphs are included on all such copies and derivative works.  <p>
+
+This document may not be modified in any way, such as by removing the copyright notice or references to UserLand or other organizations. Further, while these copyright restrictions apply to the written XML-RPC specification, no claim of ownership is made by UserLand to the protocol it describes. Any party may, for commercial or non-commercial purposes, implement this protocol without royalty or license fee to UserLand. The limited permissions granted herein are perpetual and will not be revoked by UserLand or its successors or assigns.<p>
+
+This document and the information contained herein is provided on an "AS IS" basis and USERLAND DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.<p>
+
+<p><a href="http://www.xmlrpc.com/discuss/msgReader$7"><img src="http://www.scripting.com/gifs/cowskull.gif" height="18" width="22" border="0"></a>
+ </p>
+										<p> 
+										</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</td>
+			<td valign="top" background="http://static.userland.com/weblogsCom/images/scripting2weblogscom/rightBG.jpg"><img src="http://static.userland.com/weblogsCom/images/scripting2weblogscom/topRightCorner.jpg" width="12" height="163"></td>
+		</tr>
+		<tr>
+			<td><img src="http://static.userland.com/weblogsCom/images/scripting2weblogscom/bottomLeftCorner.jpg" width="11" height="35"></td>
+			<td> 
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" background="http://static.userland.com/weblogsCom/images/scripting2weblogscom/tableBaseBG.jpg">
+					<tr> 
+						<td><img src="http://static.userland.com/weblogsCom/images/scripting2weblogscom/tableBaseLeft.jpg" width="457" height="35"></td>
+						<td align="right"><img src="http://static.userland.com/weblogsCom/images/uservilleweblogscom/tableBaseRight.jpg" width="261" height="35"></td>
+					</tr>
+				</table>
+			</td>
+			<td><img src="http://static.userland.com/weblogsCom/images/scripting2weblogscom/bottomRightBG.jpg" width="12" height="35"></td>
+		</tr>
+	</table>
+	<img src="http://static.userland.com/weblogsCom/images/scripting2weblogscom/shim.gif" width="1" height="1">&#169; 
+	Copyright 1998-2001 <a href="http://www.userland.com/">UserLand Software, 
+	Inc.</a>.<br>
+	XML-RPC is a trademark of UserLand Software, Inc.<br>
+	Last update: Sunday, July 29, 2001 at 8:20:16 AM Pacific.<br>
+	<br>
+	<a href="http://manila.userland.com/" title="Create your own Manila site in minutes. Everyone's doing it!"><img src="http://www.scripting.com/images/thisIsAManilaSite2.gif" width="88" height="31" border="0" alt="Create your own Manila site in minutes. Everyone's doing it!"></a> 
+</center>
+	</body>
+	</html>

@@ -1,9 +1,9 @@
 //
-//  XMLRPC.h
-//  XMLRPC
+//  XRGenericInvocation.h
+//  UNIXServer
 //
-//  Created by znek on Tue Aug 14 2001.
-//  $Id: XMLRPC.h,v 1.9 2003/03/28 13:12:01 znek Exp $
+//  Created by znek on Thu Apr 11 2002.
+//  $Id: XRGenericInvocation.h,v 1.2 2003/03/28 13:12:01 znek Exp $
 //
 //  Copyright (c) 2001 by Marcus MŸller <znek@mulle-kybernetik.com>.
 //  All rights reserved.
@@ -19,7 +19,7 @@
 //  This is free software; you can redistribute and/or modify it under
 //  the terms of the GNU Lesser General Public License, version 2.1 as published by the Free
 //  Software Foundation. Further information can be found on the project's web pages
-//  at http://www.mulle-kybernetik.com/software/XMLRPC
+//  at http://www.mulle-kybernetik.com/software/UNIXServer
 //
 //  THIS IS EXPERIMENTAL SOFTWARE AND IT IS KNOWN TO HAVE BUGS, SOME OF WHICH MAY HAVE
 //  SERIOUS CONSEQUENCES. THE COPYRIGHT HOLDER ALLOWS FREE USE OF THIS SOFTWARE IN ITS
@@ -29,30 +29,20 @@
 //---------------------------------------------------------------------------------------
 
 
-#ifndef	__XMLRPC_h_INCLUDE
-#define	__XMLRPC_h_INCLUDE
+#ifndef	__XRGenericInvocation_h_INCLUDE
+#define	__XRGenericInvocation_h_INCLUDE
 
 
-#import <Foundation/Foundation.h>
+#include <XMLRPC/XMLRPC.h>
 
-#include "XRDefines.h"
-#include "XRProtocols.h"
-#include "XRConstants.h"
 
-#include "XRConnection.h"
-#include "XRProxy.h"
+@interface XRGenericInvocation : XRInvocation
+{
+}
 
-#include "XRCoder.h"
-#include "XREncoder.h"
-#include "XRDecoder.h"
++ (id)invocationWithXMLRPCTypes:(NSString *)types;
+- (id)initWithXMLRPCTypes:(NSString *)types;
 
-#include "XRHTTPAuthenticationHandler.h"
-#include "XRHTTPBasicAuthenticationHandler.h"
+@end
 
-// these are for more ambitious implementations
-#include "XRMethodSignature.h"
-#include "XRInvocationStorage.h"
-#include "XRInvocation.h"
-#include "XRGenericInvocation.h"
-
-#endif	/* __XMLRPC_h_INCLUDE */
+#endif	/* __XRGenericInvocation_h_INCLUDE */

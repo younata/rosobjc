@@ -1,9 +1,9 @@
 //
-//  XMLRPC.h
+//  XRHTTPAuthenticationCredentials.m
 //  XMLRPC
 //
-//  Created by znek on Tue Aug 14 2001.
-//  $Id: XMLRPC.h,v 1.9 2003/03/28 13:12:01 znek Exp $
+//  Created by znek on Wed Jul 10 2002.
+//  $Id: XRHTTPAuthenticationCredentials.m,v 1.2 2003/03/28 13:12:01 znek Exp $
 //
 //  Copyright (c) 2001 by Marcus MŸller <znek@mulle-kybernetik.com>.
 //  All rights reserved.
@@ -29,30 +29,68 @@
 //---------------------------------------------------------------------------------------
 
 
-#ifndef	__XMLRPC_h_INCLUDE
-#define	__XMLRPC_h_INCLUDE
+#include "XRHTTPAuthenticationCredentials.h"
+#include <EDCommon/EDCommon.h>
 
 
-#import <Foundation/Foundation.h>
+@implementation XRHTTPAuthenticationCredentials
 
-#include "XRDefines.h"
-#include "XRProtocols.h"
-#include "XRConstants.h"
+////////////////////////////////////////////////////
+//
+//  FACTORY
+//
+////////////////////////////////////////////////////
 
-#include "XRConnection.h"
-#include "XRProxy.h"
 
-#include "XRCoder.h"
-#include "XREncoder.h"
-#include "XRDecoder.h"
++ (id)credentialsFromCredentials:(NSString *)someCredentials
+{
+    return [[[self alloc] initWithCredentials:someCredentials] autorelease];
+}
 
-#include "XRHTTPAuthenticationHandler.h"
-#include "XRHTTPBasicAuthenticationHandler.h"
 
-// these are for more ambitious implementations
-#include "XRMethodSignature.h"
-#include "XRInvocationStorage.h"
-#include "XRInvocation.h"
-#include "XRGenericInvocation.h"
+////////////////////////////////////////////////////
+//
+//  INIT & DEALLOC
+//
+////////////////////////////////////////////////////
 
-#endif	/* __XMLRPC_h_INCLUDE */
+
+- (id)initWithCredentials:(NSString *)someCredentials
+{
+    NSRange range;
+
+    [super init];
+
+    range = [someCredentials rangeOfString:@" "];
+    scheme = [[[someCredentials substringToIndex:range.location] lowercaseString] retain];
+    rawResponse = [[someCredentials substringFromIndex:NSMaxRange(range)] retain];
+
+    return self;
+}
+
+- (void)dealloc
+{
+    [scheme release];
+    [rawResponse release];
+    [super dealloc];
+}
+
+
+////////////////////////////////////////////////////
+//
+//  ACCESSORS
+//
+////////////////////////////////////////////////////
+
+
+- (NSString *)scheme
+{
+    return scheme;
+}
+
+- (NSString *)rawResponse
+{
+    return rawResponse;
+}
+
+@end

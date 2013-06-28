@@ -1,9 +1,9 @@
 //
-//  XMLRPC.h
+//  XRConstants.m
 //  XMLRPC
 //
-//  Created by znek on Tue Aug 14 2001.
-//  $Id: XMLRPC.h,v 1.9 2003/03/28 13:12:01 znek Exp $
+//  Created by znek on Wed Aug 15 2001.
+//  $Id: XRConstants.m,v 1.7 2003/03/28 13:12:01 znek Exp $
 //
 //  Copyright (c) 2001 by Marcus MŸller <znek@mulle-kybernetik.com>.
 //  All rights reserved.
@@ -29,30 +29,25 @@
 //---------------------------------------------------------------------------------------
 
 
-#ifndef	__XMLRPC_h_INCLUDE
-#define	__XMLRPC_h_INCLUDE
-
-
-#import <Foundation/Foundation.h>
-
-#include "XRDefines.h"
-#include "XRProtocols.h"
 #include "XRConstants.h"
 
-#include "XRConnection.h"
-#include "XRProxy.h"
+NSString *XRConnectionDidDieNotification = @"XRConnectionDidDieNotification";
 
-#include "XRCoder.h"
-#include "XREncoder.h"
-#include "XRDecoder.h"
+NSString *XRAuthorizationRequiredException = @"XRAuthorizationRequiredException";
+NSString *XRDoesNotRecognizeSelectorException = @"XRDoesNotRecognizeSelectorException";
+NSString *XRInvalidArgumentsException = @"XRInvalidArgumentsException";
+NSString *XRRemoteException = @"XRRemoteException";
+NSString *XRHTTPException = @"XRHTTPException";
 
-#include "XRHTTPAuthenticationHandler.h"
-#include "XRHTTPBasicAuthenticationHandler.h"
+NSString *XRRemoteErrorCodeKey = @"XRRemoteErrorCode";
+NSString *XRRemoteErrorStringKey = @"XRRemoteErrorString";
+NSString *XRAuthenticationHandlerKey = @"XRAuthHandler";
+NSString *XRAuthenticationRealmKey = @"XRAuthenticationRealm";
+NSString *XRHTTPErrorCodeKey = @"XRHTTPErrorCode";
+NSString *XRHTTPErrorStringKey = @"XRHTTPErrorString";
 
-// these are for more ambitious implementations
-#include "XRMethodSignature.h"
-#include "XRInvocationStorage.h"
-#include "XRInvocation.h"
-#include "XRGenericInvocation.h"
 
-#endif	/* __XMLRPC_h_INCLUDE */
+const int XRUnspecifiedErrorCode = -32000;
+const int XRDoesNotRecognizeSelectorErrorCode = -32601;
+const int XRInvalidArgumentsErrorCode = -32602;
+const int XRXMLParserErrorCode = -32700;

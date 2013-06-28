@@ -1,9 +1,9 @@
 //
-//  XMLRPC.h
+//  AppDelegate.h
 //  XMLRPC
 //
-//  Created by znek on Tue Aug 14 2001.
-//  $Id: XMLRPC.h,v 1.9 2003/03/28 13:12:01 znek Exp $
+//  Created by znek on Sun Aug 26 2001.
+//  $Id: AppDelegate.h,v 1.1 2001/08/28 22:03:30 znek Exp $
 //
 //  Copyright (c) 2001 by Marcus MŸller <znek@mulle-kybernetik.com>.
 //  All rights reserved.
@@ -29,30 +29,21 @@
 //---------------------------------------------------------------------------------------
 
 
-#ifndef	__XMLRPC_h_INCLUDE
-#define	__XMLRPC_h_INCLUDE
+#import <AppKit/AppKit.h>
+
+@class XRConnection;
+@class TestController;
+@class TestServerProxy;
 
 
-#import <Foundation/Foundation.h>
+@interface AppDelegate : NSObject
+{
+    XRConnection *connection;
+    TestController *controller;
+    TestServerProxy *proxy;
+}
 
-#include "XRDefines.h"
-#include "XRProtocols.h"
-#include "XRConstants.h"
+- (void)setup;
+- (IBAction)performTest:(id)sender;
 
-#include "XRConnection.h"
-#include "XRProxy.h"
-
-#include "XRCoder.h"
-#include "XREncoder.h"
-#include "XRDecoder.h"
-
-#include "XRHTTPAuthenticationHandler.h"
-#include "XRHTTPBasicAuthenticationHandler.h"
-
-// these are for more ambitious implementations
-#include "XRMethodSignature.h"
-#include "XRInvocationStorage.h"
-#include "XRInvocation.h"
-#include "XRGenericInvocation.h"
-
-#endif	/* __XMLRPC_h_INCLUDE */
+@end

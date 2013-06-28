@@ -1,9 +1,9 @@
 //
-//  XMLRPC.h
+//  XRHTTPAuthenticationHandler.h
 //  XMLRPC
 //
-//  Created by znek on Tue Aug 14 2001.
-//  $Id: XMLRPC.h,v 1.9 2003/03/28 13:12:01 znek Exp $
+//  Created by znek on Mon Jul 08 2002.
+//  $Id: XRHTTPAuthenticationHandler.h,v 1.1 2002/07/18 00:11:35 znek Exp $
 //
 //  Copyright (c) 2001 by Marcus MŸller <znek@mulle-kybernetik.com>.
 //  All rights reserved.
@@ -29,30 +29,28 @@
 //---------------------------------------------------------------------------------------
 
 
-#ifndef	__XMLRPC_h_INCLUDE
-#define	__XMLRPC_h_INCLUDE
+#ifndef	__XRHTTPAuthenticationHandler_h_INCLUDE
+#define	__XRHTTPAuthenticationHandler_h_INCLUDE
 
 
 #import <Foundation/Foundation.h>
 
-#include "XRDefines.h"
-#include "XRProtocols.h"
-#include "XRConstants.h"
+@class XRHTTPAuthenticationCredentials;
 
-#include "XRConnection.h"
-#include "XRProxy.h"
 
-#include "XRCoder.h"
-#include "XREncoder.h"
-#include "XRDecoder.h"
+@protocol XRHTTPAuthenticationHandler
 
-#include "XRHTTPAuthenticationHandler.h"
-#include "XRHTTPBasicAuthenticationHandler.h"
+/*" i.e. Basic. This value should be treated case-insensitive, although it's likely to have case. "*/
+- (NSString *)scheme;
 
-// these are for more ambitious implementations
-#include "XRMethodSignature.h"
-#include "XRInvocationStorage.h"
-#include "XRInvocation.h"
-#include "XRGenericInvocation.h"
+- (BOOL)canAuthenticateCredentials:(XRHTTPAuthenticationCredentials *)credentials;
 
-#endif	/* __XMLRPC_h_INCLUDE */
+/*"see RFC2617 page 5, i.e. Basic realm="Wally's World" "*/
+- (NSString *)challengeForAuthenticationRealm:(NSString *)realm;
+
+/*" see RFC2617 page 5, i.e. Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ== "*/
+- (NSString *)credentials;
+
+@end
+
+#endif	/* __XRHTTPAuthenticationHandler_h_INCLUDE */

@@ -1,9 +1,9 @@
 //
-//  XMLRPC.h
+//  Future.h
 //  XMLRPC
 //
-//  Created by znek on Tue Aug 14 2001.
-//  $Id: XMLRPC.h,v 1.9 2003/03/28 13:12:01 znek Exp $
+//  Created by znek on Mon 01-Oct-2001.
+//  $Id: Future.h,v 1.2 2002/04/09 01:00:43 znek Exp $
 //
 //  Copyright (c) 2001 by Marcus MŸller <znek@mulle-kybernetik.com>.
 //  All rights reserved.
@@ -29,30 +29,23 @@
 //---------------------------------------------------------------------------------------
 
 
-#ifndef	__XMLRPC_h_INCLUDE
-#define	__XMLRPC_h_INCLUDE
+#ifndef	__Future_h_INCLUDE
+#define	__Future_h_INCLUDE
 
 
-#import <Foundation/Foundation.h>
+/*
+ This imports all classes/definitions that we need to
+ stay future (Mac OS X) compatible.
+ */
 
-#include "XRDefines.h"
-#include "XRProtocols.h"
-#include "XRConstants.h"
 
-#include "XRConnection.h"
-#include "XRProxy.h"
+#ifdef XMLRPC_OSXSBUILD
 
-#include "XRCoder.h"
-#include "XREncoder.h"
-#include "XRDecoder.h"
+// we try to prevent possible namespace clashes with future updates
+// by implementing NSNull as XRNull but defining it as NSNull
+#define NSNull XRNull
+#import "XRNull.h"
 
-#include "XRHTTPAuthenticationHandler.h"
-#include "XRHTTPBasicAuthenticationHandler.h"
+#endif
 
-// these are for more ambitious implementations
-#include "XRMethodSignature.h"
-#include "XRInvocationStorage.h"
-#include "XRInvocation.h"
-#include "XRGenericInvocation.h"
-
-#endif	/* __XMLRPC_h_INCLUDE */
+#endif	/* __Future_h_INCLUDE */

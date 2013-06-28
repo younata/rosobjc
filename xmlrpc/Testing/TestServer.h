@@ -1,9 +1,9 @@
 //
-//  XMLRPC.h
+//  TestServer.h
 //  XMLRPC
 //
 //  Created by znek on Tue Aug 14 2001.
-//  $Id: XMLRPC.h,v 1.9 2003/03/28 13:12:01 znek Exp $
+//  $Id: TestServer.h,v 1.3 2003/03/28 13:12:08 znek Exp $
 //
 //  Copyright (c) 2001 by Marcus MŸller <znek@mulle-kybernetik.com>.
 //  All rights reserved.
@@ -29,30 +29,19 @@
 //---------------------------------------------------------------------------------------
 
 
-#ifndef	__XMLRPC_h_INCLUDE
-#define	__XMLRPC_h_INCLUDE
-
-
 #import <Foundation/Foundation.h>
+#include <XMLRPC/XMLRPC.h>
 
-#include "XRDefines.h"
-#include "XRProtocols.h"
-#include "XRConstants.h"
 
-#include "XRConnection.h"
-#include "XRProxy.h"
+@interface TestServer : NSObject <XRServing, XRListing>
+//@interface TestServer : NSObject <XRServing>
+{
+}
 
-#include "XRCoder.h"
-#include "XREncoder.h"
-#include "XRDecoder.h"
-
-#include "XRHTTPAuthenticationHandler.h"
-#include "XRHTTPBasicAuthenticationHandler.h"
-
-// these are for more ambitious implementations
-#include "XRMethodSignature.h"
-#include "XRInvocationStorage.h"
-#include "XRInvocation.h"
-#include "XRGenericInvocation.h"
-
-#endif	/* __XMLRPC_h_INCLUDE */
+- (id)doStuff:(NSArray *)args;
+#if 0
+- (NSNumber *)testIfTrue:(NSNumber *)candidate;
+#else
+- (BOOL)testIfTrue:(BOOL)candidate;
+#endif
+@end

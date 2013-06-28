@@ -1,9 +1,9 @@
 //
-//  XMLRPC.h
+//  XRXMLTagProcessor.m
 //  XMLRPC
 //
-//  Created by znek on Tue Aug 14 2001.
-//  $Id: XMLRPC.h,v 1.9 2003/03/28 13:12:01 znek Exp $
+//  Created by znek on Fri Jan 03 2003.
+//  $Id: XRXMLTagProcessor.m,v 1.2 2003/03/28 13:12:02 znek Exp $
 //
 //  Copyright (c) 2001 by Marcus MŸller <znek@mulle-kybernetik.com>.
 //  All rights reserved.
@@ -29,30 +29,50 @@
 //---------------------------------------------------------------------------------------
 
 
-#ifndef	__XMLRPC_h_INCLUDE
-#define	__XMLRPC_h_INCLUDE
+#include "XRXMLTagProcessor.h"
+#include "XREMethodCall.h"
+#include "XREMethodResponse.h"
 
 
-#import <Foundation/Foundation.h>
+@implementation XRXMLTagProcessor
 
-#include "XRDefines.h"
-#include "XRProtocols.h"
-#include "XRConstants.h"
+- (NSString *)defaultNamespace
+{
+    return [tagDefinitions objectForKey:@"XMLNS"];
+}
 
-#include "XRConnection.h"
-#include "XRProxy.h"
+- (id)documentForElements:(NSArray *)elementList
+{
+    NSEnumerator *elementEnum;
+    id element;
 
-#include "XRCoder.h"
-#include "XREncoder.h"
-#include "XRDecoder.h"
+    elementEnum = [elementList objectEnumerator];
+    while((element = [elementEnum nextObject]) != nil)
+    {
+        if([element isKindOfClass:[XREMethodCall class]])
+            break;
+        else if([element isKindOfClass:[XREMethodResponse class]])
+            break;
+    }
 
-#include "XRHTTPAuthenticationHandler.h"
-#include "XRHTTPBasicAuthenticationHandler.h"
+    if(element == nil)
+        [NSException raise:EDMLParserException format:@"No valid root element."];
 
-// these are for more ambitious implementations
-#include "XRMethodSignature.h"
-#include "XRInvocationStorage.h"
-#include "XRInvocation.h"
-#include "XRGenericInvocation.h"
+    return element;
+}
 
-#endif	/* __XMLRPC_h_INCLUDE */
+- (EDMLElementType)typeOfElementForTag:(EDObjectPair *)tagName attributeList:(NSArray *)attrList
+{
+    NSDictionary *tagDef;
+
+    if((tagDef = [tagDefinitions objectForKey:[tagName secondObject]]) == nil)
+    {
+        if(flags.ignoresUnknownTags)
+            return EDMLUnknownTag;
+        [NSException raise:EDMLParserException format:@"Unknown tag %@", [tagName secondObject]];
+    }
+
+    return ([[tagDef objectForKey:@"container"] boolValue] ? EDMLContainerElement : EDMLSingleElement);
+}
+
+@end

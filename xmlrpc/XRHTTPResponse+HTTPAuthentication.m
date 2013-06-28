@@ -1,9 +1,9 @@
 //
-//  XMLRPC.h
+//  XRHTTPResponse+HTTPAuthentication.m
 //  XMLRPC
 //
-//  Created by znek on Tue Aug 14 2001.
-//  $Id: XMLRPC.h,v 1.9 2003/03/28 13:12:01 znek Exp $
+//  Created by znek on Tue Jul 09 2002.
+//  $Id: XRHTTPResponse+HTTPAuthentication.m,v 1.2 2003/03/28 13:12:02 znek Exp $
 //
 //  Copyright (c) 2001 by Marcus MŸller <znek@mulle-kybernetik.com>.
 //  All rights reserved.
@@ -29,30 +29,16 @@
 //---------------------------------------------------------------------------------------
 
 
-#ifndef	__XMLRPC_h_INCLUDE
-#define	__XMLRPC_h_INCLUDE
+#include "XRHTTPResponse+HTTPAuthentication.h"
 
 
-#import <Foundation/Foundation.h>
+@implementation XRHTTPResponse (HTTPAuthentication)
 
-#include "XRDefines.h"
-#include "XRProtocols.h"
-#include "XRConstants.h"
+- (void)setAuthenticationRequest:(id <NSObject, XRHTTPAuthenticationHandler>)authenticator forRealm:(NSString *)realm
+{
+    [self setHeader:[authenticator challengeForAuthenticationRealm:realm] forKey:@"WWW-Authenticate"];
+    [self setStatus:401]; // Unauthorized
+    [self setReasonPhrase:@"Unauthorized"];
+}
 
-#include "XRConnection.h"
-#include "XRProxy.h"
-
-#include "XRCoder.h"
-#include "XREncoder.h"
-#include "XRDecoder.h"
-
-#include "XRHTTPAuthenticationHandler.h"
-#include "XRHTTPBasicAuthenticationHandler.h"
-
-// these are for more ambitious implementations
-#include "XRMethodSignature.h"
-#include "XRInvocationStorage.h"
-#include "XRInvocation.h"
-#include "XRGenericInvocation.h"
-
-#endif	/* __XMLRPC_h_INCLUDE */
+@end

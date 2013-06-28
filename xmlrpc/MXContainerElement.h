@@ -1,9 +1,6 @@
-//
-//  XMLRPC.h
-//  XMLRPC
-//
-//  Created by znek on Tue Aug 14 2001.
-//  $Id: XMLRPC.h,v 1.9 2003/03/28 13:12:01 znek Exp $
+//---------------------------------------------------------------------------------------
+// created as MXContainerElement.h by znek on Sun 29-Oct-2000
+// $Id: MXContainerElement.h,v 1.6 2003/07/01 08:25:52 znek Exp $
 //
 //  Copyright (c) 2001 by Marcus MŸller <znek@mulle-kybernetik.com>.
 //  All rights reserved.
@@ -29,30 +26,21 @@
 //---------------------------------------------------------------------------------------
 
 
-#ifndef	__XMLRPC_h_INCLUDE
-#define	__XMLRPC_h_INCLUDE
+#ifndef	__MXContainerElement_h_INCLUDE
+#define	__MXContainerElement_h_INCLUDE
 
 
-#import <Foundation/Foundation.h>
+#include "MXElement.h"
 
-#include "XRDefines.h"
-#include "XRProtocols.h"
-#include "XRConstants.h"
 
-#include "XRConnection.h"
-#include "XRProxy.h"
+@interface MXContainerElement : MXElement <EDAOMContainerElement>
+{
+    NSArray *containedElements;
+}
 
-#include "XRCoder.h"
-#include "XREncoder.h"
-#include "XRDecoder.h"
+- (void)setContainedElements:(NSArray *)someElements;
+- (NSArray *)containedElements;
 
-#include "XRHTTPAuthenticationHandler.h"
-#include "XRHTTPBasicAuthenticationHandler.h"
+@end
 
-// these are for more ambitious implementations
-#include "XRMethodSignature.h"
-#include "XRInvocationStorage.h"
-#include "XRInvocation.h"
-#include "XRGenericInvocation.h"
-
-#endif	/* __XMLRPC_h_INCLUDE */
+#endif	/* __MXContainerElement_h_INCLUDE */

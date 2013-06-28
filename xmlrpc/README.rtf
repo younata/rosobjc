@@ -1,0 +1,206 @@
+{\rtf1\mac\ansicpg10000\cocoartf102
+{\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;\f1\fswiss\fcharset77 Helvetica;\f2\fswiss\fcharset77 Helvetica-Oblique;
+\f3\fmodern\fcharset77 Courier;}
+{\colortbl;\red255\green255\blue255;}
+\vieww11200\viewh10560\viewkind0
+\pard\tx1440\tx2880\tx4320\tx5760\tx7200\ql\qnatural
+
+\f0\b\fs24 \cf0 Mulle XML-RPC
+\f1\b0 \
+\
+\
+
+\f0\b Abstract
+\f1\b0 \
+\
+
+\f2\i Mulle XMLRPC 
+\f1\i0 is a client/server implementation of the 
+\f2\i XML-RPC
+\f1\i0  spec which can be found at http://www.xmlrpc.org/spec. In short, 
+\f2\i XML-RPC
+\f1\i0  is a protocol for doing remote procedure calls on top of XML via HTTP. As such, 
+\f2\i XML-RPC
+\f1\i0  does not depend on a specific programming language and in fact there are a lot of implementations for different languages. This implementation is written in Objective-C and fills that gap.\
+\
+The 
+\f2\i Mulle XMLRPC 
+\f1\i0 framework consists of a bunch of classes involved in managing the protocol aspects such as XML parsing/creating and transporting. The transport layer depends heavily on EDMessage and EDCommon frameworks, which base directly on top of Foundation. Because all of these frameworks have recently been ported to GNUstep, 
+\f2\i Mulle XMLRPC 
+\f1\i0 runs on Mac OS X and on GNUstep.\
+\
+
+\f2\i Please note that Mulle XMLRPC does not depend on WebObjects (and in fact replicates several aspects of WebObjects, such as HTTP transport or socket serving). There are hooks, however, where you can sneak in WebObjects and re-use the other aspects of Mulle XMLRPC. Detailed plans to do so are discussed later in this document and entry points can be found in the header file of XRConnection.\
+
+\f1\i0 \
+
+\f2\i Mulle XMLRPC 
+\f1\i0 offers certain classes to directly interact with some aspects of the protocol or to even replace them with your own methods, but ease of use was one of the design goals. With this said, let's have a look at the framework.\
+\
+\
+
+\f0\b Overview
+\f1\b0 \
+\
+The only things you normally need to know and to get in touch with if you use 
+\f2\i Mulle XMLRPC 
+\f1\i0 are one class, 
+\f2\i XRConnection
+\f1\i0  and two protocols, 
+\f2\i XRServing
+\f1\i0  and 
+\f2\i XRListing
+\f1\i0 . 
+\f2\i XRConnection
+\f1\i0  can either act as a client or as a server. \
+In the first case, it establishes a connection to a URL that you have to specify and then offers you the ability to perform methods (methodCalls) on the remote side. All objects involved can be usual NSObject derived subclasses (or at least, objects implementing the NSObject protocol). Encoding is handled transparently and can easily be extended for your special case. Note, that this is normally unnecessary and "bridging" of Objective-C objects is a triggerable feature of the 
+\f2\i Mulle XMLRPC 
+\f1\i0 implementation.\
+\
+In the second case, 
+\f2\i XRConnection
+\f1\i0  establishes a server connection on a local port and can register objects and vend them according to the 
+\f2\i XML-RPC
+\f1\i0  specs. Others can then perform methods (methodCalls) on these objects. All the objects have to do is to implement the 
+\f2\i XRServing
+\f1\i0  protocol which simply defines a uniform way to transform the 
+\f2\i XML-RPC
+\f1\i0  methodCall to an Objective-C selector. The second protocol, 
+\f2\i XRListing
+\f1\i0  - which is optional - serves for transparent introspection purposes. Clients can discover the methods you offer with accompanied help (that you provide) how to use these methods.\
+\
+
+\f0\b \
+Example Client\
+\
+
+\f3\b0 XRConnection *connection;\
+id result;\
+	\
+connection = [XRConnection connectionWithURL:[NSURL URLWithString:@"http://localhost:2333/RPC2"]];\
+\
+result = [connection performRemoteMethod:@"system.listMethods"];\
+NSLog(@"Received: %@", result);\
+\
+
+\f1 \
+For a slightly more complex (but more capable) example involving proxies see the 
+\f2\i Test Client
+\f1\i0  target in this project.\
+\
+\
+\
+
+\f0\b Example Server\
+\
+
+\f3\b0 NSRunLoop *loop = [NSRunLoop currentRunLoop];\
+\
+EDTCPSocket *serverSocket;\
+XRConnection *connection;\
+TestServer *server; // assume this exists\
+\
+serverSocket = [EDTCPSocket socket];\
+[serverSocket setLocalPortNumber:2333];\
+[serverSocket startListening];\
+\
+server = [[[TestServer alloc] init] autorelease];\
+connection = [XRConnection connectionWithObject:server handle:@"sample" socket:serverSocket];\
+\
+// now start the connection runloop ...\
+[connection runInNewThread];\
+\
+// ... and finally enter our own runLoop\
+[loop run];\
+
+\f0\b \
+\
+WebObjects\
+\
+
+\f1\b0 Because WebObjects is so much better in doing stuff with the Web than I have implemented it in this framework, it is desirable to incorporate 
+\f2\i Mulle XMLRPC 
+\f1\i0 in such a way, that WebObjects handles the transport issues. Scaling is a big deal and WebObjects has techniques that go far beyond the scope of my implementation to handle load, preserve state etc..\
+\
+The trick is to use the following methods of 
+\f2\i XRConnection
+\f1\i0 :\
+\
+
+\f3 // we're playing client\
+- (NSData *)xmlRequestForPerformRemoteMethod:(NSString *)selector withObjects:(NSArray *)objects;\
+- (id)resultForXMLResponse:(NSData *)xmlResponse;\
+\
+// we're playing server\
+\pard\tx480\tx960\tx1440\tx1920\tx2400\tx2880\tx3360\tx3840\tx4320\tx4800\tx5280\tx5760\tx6240\tx6720\tx7200\tx7680\tx8160\tx8640\tx9120\tx9600\tx10080\tx10560\tx11040\tx11520\tx12000\tx12480\tx12960\tx13440\tx13920\tx14400\tx14880\tx15360\tx15840\tx16320\tx16800\tx17280\tx17760\tx18240\tx18720\tx19200\tx19680\tx20160\tx20640\tx21120\tx21600\tx22080\tx22560\tx23040\tx23520\tx24000\tx24480\tx24960\tx25440\tx25920\tx26400\tx26880\tx27360\tx27840\tx28320\tx28800\tx29280\tx29760\tx30240\tx30720\tx31200\tx31680\tx32160\tx32640\tx33120\tx33600\tx34080\tx34560\tx35040\tx35520\tx36000\tx36480\tx36960\tx37440\tx37920\tx38400\tx38880\tx39360\tx39840\tx40320\tx40800\tx41280\tx41760\tx42240\tx42720\tx43200\tx43680\tx44160\tx44640\tx45120\tx45600\tx46080\tx46560\tx47040\tx47520\tx48000\li240\fi-240\ql\qnatural
+\cf0 - (NSData *)xmlResponseForXMLMessage:(NSData *)xmlRequest credentials:(XRHTTPAuthenticationCredentials *)credentials;\
+\pard\tx1440\tx2880\tx4320\tx5760\tx7200\ql\qnatural
+
+\f1 \cf0 \
+All NSData objects involved can be set as the content of a WORequest/WOResponse object. That's it!\
+In the case of playing the role as a server you need to make sure to initialize the connection with the correct method,\
+\
+
+\f3 + (XRConnection *)connectionWithObject:object handle:(NSString *)objectHandle socket:(NSFileHandle *)socket;\
+
+\f1 \
+Just
+\f0\b  
+\f1\b0 provide 
+\f3 nil
+\f1  as a socket and don't run the connection (of course). This solution is pretty easy to use and doesn't only work in the case of WebObjects - which is clear to understand I think.\
+\
+\
+
+\f0\b XRCoding\
+\
+
+\f1\b0 All objects encode themselves via coders which have an architecture very similar to NSCoder/NSArchiver/NSUnarchiver. In this case, the classes are XRCoder/XREncoder/XRDecoder. If you want to transport your custom objects via XMLRPC, there are several methods you can achieve it. First, if you have Objective-C on the remote end (why are you using XMLRPC then?) you could tell your connection to encode all NSCoding capable objects as not quite ordinary base64 elements. The connection will leave a tag on these base64 elements, however, which instructs the remote end to decode these archived Objective-C objects transparently. 
+\f2\i (NOTE: This is strictly environment dependent. It won't work across environments, i.e. Mac OS X on the one end and GNUstep on the other end, so this feature is of fairly limited use)
+\f1\i0 . If you chose not to do so (or if the object isn't implementing NSCoding) then the objects' descriptions will be sent as strings.\
+\
+While this is good as it is in some cases, there's also a real alternative. If your object implements the 
+\f2\i XRCoding
+\f1\i0  protocol, it can encode/decode itself as it likes. An idea here is to archive all non-transient instance variables in a dictionary and send that to the coder - or the other way round, if you're decoding your object. In a future implementation, XREncoder/XRDecoder will certainly support this idea in a transparent way - see the TODO file for details.\
+
+\f0\b \
+\
+Knee Deep In The Dead\
+\
+
+\f1\b0 Have a look at the XRXMLParser and its elements in the XML Parser subproject if you wanna learn more about the XML parsing being done here. It subclasses directly from the EDMLParser defined in the EDCommon framework. The EDMLParser is an easy to use DOM parser which originated from a parser not even designed to be an XML parser. It proved to be easy to extend the parser past its original intended abilities, but it's not complete. However, we don't need any of the missing features in this case and nonetheless this parser is superb when it comes to configuration - that's why I chose it (once again) for 
+\f2\i Mulle XMLRPC
+\f1\i0 .\
+ \
+All HTTP connection stuff is located in the "HTTP Stuff" subproject in the "Connection" subproject. Its APIs are heavily influenced by WebObjects, but ease of use in the 
+\f2\i XML-RPC
+\f1\i0  context was a major goal here as well. So, some things are not as pure HTML friendly as is desirable in a WebObjects context. If you need some extras that only other solutions (namely WebObjects) have to offer, try to extend the HTTP stuff and send the diffs to me or fall back to really using WebObjects in these crucial parts.\
+ \
+
+\f0\b \
+License\
+\
+
+\f1\b0 Permission to use, copy, modify and distribute this software and its documentation is hereby granted under the terms of the GNU Lesser General Public License, version 2.1 as published by the Free Software Foundation, provided that both the copyright notice and this permission notice appear in all copies of the software, derivative works or modified versions, and any portions thereof, and that both notices appear in supporting documentation, and that credit is given to Marcus M\'9fller in all documents and publicity pertaining to direct or indirect use of this code or its derivatives.
+\f0\b \
+\
+\
+Thanks\
+\
+
+\f1\b0 Thanks must go to Erik D\'9arnenburg <erik@x101.net> for contributing his excellent EDCommon and EDMessage frameworks to the public domain. Also, many thanks go to Helge Hess <helge@skyrix.com> for being a constant source of inspiration - and especially for letting me know that such a thing as 
+\f2\i XML-RPC
+\f1\i0  exists - it's really been a great time saver.\
+
+\f0\b \
+\
+TO BE WRITTEN:\
+\
+
+\f1\b0 - how to pose as NSConnection\
+- Authentication (Basic)\
+- delegate opportunities\
+- extending Mulle XMLRPC\
+\
+\
+}

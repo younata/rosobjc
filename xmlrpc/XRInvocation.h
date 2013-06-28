@@ -1,9 +1,9 @@
 //
-//  XMLRPC.h
+//  XRInvocation.h
 //  XMLRPC
 //
-//  Created by znek on Tue Aug 14 2001.
-//  $Id: XMLRPC.h,v 1.9 2003/03/28 13:12:01 znek Exp $
+//  Created by znek on Sat Aug 18 2001.
+//  $Id: XRInvocation.h,v 1.4 2002/04/12 00:04:10 znek Exp $
 //
 //  Copyright (c) 2001 by Marcus MŸller <znek@mulle-kybernetik.com>.
 //  All rights reserved.
@@ -29,30 +29,46 @@
 //---------------------------------------------------------------------------------------
 
 
-#ifndef	__XMLRPC_h_INCLUDE
-#define	__XMLRPC_h_INCLUDE
+#ifndef	__XRInvocation_h_INCLUDE
+#define	__XRInvocation_h_INCLUDE
 
 
 #import <Foundation/Foundation.h>
 
-#include "XRDefines.h"
-#include "XRProtocols.h"
-#include "XRConstants.h"
+@class XRMethodSignature;
 
-#include "XRConnection.h"
-#include "XRProxy.h"
 
-#include "XRCoder.h"
-#include "XREncoder.h"
-#include "XRDecoder.h"
+@interface XRInvocation : NSObject
+{
+    NSInvocation *invocation;
+    XRMethodSignature *xmlrpcMethodSignature;
+    NSString *xmlrpcMethod;
+}
 
-#include "XRHTTPAuthenticationHandler.h"
-#include "XRHTTPBasicAuthenticationHandler.h"
 
-// these are for more ambitious implementations
-#include "XRMethodSignature.h"
-#include "XRInvocationStorage.h"
-#include "XRInvocation.h"
-#include "XRGenericInvocation.h"
++ (id)invocationWithXMLRPCMethodSignature:(XRMethodSignature *)aSignature;
 
-#endif	/* __XMLRPC_h_INCLUDE */
+- (id)initWithXMLRPCMethodSignature:(XRMethodSignature *)aSignature;
+
+- (XRMethodSignature *)xmlrpcMethodSignature;
+- (NSMethodSignature *)methodSignature;
+
+- (id)target;
+- (void)setTarget:(id)target;
+
+- (SEL)selector;
+- (void)setSelector:(SEL)selector;
+
+- (void)setXMLRPCMethod:(NSString *)aMethod;
+- (NSString *)xmlrpcMethod;
+
+- (void)setArguments:(NSArray *)arguments;
+
+- (void)invoke;
+- (void)invokeWithTarget:(id)target;
+
+- (id)returnValue;
+
+@end
+
+#endif	/* __XRInvocation_h_INCLUDE */

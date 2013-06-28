@@ -1,9 +1,9 @@
 //
-//  XMLRPC.h
+//  parsertest_main.m
 //  XMLRPC
 //
-//  Created by znek on Tue Aug 14 2001.
-//  $Id: XMLRPC.h,v 1.9 2003/03/28 13:12:01 znek Exp $
+//  Created by znek on Fri Feb 01 2002.
+//  $Id: parsertest_main.m,v 1.2 2003/03/28 13:12:09 znek Exp $
 //
 //  Copyright (c) 2001 by Marcus MŸller <znek@mulle-kybernetik.com>.
 //  All rights reserved.
@@ -29,30 +29,32 @@
 //---------------------------------------------------------------------------------------
 
 
-#ifndef	__XMLRPC_h_INCLUDE
-#define	__XMLRPC_h_INCLUDE
-
-
 #import <Foundation/Foundation.h>
+#include <EDCommon/EDCommon.h>
+#include <XMLRPC/XMLRPC.h>
+#include "TestServer.h"
 
-#include "XRDefines.h"
-#include "XRProtocols.h"
-#include "XRConstants.h"
 
-#include "XRConnection.h"
-#include "XRProxy.h"
+int main(int argc, const char *argv[])
+{
 
-#include "XRCoder.h"
-#include "XREncoder.h"
-#include "XRDecoder.h"
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSString *xmlPath = @"/tmp/example.xml";
+    XRConnection *connection;
+    TestServer *server;
+    NSData *xmlResponse;
+    id result;
 
-#include "XRHTTPAuthenticationHandler.h"
-#include "XRHTTPBasicAuthenticationHandler.h"
+    EDLogMask = (XRLogWarning | XRLogInfo | XRLogDebug | XRLogMessage | XRLogXML | XRLogXRE);
 
-// these are for more ambitious implementations
-#include "XRMethodSignature.h"
-#include "XRInvocationStorage.h"
-#include "XRInvocation.h"
-#include "XRGenericInvocation.h"
+    server = [[[TestServer alloc] init] autorelease];
+    connection = [XRConnection connectionWithObject:server handle:@"test" socket:nil];
+    xmlResponse = [NSData dataWithContentsOfFile:xmlPath];
 
-#endif	/* __XMLRPC_h_INCLUDE */
+    result = [connection resultForXMLResponse:xmlResponse];
+    NSLog(@"result = %@", result);
+
+    [pool release];
+    exit(0); // insure the process exit status is 0
+    return 0; // keep compiler happy
+}

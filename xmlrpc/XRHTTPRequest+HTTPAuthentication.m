@@ -1,9 +1,9 @@
 //
-//  XMLRPC.h
+//  XRHTTPRequest+HTTPAuthentication.m
 //  XMLRPC
 //
-//  Created by znek on Tue Aug 14 2001.
-//  $Id: XMLRPC.h,v 1.9 2003/03/28 13:12:01 znek Exp $
+//  Created by znek on Tue Jul 09 2002.
+//  $Id: XRHTTPRequest+HTTPAuthentication.m,v 1.2 2003/03/28 13:12:02 znek Exp $
 //
 //  Copyright (c) 2001 by Marcus MŸller <znek@mulle-kybernetik.com>.
 //  All rights reserved.
@@ -29,30 +29,23 @@
 //---------------------------------------------------------------------------------------
 
 
-#ifndef	__XMLRPC_h_INCLUDE
-#define	__XMLRPC_h_INCLUDE
+#include "XRHTTPRequest+HTTPAuthentication.h"
+#include "XRHTTPAuthenticationCredentials.h"
 
 
-#import <Foundation/Foundation.h>
+@implementation XRHTTPRequest (HTTPAuthentication)
 
-#include "XRDefines.h"
-#include "XRProtocols.h"
-#include "XRConstants.h"
+- (XRHTTPAuthenticationCredentials *)authenticationCredentials
+{
+    NSString *credentials = [self headerForKey:@"Authorization"];
+    if(credentials == nil)
+        return nil;
+    return [XRHTTPAuthenticationCredentials credentialsFromCredentials:credentials];
+}
 
-#include "XRConnection.h"
-#include "XRProxy.h"
+- (void)setAuthenticationCredentials:(id <NSObject, XRHTTPAuthenticationHandler>)authenticator
+{
+    [self setHeader:[authenticator credentials] forKey:@"Authorization"];
+}
 
-#include "XRCoder.h"
-#include "XREncoder.h"
-#include "XRDecoder.h"
-
-#include "XRHTTPAuthenticationHandler.h"
-#include "XRHTTPBasicAuthenticationHandler.h"
-
-// these are for more ambitious implementations
-#include "XRMethodSignature.h"
-#include "XRInvocationStorage.h"
-#include "XRInvocation.h"
-#include "XRGenericInvocation.h"
-
-#endif	/* __XMLRPC_h_INCLUDE */
+@end

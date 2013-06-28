@@ -1,9 +1,9 @@
 //
-//  XMLRPC.h
+//  XRNull.m
 //  XMLRPC
 //
-//  Created by znek on Tue Aug 14 2001.
-//  $Id: XMLRPC.h,v 1.9 2003/03/28 13:12:01 znek Exp $
+//  Created by znek on Mon 24-Sep-2001.
+//  $Id: XRNull.m,v 1.1 2001/10/01 03:12:17 znek Exp $
 //
 //  Copyright (c) 2001 by Marcus MŸller <znek@mulle-kybernetik.com>.
 //  All rights reserved.
@@ -29,30 +29,81 @@
 //---------------------------------------------------------------------------------------
 
 
-#ifndef	__XMLRPC_h_INCLUDE
-#define	__XMLRPC_h_INCLUDE
+#import "XRNull.h"
 
 
-#import <Foundation/Foundation.h>
+@implementation XRNull
 
-#include "XRDefines.h"
-#include "XRProtocols.h"
-#include "XRConstants.h"
+////////////////////////////////////////////////////
+//
+//  FACTORY
+//
+////////////////////////////////////////////////////
 
-#include "XRConnection.h"
-#include "XRProxy.h"
 
-#include "XRCoder.h"
-#include "XREncoder.h"
-#include "XRDecoder.h"
++ (XRNull *)null;
+{
+    static id sharedInstance = nil;
 
-#include "XRHTTPAuthenticationHandler.h"
-#include "XRHTTPBasicAuthenticationHandler.h"
+    if(sharedInstance == nil)
+        sharedInstance = [[[self class] alloc] init];
+    return sharedInstance;
+}
 
-// these are for more ambitious implementations
-#include "XRMethodSignature.h"
-#include "XRInvocationStorage.h"
-#include "XRInvocation.h"
-#include "XRGenericInvocation.h"
 
-#endif	/* __XMLRPC_h_INCLUDE */
+////////////////////////////////////////////////////
+//
+//  RETAIN/RELEASE
+//
+////////////////////////////////////////////////////
+
+
+- (id)retain
+{
+    return self;
+}
+
+- (oneway void)release
+{
+    // nothing to do
+}
+
+- (id)autorelease
+{
+    return self;
+}
+
+- (void)dealloc
+{
+    [NSException raise:NSInternalInconsistencyException format:@"%@ may not be called!", NSStringFromSelector(_cmd)];
+}
+
+
+////////////////////////////////////////////////////
+//
+//  COMMON PROTOCOLS
+//
+////////////////////////////////////////////////////
+
+
+- (id)copy;
+{
+    return self;
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    return self;
+}
+
+- (id)initWithCoder:(NSCoder *)decoder
+{
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder
+{
+    // nothing to do
+}
+
+@end

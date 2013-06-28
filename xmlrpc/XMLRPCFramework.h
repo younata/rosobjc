@@ -1,9 +1,9 @@
 //
-//  XMLRPC.h
+//  XMLRPCFramework.h
 //  XMLRPC
 //
 //  Created by znek on Tue Aug 14 2001.
-//  $Id: XMLRPC.h,v 1.9 2003/03/28 13:12:01 znek Exp $
+//  $Id: XMLRPCFramework.h,v 1.2 2002/04/09 01:00:39 znek Exp $
 //
 //  Copyright (c) 2001 by Marcus MŸller <znek@mulle-kybernetik.com>.
 //  All rights reserved.
@@ -29,30 +29,18 @@
 //---------------------------------------------------------------------------------------
 
 
-#ifndef	__XMLRPC_h_INCLUDE
-#define	__XMLRPC_h_INCLUDE
+#ifndef	__XMLRPCFramework_h_INCLUDE
+#define	__XMLRPCFramework_h_INCLUDE
 
 
 #import <Foundation/Foundation.h>
 
-#include "XRDefines.h"
-#include "XRProtocols.h"
-#include "XRConstants.h"
 
-#include "XRConnection.h"
-#include "XRProxy.h"
+@interface XMLRPCFramework : NSObject
+{
 
-#include "XRCoder.h"
-#include "XREncoder.h"
-#include "XRDecoder.h"
+}
 
-#include "XRHTTPAuthenticationHandler.h"
-#include "XRHTTPBasicAuthenticationHandler.h"
+@end
 
-// these are for more ambitious implementations
-#include "XRMethodSignature.h"
-#include "XRInvocationStorage.h"
-#include "XRInvocation.h"
-#include "XRGenericInvocation.h"
-
-#endif	/* __XMLRPC_h_INCLUDE */
+#endif	/* __XMLRPCFramework_h_INCLUDE */

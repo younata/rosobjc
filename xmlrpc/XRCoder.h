@@ -1,9 +1,9 @@
 //
-//  XMLRPC.h
+//  XRCoder.h
 //  XMLRPC
 //
-//  Created by znek on Tue Aug 14 2001.
-//  $Id: XMLRPC.h,v 1.9 2003/03/28 13:12:01 znek Exp $
+//  Created by znek on Tue Aug 28 2001.
+//  $Id: XRCoder.h,v 1.4 2003/04/01 17:42:19 znek Exp $
 //
 //  Copyright (c) 2001 by Marcus MŸller <znek@mulle-kybernetik.com>.
 //  All rights reserved.
@@ -29,30 +29,36 @@
 //---------------------------------------------------------------------------------------
 
 
-#ifndef	__XMLRPC_h_INCLUDE
-#define	__XMLRPC_h_INCLUDE
+#ifndef	__XRCoder_h_INCLUDE
+#define	__XRCoder_h_INCLUDE
 
 
 #import <Foundation/Foundation.h>
 
-#include "XRDefines.h"
-#include "XRProtocols.h"
-#include "XRConstants.h"
 
-#include "XRConnection.h"
-#include "XRProxy.h"
+@interface XRCoder : NSObject
+{
+    NSMutableString *buffer;
+}
 
-#include "XRCoder.h"
-#include "XREncoder.h"
-#include "XRDecoder.h"
+- (id)initWithBuffer:(NSMutableString *)aBuffer;
 
-#include "XRHTTPAuthenticationHandler.h"
-#include "XRHTTPBasicAuthenticationHandler.h"
+- (void)encodeString:(NSString *)string;
+- (void)encodeData:(NSData *)aData;
+- (void)encodeDate:(NSDate *)aDate;
+- (void)encodeDictionary:(NSDictionary *)dictionary;
+- (void)encodeArray:(NSArray *)array;
+- (void)encodeNumber:(NSNumber *)number;
+- (void)encodeBool:(BOOL)yn;
+- (void)encodeInt:(int)anInt;
+- (void)encodeDouble:(double)aDouble;
+- (void)encodeFloat:(float)aFloat;
+- (void)encodeNullValue;
+- (void)encodeException:(NSException *)exception;
+- (void)encodeObject:(id)object;
 
-// these are for more ambitious implementations
-#include "XRMethodSignature.h"
-#include "XRInvocationStorage.h"
-#include "XRInvocation.h"
-#include "XRGenericInvocation.h"
+- (id)decodeObject;
 
-#endif	/* __XMLRPC_h_INCLUDE */
+@end
+
+#endif	/* __XRCoder_h_INCLUDE */

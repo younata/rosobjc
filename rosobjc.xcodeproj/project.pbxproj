@@ -57,27 +57,6 @@
 			remoteGlobalIDString = 891F1CA01770255500E4C321;
 			remoteInfo = "rosobjc-osx";
 		};
-		891F1CE91771748900E4C321 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 891F1CE31771748700E4C321 /* XMLRPC.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
-			remoteInfo = XMLRPC;
-		};
-		891F1CEB1771748900E4C321 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 891F1CE31771748700E4C321 /* XMLRPC.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 903B0DB612F7574800BD6E09;
-			remoteInfo = libXMLRPC;
-		};
-		891F1CED1771748900E4C321 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 891F1CE31771748700E4C321 /* XMLRPC.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0799AF030F6721FF00B71B22;
-			remoteInfo = XMLRPCUnitTests;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -121,7 +100,6 @@
 		891F1CDA1770318300E4C321 /* ROSNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ROSNode.m; sourceTree = "<group>"; };
 		891F1CDE177142C900E4C321 /* ROSMsg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ROSMsg.h; sourceTree = "<group>"; };
 		891F1CDF177142C900E4C321 /* ROSMsg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ROSMsg.m; sourceTree = "<group>"; };
-		891F1CE31771748700E4C321 /* XMLRPC.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = XMLRPC.xcodeproj; path = xmlrpc/XMLRPC.xcodeproj; sourceTree = "<group>"; };
 		891F1CEF177175CC00E4C321 /* ROSTopics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ROSTopics.h; sourceTree = "<group>"; };
 		891F1CF0177175CC00E4C321 /* ROSTopics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ROSTopics.m; sourceTree = "<group>"; };
 		891F1CF41776170100E4C321 /* ROSProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ROSProtocols.h; sourceTree = "<group>"; };
@@ -174,7 +152,6 @@
 		891F1C6A1770245400E4C321 = {
 			isa = PBXGroup;
 			children = (
-				891F1CE31771748700E4C321 /* XMLRPC.xcodeproj */,
 				891F1C781770245400E4C321 /* rosobjc */,
 				891F1C8C1770245400E4C321 /* rosobjcTests */,
 				891F1CBC1770255500E4C321 /* rosobjc-osxTests */,
@@ -281,16 +258,6 @@
 				891F1CBF1770255500E4C321 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		891F1CE41771748700E4C321 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				891F1CEA1771748900E4C321 /* XMLRPC.framework */,
-				891F1CEC1771748900E4C321 /* libXMLRPC.a */,
-				891F1CEE1771748900E4C321 /* XMLRPCUnitTests.octest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -412,12 +379,6 @@
 			mainGroup = 891F1C6A1770245400E4C321;
 			productRefGroup = 891F1C741770245400E4C321 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 891F1CE41771748700E4C321 /* Products */;
-					ProjectRef = 891F1CE31771748700E4C321 /* XMLRPC.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				891F1C721770245400E4C321 /* rosobjc */,
@@ -427,30 +388,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		891F1CEA1771748900E4C321 /* XMLRPC.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = XMLRPC.framework;
-			remoteRef = 891F1CE91771748900E4C321 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		891F1CEC1771748900E4C321 /* libXMLRPC.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libXMLRPC.a;
-			remoteRef = 891F1CEB1771748900E4C321 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		891F1CEE1771748900E4C321 /* XMLRPCUnitTests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = XMLRPCUnitTests.octest;
-			remoteRef = 891F1CED1771748900E4C321 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		891F1C811770245400E4C321 /* Resources */ = {

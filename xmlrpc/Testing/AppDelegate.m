@@ -1,9 +1,9 @@
 //
-//  XMLRPC.h
+//  AppDelegate.m
 //  XMLRPC
 //
-//  Created by znek on Tue Aug 14 2001.
-//  $Id: XMLRPC.h,v 1.9 2003/03/28 13:12:01 znek Exp $
+//  Created by znek on Sun Aug 26 2001.
+//  $Id: AppDelegate.m,v 1.2 2003/03/28 13:12:08 znek Exp $
 //
 //  Copyright (c) 2001 by Marcus MŸller <znek@mulle-kybernetik.com>.
 //  All rights reserved.
@@ -29,30 +29,50 @@
 //---------------------------------------------------------------------------------------
 
 
-#ifndef	__XMLRPC_h_INCLUDE
-#define	__XMLRPC_h_INCLUDE
+#include "AppDelegate.h"
+#include <EDCommon/EDCommon.h>
+#include <XMLRPC/XMLRPC.h>
+#include "TestController.h"
+#include "TestServerProxy.h"
 
 
-#import <Foundation/Foundation.h>
+@implementation AppDelegate
 
-#include "XRDefines.h"
-#include "XRProtocols.h"
-#include "XRConstants.h"
+- (void)setup
+{
+    NSString *serverURL;
+    
+    EDLogMask = (XRLogWarning | XRLogInfo | XRLogDebug | XRLogMessage | XRLogConnection);
 
-#include "XRConnection.h"
-#include "XRProxy.h"
+    serverURL = @"http://localhost:2333/RPC2";
+//    serverURL = @"http://orbital:2333/RPC2";
+//    serverURL = @"http://xmlrpc-c.sourceforge.net/api/sample.php";
+    
+    controller = [[TestController alloc] init];
 
-#include "XRCoder.h"
-#include "XREncoder.h"
-#include "XRDecoder.h"
+    connection = [[XRConnection connectionWithURL:[NSURL URLWithString:serverURL]] retain];
+    [connection setDelegate:controller];
+    proxy = (TestServerProxy *)[connection proxyWithHandle:@"sample"];
+    [proxy retain];
 
-#include "XRHTTPAuthenticationHandler.h"
-#include "XRHTTPBasicAuthenticationHandler.h"
+    [connection setConnectionCheckInterval:5.0];
+    [connection setShouldPerformConnectionChecks:YES];
 
-// these are for more ambitious implementations
-#include "XRMethodSignature.h"
-#include "XRInvocationStorage.h"
-#include "XRInvocation.h"
-#include "XRGenericInvocation.h"
+    EDLog1(XRLogDebug, @"Connection: %@", connection);
+}
 
-#endif	/* __XMLRPC_h_INCLUDE */
+- (void)applicationDidFinishLaunching:(NSNotification *)notification
+{
+    [self setup];
+}
+
+- (IBAction)performTest:(id)sender
+{
+    id result;
+
+    result = [proxy doStuff:[NSArray arrayWithObjects:@"1", [NSNumber numberWithInt:2], nil]];
+    EDLog1(XRLogDebug, @"Received: %@", result);
+
+}
+
+@end

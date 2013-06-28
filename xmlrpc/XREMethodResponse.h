@@ -1,9 +1,9 @@
 //
-//  XMLRPC.h
+//  XREMethodResponse.h
 //  XMLRPC
 //
-//  Created by znek on Tue Aug 14 2001.
-//  $Id: XMLRPC.h,v 1.9 2003/03/28 13:12:01 znek Exp $
+//  Created by znek on Wed Aug 15 2001.
+//  $Id: XREMethodResponse.h,v 1.3 2003/03/28 13:12:01 znek Exp $
 //
 //  Copyright (c) 2001 by Marcus MŸller <znek@mulle-kybernetik.com>.
 //  All rights reserved.
@@ -29,30 +29,23 @@
 //---------------------------------------------------------------------------------------
 
 
-#ifndef	__XMLRPC_h_INCLUDE
-#define	__XMLRPC_h_INCLUDE
+#ifndef	__XREMethodResponse_h_INCLUDE
+#define	__XREMethodResponse_h_INCLUDE
 
 
 #import <Foundation/Foundation.h>
+#include "MXAutoContentContainerElement.h"
 
-#include "XRDefines.h"
-#include "XRProtocols.h"
-#include "XRConstants.h"
 
-#include "XRConnection.h"
-#include "XRProxy.h"
+@interface XREMethodResponse : MXAutoContentContainerElement
+{
+}
 
-#include "XRCoder.h"
-#include "XREncoder.h"
-#include "XRDecoder.h"
+- (NSDictionary *)fault;
+- (BOOL)hasFault;
+- (id)objectValue;
+- (BOOL)hasObjectValue;
 
-#include "XRHTTPAuthenticationHandler.h"
-#include "XRHTTPBasicAuthenticationHandler.h"
+@end
 
-// these are for more ambitious implementations
-#include "XRMethodSignature.h"
-#include "XRInvocationStorage.h"
-#include "XRInvocation.h"
-#include "XRGenericInvocation.h"
-
-#endif	/* __XMLRPC_h_INCLUDE */
+#endif	/* __XREMethodResponse_h_INCLUDE */

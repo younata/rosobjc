@@ -1,9 +1,9 @@
 //
-//  XMLRPC.h
+//  XRHTTPResponse.h
 //  XMLRPC
 //
 //  Created by znek on Tue Aug 14 2001.
-//  $Id: XMLRPC.h,v 1.9 2003/03/28 13:12:01 znek Exp $
+//  $Id: XRHTTPResponse.h,v 1.4 2003/03/28 13:12:02 znek Exp $
 //
 //  Copyright (c) 2001 by Marcus MŸller <znek@mulle-kybernetik.com>.
 //  All rights reserved.
@@ -29,30 +29,34 @@
 //---------------------------------------------------------------------------------------
 
 
-#ifndef	__XMLRPC_h_INCLUDE
-#define	__XMLRPC_h_INCLUDE
+#ifndef	__XRHTTPResponse_h_INCLUDE
+#define	__XRHTTPResponse_h_INCLUDE
 
 
 #import <Foundation/Foundation.h>
+#include "XRHTTPMessage.h"
 
-#include "XRDefines.h"
-#include "XRProtocols.h"
-#include "XRConstants.h"
 
-#include "XRConnection.h"
-#include "XRProxy.h"
+@interface XRHTTPResponse : XRHTTPMessage
+{
+    unsigned int status;
+    NSString *reasonPhrase;
+}
 
-#include "XRCoder.h"
-#include "XREncoder.h"
-#include "XRDecoder.h"
++ (id)responseWithContent:(NSData *)data;
++ (id)responseWithTransferData:(NSData *)data;
 
-#include "XRHTTPAuthenticationHandler.h"
-#include "XRHTTPBasicAuthenticationHandler.h"
+- (id)initWithContent:(NSData *)data;
+- (id)initWithTransferData:(NSData *)data;
 
-// these are for more ambitious implementations
-#include "XRMethodSignature.h"
-#include "XRInvocationStorage.h"
-#include "XRInvocation.h"
-#include "XRGenericInvocation.h"
+- (void)setStatus:(unsigned int)anInt;
+- (unsigned int)status;
 
-#endif	/* __XMLRPC_h_INCLUDE */
+- (void)setReasonPhrase:(NSString *)value;
+- (NSString *)reasonPhrase;
+
+- (NSData *)transferData;
+
+@end
+
+#endif	/* __XRHTTPResponse_h_INCLUDE */

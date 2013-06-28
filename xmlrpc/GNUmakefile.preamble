@@ -1,0 +1,4 @@
+NAME = XMLRPC
+VERS_FILE = $(NAME)_vers.c
+
+XMLRPC_C_FILES += $(VERS_FILE)

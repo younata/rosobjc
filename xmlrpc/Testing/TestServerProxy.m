@@ -1,9 +1,9 @@
 //
-//  XMLRPC.h
+//  TestServerProxy.m
 //  XMLRPC
 //
-//  Created by znek on Tue Aug 14 2001.
-//  $Id: XMLRPC.h,v 1.9 2003/03/28 13:12:01 znek Exp $
+//  Created by znek on Tue Aug 21 2001.
+//  $Id: TestServerProxy.m,v 1.2 2003/03/28 13:12:09 znek Exp $
 //
 //  Copyright (c) 2001 by Marcus MŸller <znek@mulle-kybernetik.com>.
 //  All rights reserved.
@@ -29,30 +29,19 @@
 //---------------------------------------------------------------------------------------
 
 
-#ifndef	__XMLRPC_h_INCLUDE
-#define	__XMLRPC_h_INCLUDE
+#include "TestServerProxy.h"
 
 
-#import <Foundation/Foundation.h>
+@implementation TestServerProxy
 
-#include "XRDefines.h"
-#include "XRProtocols.h"
-#include "XRConstants.h"
+- (id)doStuff:(NSArray *)args
+{
+    return [self performMethod:@"doStuff" withObject:args];
+}
 
-#include "XRConnection.h"
-#include "XRProxy.h"
+- (BOOL)testIfTrue:(BOOL)candidate
+{
+    return [[self performMethod:@"testIfTrue" withObject:[NSNumber numberWithBool:candidate]] boolValue];
+}
 
-#include "XRCoder.h"
-#include "XREncoder.h"
-#include "XRDecoder.h"
-
-#include "XRHTTPAuthenticationHandler.h"
-#include "XRHTTPBasicAuthenticationHandler.h"
-
-// these are for more ambitious implementations
-#include "XRMethodSignature.h"
-#include "XRInvocationStorage.h"
-#include "XRInvocation.h"
-#include "XRGenericInvocation.h"
-
-#endif	/* __XMLRPC_h_INCLUDE */
+@end

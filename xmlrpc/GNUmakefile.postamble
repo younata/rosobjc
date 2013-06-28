@@ -1,0 +1,24 @@
+# XMLRPC.framework
+# GNUmakefile.postamble
+#
+# $Id: GNUmakefile.postamble,v 1.2 2002/04/12 01:00:48 znek Exp $
+
+
+clean::
+	rm -f $(VERS_FILE)
+
+
+before-XMLRPC-all::
+	@ rm -f $(VERS_FILE)
+
+
+generate-version-file: $(VERS_FILE)
+
+
+$(VERS_FILE):
+	@ echo "Building version file"
+ifeq "" "$(CURRENT_PROJECT_VERSION)"
+	@ echo "*** WARNING: The CURRENT_PROJECT_VERSION variable is not set!"
+endif
+	@ echo " const unsigned char $(NAME)VersionString[] = \"@(#)PROGRAM:$(NAME) PROJECT:$(NAME)-$(CURRENT_PROJECT_VERSION) DEVELOPER:$(USER) BUILT:\" __DATE__ \" \" __TIME__ \"\n\";"  > $(VERS_FILE)
+	@ echo " const double $(NAME)VersionNumber = (double)$(CURRENT_PROJECT_VERSION);" >> $(VERS_FILE)

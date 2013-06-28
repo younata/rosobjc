@@ -1,9 +1,9 @@
 //
-//  XMLRPC.h
+//  XREncoder.h
 //  XMLRPC
 //
-//  Created by znek on Tue Aug 14 2001.
-//  $Id: XMLRPC.h,v 1.9 2003/03/28 13:12:01 znek Exp $
+//  Created by znek on Tue Aug 28 2001.
+//  $Id: XREncoder.h,v 1.5 2003/04/04 02:01:54 znek Exp $
 //
 //  Copyright (c) 2001 by Marcus MŸller <znek@mulle-kybernetik.com>.
 //  All rights reserved.
@@ -29,30 +29,31 @@
 //---------------------------------------------------------------------------------------
 
 
-#ifndef	__XMLRPC_h_INCLUDE
-#define	__XMLRPC_h_INCLUDE
+#ifndef	__XREncoder_h_INCLUDE
+#define	__XREncoder_h_INCLUDE
 
 
 #import <Foundation/Foundation.h>
-
-#include "XRDefines.h"
-#include "XRProtocols.h"
-#include "XRConstants.h"
-
-#include "XRConnection.h"
-#include "XRProxy.h"
-
 #include "XRCoder.h"
-#include "XREncoder.h"
-#include "XRDecoder.h"
 
-#include "XRHTTPAuthenticationHandler.h"
-#include "XRHTTPBasicAuthenticationHandler.h"
 
-// these are for more ambitious implementations
-#include "XRMethodSignature.h"
-#include "XRInvocationStorage.h"
-#include "XRInvocation.h"
-#include "XRGenericInvocation.h"
+@interface XREncoder : XRCoder
+{
+    struct {
+        unsigned int encodeUsingNSCodingIfPossible: 1;
+        unsigned int encodeNullValueAsRFCDataType: 1;
+        unsigned int useNonXMLConformantEncodingForStrings: 1;
+        unsigned int RESERVED: 13;
+    } flags;
+}
 
-#endif	/* __XMLRPC_h_INCLUDE */
++ (id)encoderWithBuffer:(NSMutableString *)aBuffer;
+- (id)initForWritingWithBuffer:(NSMutableString *)aBuffer;
+
+- (void)setEncodesObjectsUsingNSCodingIfPossible:(BOOL)yn;
+- (void)setEncodesNullValuesAsRFCDataType:(BOOL)yn;
+- (void)setUsesNonXMLConformantEncodingForStrings:(BOOL)yn;
+
+@end
+
+#endif	/* __XREncoder_h_INCLUDE */

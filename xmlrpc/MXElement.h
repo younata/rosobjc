@@ -1,9 +1,6 @@
-//
-//  XMLRPC.h
-//  XMLRPC
-//
-//  Created by znek on Tue Aug 14 2001.
-//  $Id: XMLRPC.h,v 1.9 2003/03/28 13:12:01 znek Exp $
+//---------------------------------------------------------------------------------------
+// created as MXElement.h by znek on Sun 29-Oct-2000
+// $Id: MXElement.h,v 1.6 2003/07/01 08:25:52 znek Exp $
 //
 //  Copyright (c) 2001 by Marcus MŸller <znek@mulle-kybernetik.com>.
 //  All rights reserved.
@@ -29,30 +26,22 @@
 //---------------------------------------------------------------------------------------
 
 
-#ifndef	__XMLRPC_h_INCLUDE
-#define	__XMLRPC_h_INCLUDE
+#ifndef	__MXElement_h_INCLUDE
+#define	__MXElement_h_INCLUDE
 
 
-#import <Foundation/Foundation.h>
+#include <EDCommon/EDCommon.h>
 
-#include "XRDefines.h"
-#include "XRProtocols.h"
-#include "XRConstants.h"
 
-#include "XRConnection.h"
-#include "XRProxy.h"
+@interface MXElement : NSObject <EDAOMElement, NSCoding>
+{
+    NSMutableDictionary *attributes;
+}
 
-#include "XRCoder.h"
-#include "XREncoder.h"
-#include "XRDecoder.h"
+- (void)takeValue:(id)value forAttribute:(NSString *)attribute;
+- (id)valueForAttribute:(NSString *)attribute;
 
-#include "XRHTTPAuthenticationHandler.h"
-#include "XRHTTPBasicAuthenticationHandler.h"
 
-// these are for more ambitious implementations
-#include "XRMethodSignature.h"
-#include "XRInvocationStorage.h"
-#include "XRInvocation.h"
-#include "XRGenericInvocation.h"
+@end
 
-#endif	/* __XMLRPC_h_INCLUDE */
+#endif	/* __MXElement_h_INCLUDE */
