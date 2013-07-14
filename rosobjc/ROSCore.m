@@ -8,13 +8,16 @@
 
 #import "ROSCore.h"
 
+#import "HTTPServer.h"
+#import "RPCConnection.h"
+
 @interface ROSCore () {
     ROSNode *masterProxy;
 }
 -(void)setInitialized:(BOOL)inited;
 @end
 
-//static ROCore *rocoreSingleton = nil;
+static ROSCore *roscoreSingleton = nil;
 
 @implementation ROSCore
 
@@ -31,24 +34,41 @@
     return @[destLoc, @(destPort)];
 }
 
++(ROSCore *)sharedCore
+{
+    if (roscoreSingleton == nil)
+        [ROSCore initialize];
+    return roscoreSingleton;
+}
+
++(void)initialize
+{
+    if (roscoreSingleton == nil) {
+        roscoreSingleton = [[ROSCore alloc] initSingleton];
+    }
+}
+
 -(id)init
 {
     return nil;
 }
 
--(id)initWithMasterURI:(NSString *)uri
+-(id)initSingleton
 {
     if ((self = [super init]) != nil) {
         clientReady = NO;
         shutdownFlag = NO;
         inShutdown = NO;
         rosobjects = [[NSMutableArray alloc] init];
-        [ROSCore ParseRosObjcURI:uri];
-        _uri = uri;
     }
     return self;
 }
 
+-(void)setUri:(NSString *)uri
+{
+    [ROSCore ParseRosObjcURI:uri];
+    _uri = uri;
+}
 
 -(BOOL)isInitialized
 {
@@ -58,6 +78,24 @@
 -(void)setInitialized:(BOOL)inited
 {
     clientReady = inited;
+    
+    [_httpServer setConnectionClass:[RPCConnection class]];
+    [_httpServer setPort:8080];
+    
+    // Enable Bonjour
+    [_httpServer setType:@"_http._tcp."];
+    
+    // Set document root
+    [_httpServer setDocumentRoot:[@"~/Documents/Sites" stringByExpandingTildeInPath]];
+    
+    // Start XMLRPC server
+    NSError* error = nil;
+    if (![_httpServer start:&error]) {
+        NSLog(@"Error starting HTTP Server: %@", error);
+    }
+    
+    shutdownFlag = NO;
+    inShutdown = NO;
 }
 
 -(BOOL)isShutdown
@@ -79,6 +117,11 @@
         [node shutdown:reason];
     }
     rosobjects = nil;
+    
+    [_httpServer stop];
+    _httpServer = nil;
+    
+    shutdownFlag = YES;
 }
 
 -(void)removeNode:(ROSNode *)node
@@ -105,6 +148,16 @@
     ret.masterURI = _uri;
     [rosobjects addObject:ret];
     return ret;
+}
+
+-(void)startNode:(ROSNode *)node
+{
+    // something.
+}
+
+-(void)respondToRPC:(NSString *)method Params:(NSArray *)params
+{
+    
 }
 
 -(NSArray *)getPublishedTopics:(NSString *)NameSpace

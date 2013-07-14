@@ -32,10 +32,10 @@
 
 
 
-@interface ROSAnyMsg : ROMsg
+@interface ROSAnyMsg : ROSMsg
 
 @end
 
-void serializeMessage(NSMutableData *buffer, int seq, ROMsg *msg);
-void deserializeMessages(NSMutableData *buffer, NSArray *msgQueue, ROMsg *msgClass, int maxMsgs, int start);
+void serializeMessage(NSMutableData *buffer, int seq, ROSMsg *msg);
+void deserializeMessages(NSMutableData *buffer, NSArray *msgQueue, ROSMsg *msgClass, int maxMsgs, int start);
 

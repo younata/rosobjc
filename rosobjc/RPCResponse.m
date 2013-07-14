@@ -8,6 +8,8 @@
 
 #import "RPCResponse.h"
 
+#import "ROSCore.h"
+
 @implementation RPCResponse
 {
     NSString *responseString;
@@ -23,6 +25,8 @@
     NSString *methodName;
     
     int currentStructIndex;
+    
+    NSDateFormatter *isoFormatter;
     
     BOOL done;
 }
@@ -41,10 +45,20 @@
         currentStructIndex = -1;
         
         done = NO;
+        isoFormatter = [[NSDateFormatter alloc] init];
+        [isoFormatter setDateFormat:@"yyyyMMdd'T'HH:mm:ss"];
         
         parser = [[NSXMLParser alloc] initWithData:bodyData];
+        // this is a very brittle implementation. It would be a good idea
+        // if someone more experienced than myself at implementing this
+        // were to take a look at it.
+                
         [parser setDelegate:self];
-        [parser parse];
+        if ([parser parse]) {
+            [[ROSCore sharedCore] respondToRPC:methodName Params:params];
+        } else {
+            
+        }
     }
     return self;
 }
@@ -130,7 +144,7 @@
     } else if ([elementName isEqualToString:@"double"]) {
         [self addObject:@([currentElementValue doubleValue])];
     } else if ([elementName isEqualToString:@"dateTime.iso8601"]) {
-        [self addObject:[NSString stringWithString:currentElementValue]];
+        [self addObject:[isoFormatter dateFromString:currentElementValue]];
     } else if ([elementName isEqualToString:@"base64"]) {
         [self addObject:[NSString stringWithString:currentElementValue]];
     } // structs...

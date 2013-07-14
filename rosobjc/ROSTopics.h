@@ -7,13 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "XMLRPC/XMLRPC.h"
+//#import "XMLRPC/XMLRPC.h"
 
 #include <pthread.h>
 
 @interface ROSTopic : NSObject
 {
-    XMLRPCConnection *connection;
     NSString *_master;
     NSString *_method;
 }
@@ -68,9 +67,9 @@ typedef enum {
 -(void)closeAll;
 
 #pragma mark - Internal methods
--(void)add:(ROTopic *)ps map:(NSMutableDictionary *)map regType:(RORegistration)regType;
+-(void)add:(ROSTopic *)ps map:(NSMutableDictionary *)map regType:(RORegistration)regType;
 -(void)recalculateTopics;
--(void)remove:(ROTopic *)ps map:(NSMutableDictionary *)map regType:(RORegistration)regType;
+-(void)remove:(ROSTopic *)ps map:(NSMutableDictionary *)map regType:(RORegistration)regType;
 
 -(ROSTopic *)getImplementation:(NSString *)resolvedName regType:(RORegistration)regType;
 -(ROSTopic *)getPubImpl:(NSString *)resolvedName;

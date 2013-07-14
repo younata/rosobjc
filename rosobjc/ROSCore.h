@@ -8,7 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "ROSNode.h"
-#import "xmlrpc/XMLRPC.h"
+
+@class HTTPServer;
 
 static NSString *schema = @"rosrpc";
 static NSString *master = @"master"; // reserved for master node...
@@ -20,25 +21,27 @@ static NSString *master = @"master"; // reserved for master node...
     BOOL inShutdown;
     
     NSMutableArray *rosobjects;
+    
+    HTTPServer *_httpServer;
 }
 
 @property (nonatomic, strong, readonly) NSString *uri;
 
 // takes a string, outputs an array of form [address, port]
 +(NSArray *)ParseRosObjcURI:(NSString *)uri;
-//+(ROCore *)sharedCore;
++(ROSCore *)sharedCore;
 
 -(BOOL)isInitialized;
 -(BOOL)isShutdown;
 -(BOOL)isShutdownRequested;
 -(void)signalShutdown:(NSString *)reason;
 
--(id)initWithMasterURI:(NSString *)uri;
-
 -(ROSNode *)getMaster;
 -(ROSNode *)createNode:(NSString *)name;
--(void)removeNode:(RONode *)node;
--(void)startNode:(RONode *)node;
+-(void)removeNode:(ROSNode *)node;
+-(void)startNode:(ROSNode *)node;
+
+-(void)respondToRPC:(NSString *)method Params:(NSArray *)params;
 
 -(NSArray *)getPublishedTopics:(NSString *)NameSpace;
 

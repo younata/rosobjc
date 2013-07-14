@@ -32,12 +32,12 @@ enum ROSTCPConnectionType {
 };
 
 // Implements TCPROS
-@interface ROSTCP : ROProtocol
+@interface ROSTCP : ROSProtocol
 
-@property (nonatomic) ROSTCPConnectionType connectionType;
+@property (nonatomic) enum ROSTCPConnectionType connectionType;
 
 @end
 
-@interface ROSUDP : ROProtocol
+@interface ROSUDP : ROSProtocol
 
 @end

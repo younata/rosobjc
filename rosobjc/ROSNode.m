@@ -54,7 +54,7 @@
         NameSpace = @"/";
     }
     // TODO: fix
-#error Not implemented
+#warning implement getPublishedTopics
     return @[@0, @"Not Implemented", @[]];
 }
 
@@ -106,7 +106,7 @@
         return @[@0, @"ERROR: no available protocol handlers", @0];
     }
     // actually connect.
-#error implement RONode connectTopic
+#warning implement ROSNode connectTopic
     return nil;
 }
 
@@ -114,7 +114,7 @@
 
 -(NSArray *)paramUpdate:(NSString *)callerID key:(NSString *)key val:(id)value
 {
-#error implement param server cache, then uncomment below.
+#warning implement param server cache, then uncomment below.
     /*
      if (getParamServerCache().update(key, value))
         return @[@1, @"", @0];
@@ -126,15 +126,16 @@
 -(NSArray *)publisherUpdate:(NSString *)callerID topic:(NSString *)topic publishers:(NSArray *)publishers
 {
     for (NSString *uri in publishers) {
-#error Implement publisherUpdate
+#warning Implement publisherUpdate
     }
+    return nil;
 }
 
 -(NSArray *)requestTopic:(NSString *)callerID topic:(NSString *)topic protocols:(NSArray *)_protocols
 {
     if (![[ROSTopicManager sharedTopicManager] hasPublication:topic])
         return @[@(-1), [NSString stringWithFormat:@"Not a publisher of %@", topic], @[]];
-#error implement protocols...
+#warning implement protocols...
     NSAssert([_protocols containsObject:@"TCPROS"], @"Only supported protocol is tcpros");
     //return [[_protocols objectAtIndex:0] initPublisher];
     return @[@0, @"no supported protocol implementations", @[]];
