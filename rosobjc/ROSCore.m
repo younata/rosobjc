@@ -139,6 +139,14 @@ static ROSCore *roscoreSingleton = nil;
 
 -(ROSNode *)createNode:(NSString *)name
 {
+    // NOTE: this is something that we should fix.
+    // It doesn't scale to run multiple httpservers
+    // if we want to run more than one node.
+    
+    // Unfortunately, it would take a core ROS change to fix this.
+    if ([rosobjects count] != 0) {
+        return nil;
+    }
     for (ROSNode *node in rosobjects) {
         if ([node.name isEqualToString:name])
             return nil;
@@ -155,9 +163,52 @@ static ROSCore *roscoreSingleton = nil;
     // something.
 }
 
--(void)respondToRPC:(NSString *)method Params:(NSArray *)params
+-(NSArray *)respondToRPC:(NSString *)method Params:(NSArray *)params
 {
-    
+    NSArray *ret = nil;
+    ROSNode *r = [rosobjects firstObject];
+    if (r == nil)
+        return nil;
+    NSString *cid = [params firstObject];
+    if (cid == nil)
+        return nil;
+    if ([method isEqualToString:@"getBusStats"]) {
+        ret = [r getBusStats:cid];
+    } else if ([method isEqualToString:@"getBusInfo"]) {
+        ret = [r getBusInfo:cid];
+    } else if ([method isEqualToString:@"getMasterUri"]) {
+        ret = [r getMasterUri:cid];
+    } else if ([method isEqualToString:@"shutdown"]) {
+        NSString *msg = @"";
+        if ([params count] != 2)
+            msg = [params objectAtIndex:1];
+        [self signalShutdown:msg];
+    } else if ([method isEqualToString:@"getPid"]) {
+        ret = @[@0, @"", @(getpid())];
+    } else if ([method isEqualToString:@"getSubscriptions"]) {
+        ret = [r getSubscriptions:cid];
+    } else if ([method isEqualToString:@"getPublications"]) {
+        ret = [r getPublications:cid];
+    } else if ([method isEqualToString:@"paramUpdate"]) {
+        if ([params count] != 3)
+            return nil;
+        NSString *k = [params objectAtIndex:1];
+        id val = [params objectAtIndex:2];
+        ret = [r paramUpdate:cid key:k val:val];
+    } else if ([method isEqualToString:@"publisherUpdate"]) {
+        if ([params count] != 3)
+            return nil;
+        NSString *t = [params objectAtIndex:1];
+        NSArray *p = [params objectAtIndex:2];
+        ret = [r publisherUpdate:cid topic:t publishers:p];
+    } else if ([method isEqualToString:@"requestTopic"]) {
+        if ([params count] != 3)
+            return nil;
+        NSString *t = [params objectAtIndex:1];
+        NSArray *p = [params objectAtIndex:2];
+        ret = [r requestTopic:cid topic:t protocols:p];
+    }
+    return ret;
 }
 
 -(NSArray *)getPublishedTopics:(NSString *)NameSpace

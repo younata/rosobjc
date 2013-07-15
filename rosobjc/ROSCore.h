@@ -21,6 +21,7 @@ static NSString *master = @"master"; // reserved for master node...
     BOOL inShutdown;
     
     NSMutableArray *rosobjects;
+    //ROSNode *node;
     
     HTTPServer *_httpServer;
 }
@@ -41,7 +42,7 @@ static NSString *master = @"master"; // reserved for master node...
 -(void)removeNode:(ROSNode *)node;
 -(void)startNode:(ROSNode *)node;
 
--(void)respondToRPC:(NSString *)method Params:(NSArray *)params;
+-(NSArray *)respondToRPC:(NSString *)method Params:(NSArray *)params;
 
 -(NSArray *)getPublishedTopics:(NSString *)NameSpace;
 
