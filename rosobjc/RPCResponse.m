@@ -10,6 +10,8 @@
 
 #import "ROSCore.h"
 
+#import "XMLRPCDefaultEncoder.h"
+
 @implementation RPCResponse
 {
     NSString *responseString;
@@ -58,8 +60,8 @@
             NSArray *r = [[ROSCore sharedCore] respondToRPC:methodName Params:params];
             if (r == nil) // fault.
                 [self fault];
-            else {// success.
-                // haha... I need to actually do a response...
+            else { // success.
+                [self response:r];
             }
         } else {
             
@@ -74,14 +76,11 @@
     NSString *formatString = @"<?xml version=\"1.0\"?><methodResponse><params><param><value><array><data>%@</data></array></value></param></params></methodResponse>";
     NSNumber *code = [parameters objectAtIndex:0];
     NSString *msg = [parameters objectAtIndex:1];
-    id otherValue = [parameters objectAtIndex:2];
-    NSString *zero, *one, *two;
+    XMLRPCDefaultEncoder *de = [[XMLRPCDefaultEncoder alloc] init];
+    NSString *two = [de performSelector:@selector(encodeObject:) withObject:[parameters objectAtIndex:2]];
+    NSString *zero, *one;
     zero = [NSString stringWithFormat:@"<value><i4>%@</i4></value>", code];
     one = [NSString stringWithFormat:@"<value><string>%@</string></value>", msg];
-#error implement response.
-    if ([otherValue isKindOfClass:nil])
-        ;
-    two = [NSString stringWithFormat:@""];
     NSString *toAdd = [zero stringByAppendingString:one];
     toAdd = [toAdd stringByAppendingString:two];
     responseString = [[NSString alloc] initWithFormat:formatString, toAdd];
