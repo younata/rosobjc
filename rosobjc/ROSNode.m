@@ -53,9 +53,12 @@
     if (NameSpace == nil) {
         NameSpace = @"/";
     }
-    // TODO: fix
-#warning implement getPublishedTopics
-    return @[@0, @"Not Implemented", @[]];
+    NSMutableArray *ret = [[NSMutableArray alloc] init];
+    for (ROSTopic *t in publishedTopics) {
+        if ([t.name hasPrefix:NameSpace])
+            [ret addObject:t.name];
+    }
+    return @[@1, @"published topics", ret];
 }
 
 -(NSArray *)getBusStats:(NSString *)callerID
@@ -114,13 +117,11 @@
 
 -(NSArray *)paramUpdate:(NSString *)callerID key:(NSString *)key val:(id)value
 {
-#warning implement param server cache, then uncomment below.
-    /*
-     if (getParamServerCache().update(key, value))
+    if ([params objectForKey:key] != nil) {
+        [params setObject:value forKey:key];
         return @[@1, @"", @0];
-     return @[@(-1), @"not subscribed", @0];
-     */
-    return nil;
+    }
+    return @[@(-1), @"not subscribed", @0];
 }
 
 -(NSArray *)publisherUpdate:(NSString *)callerID topic:(NSString *)topic publishers:(NSArray *)publishers

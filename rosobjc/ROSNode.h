@@ -15,6 +15,9 @@
 {
     NSMutableArray *publishedTopics;
     NSMutableArray *subscribedTopics;
+    
+    NSMutableDictionary *params;
+    
     BOOL keepRunning;
     NSArray *protocols;
 }
