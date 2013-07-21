@@ -2,7 +2,7 @@
 
 #import "XMLRPCEncoder.h"
 
-@interface XMLRPCRequest : NSObject {
+@interface XMLRPCRequest : NSObject <NSCopying> {
     NSMutableURLRequest *myRequest;
     id<XMLRPCEncoder> myXMLEncoder;
     NSTimeInterval myTimeout;

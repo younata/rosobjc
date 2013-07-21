@@ -34,6 +34,22 @@ static const NSTimeInterval DEFAULT_TIMEOUT = 240;
 #endif
 }
 
+#pragma mark - NSCopying
+
+-(id)copyWithZone:(NSZone *)zone
+{
+    XMLRPCRequest *ret = [[XMLRPCRequest alloc] initWithURL:myRequest.URL];
+    [ret setUserAgent:[self userAgent]];
+    [ret setEncoder:myXMLEncoder];
+    [ret setTimeoutInterval:myTimeout];
+    return ret;
+}
+
+-(id)copy
+{
+    return [self copyWithZone:nil];
+}
+
 #pragma mark -
 
 - (void)setURL: (NSURL *)URL {
