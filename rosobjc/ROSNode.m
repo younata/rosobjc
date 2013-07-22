@@ -10,14 +10,12 @@
 #import "ROSCore.h"
 #import "ROSTopics.h"
 
-@implementation ROSNode
+#import "ROSMsg.h"
+#import "ROSXMLRPC.h"
 
-// in rospy, this is actually the ROSHandler class.
-// because we're NOT doing the master part of the
-// master/slave api (mostly for speed, if someone wants
-// to contribute code that works for master, go ahead.
-// I personally have no idea how to implement it, without
-// depending on ROS to be installed elsewhere.
+#import "ROSSocket.h"
+
+@implementation ROSNode
 
 -(id)initWithName:(NSString *)name
 {
@@ -34,8 +32,16 @@
 {
     keepRunning = YES;
     protocols = @[@"TCPROS"];
-    publishedTopics = [[NSMutableArray alloc] init];
-    subscribedTopics = [[NSMutableArray alloc] init];
+    publishedTopics = [[NSMutableDictionary alloc] init];
+    subscribedTopics = [[NSMutableDictionary alloc] init];
+    
+    masterClient = [[ROSXMLRPCC alloc] init];
+}
+
+-(void)setMasterURI:(NSString *)masterURI
+{
+    _masterURI = masterURI;
+    masterClient.URL = [NSURL URLWithString:_masterURI];
 }
 
 #pragma mark - Public
@@ -48,13 +54,53 @@
     [_core removeNode:self];
 }
 
+#pragma mark - Most used by the programmer.
+-(void)subscribe:(NSString *)topic callback:(void (^)(ROSMsg *))block
+{
+    if (![topic hasPrefix:@"/"]) {
+        topic = [@"/" stringByAppendingString:topic];
+    }
+    [masterClient getTopicTypes:[self name] callback:^(NSArray *res) {
+        NSString *type = @"";
+        for (NSArray *i in [res lastObject]) {
+            NSString *tname = [i firstObject];
+            NSString *ttype = [i lastObject];
+            if ([tname isEqualToString:topic]) {
+                type = ttype;
+                break;
+            }
+        }
+        [masterClient registerSubscriber:[self name] Topic:topic TopicType:type callback:^(NSArray *foo){}];
+    }];
+    if ([subscribedTopics objectForKey:topic] == nil) {
+        NSMutableArray *foo = [[NSMutableArray alloc] init];
+        [foo addObject:block];
+        [subscribedTopics setObject:foo forKey:topic];
+    } else {
+        NSMutableArray *foo = [subscribedTopics objectForKey:topic];
+        [foo addObject:block];
+    }
+}
+
+-(void)advertize:(NSString *)topic msgType:(NSString *)msgName
+{
+    [masterClient registerPublisher:[self name] Topic:topic TopicType:msgName callback:^(NSArray *res){
+        // res is an array of things already subscribing to this.
+        NSArray *subs = [res lastObject];
+        for (NSString *i in subs) {
+            [self connectTopic:topic uri:i];
+        }
+    }];
+}
+
+#pragma mark - Slave API
 -(NSArray *)getPublishedTopics:(NSString *)NameSpace
 {
     if (NameSpace == nil) {
         NameSpace = @"/";
     }
     NSMutableArray *ret = [[NSMutableArray alloc] init];
-    for (ROSTopic *t in publishedTopics) {
+    for (ROSTopic *t in [publishedTopics allKeys]) {
         if ([t.name hasPrefix:NameSpace])
             [ret addObject:t.name];
     }
@@ -127,7 +173,19 @@
 -(NSArray *)publisherUpdate:(NSString *)callerID topic:(NSString *)topic publishers:(NSArray *)publishers
 {
     for (NSString *uri in publishers) {
-#warning Implement publisherUpdate
+        if ([publishers count] != 0) {
+            if (servers == nil) {
+                servers = [[NSMutableArray alloc] init];
+            }
+            [masterClient makeCall:@"requestTopic" WithArgs:@[[self name], topic, @[protocols]] callback:^(NSArray *res){
+                NSArray *protocolParams = [res lastObject];
+                if ([protocolParams count] == 0) {
+                    // problem!
+                } else {
+                    // hm.
+                }
+            } URL:[NSURL URLWithString:uri]];
+        }
     }
     return nil;
 }
@@ -137,7 +195,6 @@
     if (![[ROSTopicManager sharedTopicManager] hasPublication:topic])
         return @[@(-1), [NSString stringWithFormat:@"Not a publisher of %@", topic], @[]];
 #warning implement protocols...
-    NSAssert([_protocols containsObject:@"TCPROS"], @"Only supported protocol is tcpros");
     //return [[_protocols objectAtIndex:0] initPublisher];
     return @[@0, @"no supported protocol implementations", @[]];
 }

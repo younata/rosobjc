@@ -13,6 +13,7 @@
     NSData *_buffer;
 }
 
+@property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSMutableDictionary *slots;
 
 -(id)getTypes;

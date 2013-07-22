@@ -7,17 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
-//#import "XMLRPC/XMLRPC.h"
+#import "ROSXMLRPC.h"
 
 #include <pthread.h>
 
 @interface ROSTopic : NSObject
 {
-    NSString *_master;
-    NSString *_method;
+    NSString *_master; // master URI
+    
+    ROSXMLRPCC *masterClient;
 }
-@property (nonatomic) Class msgClass;
-@property (nonatomic, strong) NSString *name;
+@property (nonatomic) Class msgClass; // returns messages of this type.
+@property (nonatomic, strong) NSString *name; // topic name.
+@property (nonatomic, strong) NSString *method;
 @property (nonatomic, strong) id type;
 
 -(id)initWithMaster:(NSString *)master method:(NSString *)method;

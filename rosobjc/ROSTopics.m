@@ -16,6 +16,8 @@
     if ((self = [super init]) != nil) {
         _master = master;
         _method = method;
+        masterClient = [[ROSXMLRPCC alloc] init];
+        masterClient.URL = [NSURL URLWithString:_master];
     }
     return self;
 }
@@ -39,7 +41,7 @@
 
 -(void)close
 {
-    
+    // subscriber/publisher should implement this.
 }
 
 -(BOOL)hasConnection:(NSString *)URI
@@ -57,6 +59,9 @@
 {
     //XMLRPCConnectionManager *manager = [XMLRPCConnectionManager sharedManager];
     //NSString *s =
+    [masterClient registerSubscriber:[self method] Topic:[self name] TopicType:[[[self msgClass] alloc] name] callback:^(NSArray *foo){
+        ;
+    }];
 }
 
 -(void)setOnTopicRcvd:(void (^)(id))block

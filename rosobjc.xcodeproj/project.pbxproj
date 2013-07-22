@@ -96,6 +96,9 @@
 		898F7E1E17964F53009B8961 /* XMLRPCResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 898F7DB317964F53009B8961 /* XMLRPCResponse.h */; };
 		898F7E1F17964F53009B8961 /* XMLRPCResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7DB417964F53009B8961 /* XMLRPCResponse.m */; };
 		898F7E2017964F53009B8961 /* XMLRPCResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7DB417964F53009B8961 /* XMLRPCResponse.m */; };
+		898F7E2F179C94F0009B8961 /* ROSSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 898F7E2D179C94F0009B8961 /* ROSSocket.h */; };
+		898F7E30179C94F0009B8961 /* ROSSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7E2E179C94F0009B8961 /* ROSSocket.m */; };
+		898F7E31179C94F0009B8961 /* ROSSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7E2E179C94F0009B8961 /* ROSSocket.m */; };
 		8994948A177D6C26005E306F /* ROSXMLRPC.h in Headers */ = {isa = PBXBuildFile; fileRef = 89949488177D6C26005E306F /* ROSXMLRPC.h */; };
 		8994948B177D6C26005E306F /* ROSXMLRPC.m in Sources */ = {isa = PBXBuildFile; fileRef = 89949489177D6C26005E306F /* ROSXMLRPC.m */; };
 		8994948C177D6C26005E306F /* ROSXMLRPC.m in Sources */ = {isa = PBXBuildFile; fileRef = 89949489177D6C26005E306F /* ROSXMLRPC.m */; };
@@ -324,6 +327,8 @@
 		898F7DB217964F53009B8961 /* XMLRPCRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLRPCRequest.m; sourceTree = "<group>"; };
 		898F7DB317964F53009B8961 /* XMLRPCResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLRPCResponse.h; sourceTree = "<group>"; };
 		898F7DB417964F53009B8961 /* XMLRPCResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLRPCResponse.m; sourceTree = "<group>"; };
+		898F7E2D179C94F0009B8961 /* ROSSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ROSSocket.h; sourceTree = "<group>"; };
+		898F7E2E179C94F0009B8961 /* ROSSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ROSSocket.m; sourceTree = "<group>"; };
 		89949488177D6C26005E306F /* ROSXMLRPC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ROSXMLRPC.h; sourceTree = "<group>"; };
 		89949489177D6C26005E306F /* ROSXMLRPC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ROSXMLRPC.m; sourceTree = "<group>"; };
 		89E3013F1787EF9C000608D2 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -480,6 +485,8 @@
 				891F1CD3177028F800E4C321 /* ROSCore.m */,
 				891F1CDE177142C900E4C321 /* ROSMsg.h */,
 				891F1CDF177142C900E4C321 /* ROSMsg.m */,
+				898F7E2D179C94F0009B8961 /* ROSSocket.h */,
+				898F7E2E179C94F0009B8961 /* ROSSocket.m */,
 				891F1CD91770318300E4C321 /* ROSNode.h */,
 				891F1CDA1770318300E4C321 /* ROSNode.m */,
 				891F1CD717702F4100E4C321 /* ROSNodeDelegate.h */,
@@ -822,6 +829,7 @@
 				89E3025C1787EF9E000608D2 /* HTTPConnection.h in Headers */,
 				898F7E0D17964F53009B8961 /* XMLRPCConnectionDelegate.h in Headers */,
 				89E3025F1787EF9E000608D2 /* HTTPLogging.h in Headers */,
+				898F7E2F179C94F0009B8961 /* ROSSocket.h in Headers */,
 				898F7E0817964F53009B8961 /* XMLRPC.h in Headers */,
 				89E302601787EF9E000608D2 /* HTTPMessage.h in Headers */,
 				89E302631787EF9E000608D2 /* HTTPResponse.h in Headers */,
@@ -1084,6 +1092,7 @@
 				89E3026E1787EF9E000608D2 /* MultipartMessageHeaderField.m in Sources */,
 				898F7DC217964F53009B8961 /* NSData+Base64.m in Sources */,
 				89E302711787EF9E000608D2 /* HTTPAsyncFileResponse.m in Sources */,
+				898F7E30179C94F0009B8961 /* ROSSocket.m in Sources */,
 				898F7E0F17964F53009B8961 /* XMLRPCConnectionManager.m in Sources */,
 				89E302741787EF9E000608D2 /* HTTPDataResponse.m in Sources */,
 				898F7E1C17964F53009B8961 /* XMLRPCRequest.m in Sources */,
@@ -1142,6 +1151,7 @@
 				89E3026F1787EF9E000608D2 /* MultipartMessageHeaderField.m in Sources */,
 				898F7DC317964F53009B8961 /* NSData+Base64.m in Sources */,
 				89E302721787EF9E000608D2 /* HTTPAsyncFileResponse.m in Sources */,
+				898F7E31179C94F0009B8961 /* ROSSocket.m in Sources */,
 				898F7E1017964F53009B8961 /* XMLRPCConnectionManager.m in Sources */,
 				89E302751787EF9E000608D2 /* HTTPDataResponse.m in Sources */,
 				898F7E1D17964F53009B8961 /* XMLRPCRequest.m in Sources */,

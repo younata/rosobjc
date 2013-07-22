@@ -10,16 +10,24 @@
 #import "ROSNodeDelegate.h"
 
 @class ROSCore;
+@class ROSMsg;
+@class ROSXMLRPCC;
 
 @interface ROSNode : NSObject
 {
-    NSMutableArray *publishedTopics;
-    NSMutableArray *subscribedTopics;
+    NSMutableDictionary *publishedTopics;
+    NSMutableDictionary *subscribedTopics;
+    
+    // next two are the NSSocketPorts for the servers and clients...
+    NSMutableArray *servers;
+    NSMutableArray *clients;
     
     NSMutableDictionary *params;
     
     BOOL keepRunning;
     NSArray *protocols;
+    
+    ROSXMLRPCC *masterClient;
 }
 
 @property (nonatomic, weak) id<ROSNodeDelegate> delegate;
@@ -30,6 +38,13 @@
 -(id)initWithName:(NSString *)name;
 -(void)shutdown:(NSString *)reason;
 
+#pragma mark - Stuff most used by the programmer.
+
+-(void)subscribe:(NSString *)topic callback:(void(^)(ROSMsg *))block;
+
+-(void)advertize:(NSString *)topic msgType:(NSString *)msgName;
+
+#pragma mark - Slave API
 -(NSArray *)getPublishedTopics:(NSString *)NameSpace;
 
 -(NSArray *)getBusStats:(NSString *)callerID;

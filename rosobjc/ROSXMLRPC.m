@@ -7,6 +7,7 @@
 //
 
 #import "ROSXMLRPC.h"
+#import "ROSCore.h"
 
 @implementation ROSXMLRPCC
 
@@ -36,12 +37,12 @@
 
 -(void)request:(XMLRPCRequest *)request didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
 {
-    
+    // this should never be called. ROS is not a secure protocol.
 }
 
 -(void)request:(XMLRPCRequest *)request didCancelAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
 {
-    
+    // this should never be called. ROS is not a secure protocol.
 }
 
 #pragma mark - private methods
@@ -62,9 +63,23 @@
 
 #pragma mark - public methods
 
+-(void)makeCall:(NSString *)methodName WithArgs:(NSArray *)args callback:(void (^)(NSArray *))callback URL:(NSURL *)url
+{
+    XMLRPCRequest *request = [[XMLRPCRequest alloc] initWithURL:url];
+    XMLRPCConnectionManager *manager = [XMLRPCConnectionManager sharedManager];
+    
+    [request setMethod:methodName withParameters:args];
+    
+    [manager spawnConnectionWithXMLRPCRequest:request delegate:self];
+    
+    if (callbacks == nil)
+        callbacks = [[NSMutableDictionary alloc] init];
+    [callbacks setObject:callback forKey:request];
+}
+
 -(void)registerService:(NSString *)callerID Service:(NSString *)service ServiceAPI:(NSString *)serviceAPI callback:(void(^)(NSArray *))callback
 {
-    [self makeCall:@"registerService" WithArgs:@[callerID, service, serviceAPI] callback:callback];
+    [self makeCall:@"registerService" WithArgs:@[callerID, service, serviceAPI, [[ROSCore sharedCore] uri]] callback:callback];
 }
 
 -(void)unregisterService:(NSString *)callerID Service:(NSString *)service ServiceAPI:(NSString *)serviceAPI callback:(void(^)(NSArray *))callback
@@ -74,22 +89,22 @@
 
 -(void)registerSubscriber:(NSString *)callerID Topic:(NSString *)topic TopicType:(NSString *)topicType callback:(void(^)(NSArray *))callback
 {
-    [self makeCall:@"registerSubscriber" WithArgs:@[callerID, topic, topicType] callback:callback];
+    [self makeCall:@"registerSubscriber" WithArgs:@[callerID, topic, topicType, [[ROSCore sharedCore] uri]] callback:callback];
 }
 
 -(void)unregisterSubscriber:(NSString *)callerID Topic:(NSString *)topic callback:(void(^)(NSArray *))callback
 {
-    [self makeCall:@"unregisterSubscriber" WithArgs:@[callerID, topic] callback:callback];
+    [self makeCall:@"unregisterSubscriber" WithArgs:@[callerID, topic, [[ROSCore sharedCore] uri]] callback:callback];
 }
 
 -(void)registerPublisher:(NSString *)callerID Topic:(NSString *)topic TopicType:(NSString *)topicType callback:(void(^)(NSArray *))callback
 {
-    [self makeCall:@"registerPublisher" WithArgs:@[callerID, topic, topicType] callback:callback];
+    [self makeCall:@"registerPublisher" WithArgs:@[callerID, topic, topicType, [[ROSCore sharedCore] uri]] callback:callback];
 }
 
 -(void)unregisterPublisher:(NSString *)callerID Topic:(NSString *)topic callback:(void(^)(NSArray *))callback
 {
-    [self makeCall:@"unregisterPublisher" WithArgs:@[callerID, topic] callback:callback];
+    [self makeCall:@"unregisterPublisher" WithArgs:@[callerID, topic, [[ROSCore sharedCore] uri]] callback:callback];
 }
 
 -(void)lookupNode:(NSString *)callerID Node:(NSString *)node callback:(void(^)(NSArray *))callback

@@ -38,6 +38,7 @@ enum ROSTCPConnectionType {
 
 @end
 
+// Implements UDPROS
 @interface ROSUDP : ROSProtocol
 
 @end
