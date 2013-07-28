@@ -21,6 +21,7 @@ static NSString *master = @"master"; // reserved for master node...
     BOOL inShutdown;
     
     NSMutableArray *rosobjects;
+    NSMutableDictionary *knownMessageTypes;
     //ROSNode *node;
     
     HTTPServer *_httpServer;
@@ -36,6 +37,8 @@ static NSString *master = @"master"; // reserved for master node...
 -(BOOL)isShutdown;
 -(BOOL)isShutdownRequested;
 -(void)signalShutdown:(NSString *)reason;
+
+-(NSArray *)getFieldsForMessageType:(NSString *)messageType;
 
 -(ROSNode *)getMaster;
 -(ROSNode *)createNode:(NSString *)name;

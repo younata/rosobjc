@@ -7,6 +7,9 @@
 //
 
 #import "ROSMsg.h"
+#import <objc/runtime.h>
+
+#import "ROSCore.h"
 
 @interface ROSMsg ()
 {
@@ -35,7 +38,7 @@
     return nil;
 }
 
--(id)deserialize:(NSString *)str
+-(NSArray *)decodeData:(NSString *)str
 {
     return nil;
 }
@@ -74,15 +77,24 @@
     return _buffer;
 }
 
--(id)deserialize:(NSData *)str
+-(NSArray *)decodeData:(NSData *)str
 {
     _buffer = str;
-    return self;
+    return @[_buffer, @""];
 }
 
 -(NSString *)description
 {
     return [NSString stringWithUTF8String:[_buffer bytes]];
+}
+
+@end
+
+@implementation ROSTime
+
+-(NSDate *)now
+{
+    return [NSDate date];
 }
 
 @end
@@ -135,12 +147,243 @@ void deserializeMessages(NSMutableData *buffer, NSMutableArray *msgQueue, Class 
         }
     }
     for (NSData *q in buffs) {
-        [msgQueue addObject:[msg deserialize:q]];
+        [msgQueue addObject:[[msg decodeData:q] firstObject]];
     }
     [buffer setData:[buffer subdataWithRange:NSMakeRange(pos, [buffer length] - pos)]];
 }
 
+#pragma mark - autogenerating classes
 
+id getObject(id self, SEL _cmd)
+{
+    NSString *cmd = [[NSString alloc] initWithUTF8String:sel_getName(_cmd)];
+    
+    return [self valueForKey:[@"_" stringByAppendingString:cmd]];
+}
+
+void setObject(id self, SEL _cmd, id obj)
+{
+    NSString *cmd = [[NSString alloc] initWithUTF8String:sel_getName(_cmd)];
+    
+    // cmd is of form setValue:...
+    NSString *iv = [[cmd substringWithRange:NSMakeRange(3, [cmd length] - 4)] lowercaseString];
+    
+    [self setValue:obj forKey:[@"_" stringByAppendingString:iv]];
+}
+
+/*
+ bool
+ int8
+ uint8
+ int16
+ uint16
+ int32
+ uint32
+ int64
+ uint64
+ float32
+ float64
+ string
+ time
+ duration
+ */
+
+NSArray *decodeData(id self, SEL _cmd, NSData *data)
+{
+    // get the format...
+    NSArray *fields = [[ROSCore sharedCore] getFieldsForMessageType:[self classNameForClass:[self class]]];
+    
+    // built in types...
+    NSArray *builtInTypes = @[@"bool", @"int8", @"uint8", @"int16", @"uint16",
+                              @"int32", @"uint32", @"int64", @"uint64", @"float32",
+                              @"float64", @"string", @"time", @"duration"];
+
+    
+    NSData *d = data;
+    for (NSArray *i in fields) {
+        NSString *type = [i firstObject];
+        NSString *name = [i objectAtIndex:1];
+        NSString *def = nil;
+        if ([i count] > 2)
+            def = [i lastObject];
+        
+        if ([builtInTypes containsObject:type]) {
+            for (NSString *i in builtInTypes) {
+                if ([i isEqualToString:@"bool"]) {
+                    UInt8 foo;
+                    [d getBytes:&foo length:1];
+                    [self setObject:@(foo) forKey:[@"_" stringByAppendingString:name]];
+                    d = [d subdataWithRange:NSMakeRange(1, [d length] - 1)];
+                } else if ([i isEqualToString:@"int8"]) {
+                    int8_t foo;
+                    [d getBytes:&foo length:1];
+                    [self setObject:@(foo) forKey:[@"_" stringByAppendingString:name]];
+                    d = [d subdataWithRange:NSMakeRange(1, [d length] - 1)];
+                } else if ([i isEqualToString:@"uint8"]) {
+                    UInt8 foo;
+                    [d getBytes:&foo length:1];
+                    [self setObject:@(foo) forKey:[@"_" stringByAppendingString:name]];
+                    d = [d subdataWithRange:NSMakeRange(1, [d length] - 1)];
+                } else if ([i isEqualToString:@"int16"]) {
+                    int16_t foo;
+                    [d getBytes:&foo length:2];
+                    foo = ntohs(foo);
+                    [self setObject:@(foo) forKey:[@"_" stringByAppendingString:name]];
+                    d = [d subdataWithRange:NSMakeRange(2, [d length] - 2)];
+                } else if ([i isEqualToString:@"uint16"]) {
+                    UInt16 foo;
+                    [d getBytes:&foo length:2];
+                    foo = ntohs(foo);
+                    [self setObject:@(foo) forKey:[@"_" stringByAppendingString:name]];
+                    d = [d subdataWithRange:NSMakeRange(2, [d length] - 2)];
+                } else if ([i isEqualToString:@"int32"]) {
+                    int32_t foo;
+                    [d getBytes:&foo length:4];
+                    foo = ntohl(foo);
+                    [self setObject:@(foo) forKey:[@"_" stringByAppendingString:name]];
+                    d = [d subdataWithRange:NSMakeRange(4, [d length] - 4)];
+                } else if ([i isEqualToString:@"uint32"]) {
+                    UInt32 foo;
+                    [d getBytes:&foo length:4];
+                    foo = ntohl(foo);
+                    [self setObject:@(foo) forKey:[@"_" stringByAppendingString:name]];
+                    d = [d subdataWithRange:NSMakeRange(4, [d length] - 4)];
+                } else if ([i isEqualToString:@"int64"]) {
+                    int64_t foo;
+                    [d getBytes:&foo length:8];
+                    foo = ntohl(foo);
+                    [self setObject:@(foo) forKey:[@"_" stringByAppendingString:name]];
+                    d = [d subdataWithRange:NSMakeRange(8, [d length] - 8)];
+                } else if ([i isEqualToString:@"uint64"]) {
+                    UInt64 foo;
+                    [d getBytes:&foo length:8];
+                    foo = ntohl(foo);
+                    [self setObject:@(foo) forKey:[@"_" stringByAppendingString:name]];
+                    d = [d subdataWithRange:NSMakeRange(8, [d length] - 8)];
+                } else if ([i isEqualToString:@"float32"]) {
+                    float foo;
+                    [d getBytes:&foo length:4];
+                    foo = ntohl(foo);
+                    [self setObject:@(foo) forKey:[@"_" stringByAppendingString:name]];
+                    d = [d subdataWithRange:NSMakeRange(4, [d length] - 4)];
+                } else if ([i isEqualToString:@"float64"]) {
+                    double foo;
+                    [d getBytes:&foo length:8];
+                    foo = ntohl(foo);
+                    [self setObject:@(foo) forKey:[@"_" stringByAppendingString:name]];
+                    d = [d subdataWithRange:NSMakeRange(8, [d length] - 8)];
+                } else if ([i isEqualToString:@"string"]) {
+                    NSMutableString *s = [[NSMutableString alloc] init];
+                    char foo;
+                    do {
+                        [d getBytes:&foo length:1];
+                        [s appendFormat:@"%c", foo];
+                        d = [d subdataWithRange:NSMakeRange(1, [d length] - 1)];
+                    } while (foo != 0);
+                    [self setObject:[NSString stringWithString:s] forKey:[@"_" stringByAppendingString:name]];
+                } else if ([i isEqualToString:@"time"] || [i isEqualToString:@"duration"]) {
+                    float secs;
+                    float nsecs;
+                    [d getBytes:&secs length:4];
+                    d = [d subdataWithRange:NSMakeRange(4, [d length] - 4)];
+                    [d getBytes:&nsecs length:4];
+                    d = [d subdataWithRange:NSMakeRange(4, [d length] - 4)];
+                    secs = ntohl(secs);
+                    nsecs = ntohl(nsecs);
+                    ROSTime *t = [[ROSTime alloc] init];
+                    t.secs = secs;
+                    t.nsecs = nsecs;
+                    [self setObject:t forKey:[@"_" stringByAppendingString:name]];
+                } else if ([i isEqualToString:@"duration"]) {
+                    
+                }
+            }
+        } else {
+            Class a = NSClassFromString(type);
+            id foo = [[a alloc] init];
+            SEL blah = NSSelectorFromString(@"decodeData:");
+            NSArray *b = nil;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+            if ([foo respondsToSelector:blah])
+                b = [foo performSelector:blah withObject:d];
+#pragma clang diagnostic pop
+            d = [b lastObject];
+            [self setObject:[b firstObject] forKey:[@"_" stringByAppendingString:name]];
+        }
+    }
+    return @[self, d];
+}
+
+@implementation ROSGenMsg
+
+-(NSArray *)GenerateMessageClass:(NSString *)classname FromFile:(NSURL *)filelocation
+{
+    if (_knownMessages == nil) {
+        return nil;
+    }
+    
+    NSArray *builtInTypes = @[@"bool", @"int8", @"uint8", @"int16", @"uint16",
+                              @"int32", @"uint32", @"int64", @"uint64", @"float32",
+                              @"float64", @"string", @"time", @"duration"];
+
+    
+    NSString *str = [NSString stringWithContentsOfURL:filelocation encoding:NSUTF8StringEncoding error:nil];
+    if (str == nil) {
+        return nil;
+    }
+    
+    NSMutableArray *fields = [[NSMutableArray alloc] init];
+    
+    // read the file... then go through fields... bleh.
+    NSArray *lines = [str componentsSeparatedByString:@"\n"];
+    for (NSString *i in lines) {
+        // check for comment
+        NSString *nc = [[str componentsSeparatedByString:@"#"] objectAtIndex:0];
+        NSArray *parts = [nc componentsSeparatedByString:@" "];
+        if ([parts count] < 2)
+            continue;
+        NSString *type = [parts firstObject];
+        if (![builtInTypes containsObject:type] && [[_knownMessages objectForKey:type] firstObject] == nil)
+            return nil;
+        NSString *a = [parts objectAtIndex:1];
+        NSArray *b = [a componentsSeparatedByString:@"="];
+        NSString *tn = [b firstObject];
+        NSString *def = nil;
+        if ([b count] > 1) {
+            def = [b objectAtIndex:1];
+            [fields addObject:@[type, tn, def]];
+        } else {
+            [fields addObject:@[type, tn]];
+        }
+    }
+    
+    // Run away, run far away.
+    Class ret = objc_allocateClassPair([ROSMsg class], [classname UTF8String], 0);
+    for (NSArray *i in fields) {
+        NSString *type = [i firstObject];
+        NSString *name = [i objectAtIndex:1];
+        NSString *def = nil;
+        if ([fields count] > 2)
+            def = [i lastObject];
+        Class tc = [[_knownMessages objectForKey:type] firstObject];
+        NSAssert1(tc != nil, @"Unknown type name %@", type);
+        // we do check this earlier, this is just a later check to make sure shit works.
+        id foo = [[tc alloc] init];
+        class_addIvar(ret, [[@"_" stringByAppendingString:name] UTF8String], sizeof(foo), log2(sizeof(foo)), @encode(id));
+        class_addMethod(ret, NSSelectorFromString(name), (IMP)getObject, "@@:");
+        class_addMethod(ret, NSSelectorFromString([NSString stringWithFormat:@"set%@:", [name capitalizedString]]), (IMP)setObject, "v@:@");
+        foo = nil;
+    }
+    
+    class_addMethod(ret, @selector(decodeData), (IMP)decodeData, "@@:@");
+    
+    objc_registerClassPair(ret);
+    
+    return @[ret, fields];
+}
+
+@end
 
 
 
