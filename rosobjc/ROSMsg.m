@@ -77,7 +77,7 @@
     return _buffer;
 }
 
--(NSArray *)decodeData:(NSData *)str
+-(NSArray *)deserialize:(NSData *)str
 {
     _buffer = str;
     return @[_buffer, @""];
@@ -147,7 +147,7 @@ void deserializeMessages(NSMutableData *buffer, NSMutableArray *msgQueue, Class 
         }
     }
     for (NSData *q in buffs) {
-        [msgQueue addObject:[[msg decodeData:q] firstObject]];
+        [msgQueue addObject:[[msg deserialize:q] firstObject]];
     }
     [buffer setData:[buffer subdataWithRange:NSMakeRange(pos, [buffer length] - pos)]];
 }
@@ -188,7 +188,86 @@ void setObject(id self, SEL _cmd, id obj)
  duration
  */
 
-NSArray *decodeData(id self, SEL _cmd, NSData *data)
+NSData *serializeBuiltInType(id data, NSString *type)
+{
+    NSArray *builtInTypes = @[@"bool", @"int8", @"uint8", @"int16", @"uint16",
+                              @"int32", @"uint32", @"int64", @"uint64", @"float32",
+                              @"float64", @"string", @"time", @"duration"];
+    for (NSString *i in builtInTypes) {
+        if ([i isEqualToString:@"bool"] || [i isEqualToString:@"uint8"]) {
+            UInt8 foo = htons([data unsignedCharValue]);
+            return [NSData dataWithBytes:&foo length:1];
+        } else if ([i isEqualToString:@"int8"]) {
+            int8_t foo = htons([data charValue]);
+            return [NSData dataWithBytes:&foo length:1];
+        } else if ([i isEqualToString:@"int16"]) {
+            int16_t foo = htons([data shortValue]);
+            return [NSData dataWithBytes:&foo length:2];
+        } else if ([i isEqualToString:@"uint16"]) {
+            UInt16 foo = htons([data unsignedShortValue]);
+            return [NSData dataWithBytes:&foo length:2];
+        } else if ([i isEqualToString:@"int32"]) {
+            int32_t foo = htonl([data intValue]);
+            return [NSData dataWithBytes:&foo length:4];
+        } else if ([i isEqualToString:@"uint32"]) {
+            UInt32 foo = htonl([data unsignedIntValue]);
+            return [NSData dataWithBytes:&foo length:4];
+        } else if ([i isEqualToString:@"int64"]) {
+            int64_t foo = htonl([data longLongValue]);
+            return [NSData dataWithBytes:&foo length:8];
+        } else if ([i isEqualToString:@"uint64"]) {
+            UInt64 foo = htonl([data unsignedLongLongValue]);
+            return [NSData dataWithBytes:&foo length:8];
+        } else if ([i isEqualToString:@"float32"]) {
+            float foo = htonl([data floatValue]);
+            return [NSData dataWithBytes:&foo length:4];
+        } else if ([i isEqualToString:@"float64"]) {
+            double foo = htonl([data doubleValue]);
+            return [NSData dataWithBytes:&foo length:8];
+        } else if ([i isEqualToString:@"string"]) {
+            return [data dataUsingEncoding:NSUTF8StringEncoding];
+        } else if ([i isEqualToString:@"time"] || [i isEqualToString:@"duration"]) {
+            float secs = htonl([data secs]);
+            float nsecs = htonl([data nsecs]);
+            
+            NSMutableData *d = [NSMutableData dataWithBytes:&secs length:4];
+            [d appendData:[NSData dataWithBytes:&nsecs length:4]];
+            return d;
+        }
+    }
+    return nil;
+}
+
+NSData *serialize(id self, SEL _cmd)
+{
+    // get the format...
+    NSArray *fields = [[ROSCore sharedCore] getFieldsForMessageType:[self classNameForClass:[self class]]];
+    
+    // built in types...
+    NSArray *builtInTypes = @[@"bool", @"int8", @"uint8", @"int16", @"uint16",
+                              @"int32", @"uint32", @"int64", @"uint64", @"float32",
+                              @"float64", @"string", @"time", @"duration"];
+    
+    NSMutableData *d = [[NSMutableData alloc] init];
+    for (NSArray *i in fields) {
+        NSString *type = [i firstObject];
+        NSString *name = [i objectAtIndex:1];
+        id foo = [self valueForKey:[@"_" stringByAppendingString:name]];
+        //NSString *def = nil;
+        if ([i count] > 2)
+            continue;
+            //def = [i lastObject];
+        // I, actually, am not sure if constants are transmitted or not. They shouldn't be, but I'll look it up later.
+        if ([builtInTypes containsObject:type]) {
+            [d appendData:serializeBuiltInType(foo, type)];
+        } else {
+            [d appendData:[foo serialize]];
+        }
+    }
+    return d;
+}
+
+NSArray *deserialize(id self, SEL _cmd, NSData *data)
 {
     // get the format...
     NSArray *fields = [[ROSCore sharedCore] getFieldsForMessageType:[self classNameForClass:[self class]]];
@@ -294,8 +373,6 @@ NSArray *decodeData(id self, SEL _cmd, NSData *data)
                     t.secs = secs;
                     t.nsecs = nsecs;
                     [self setObject:t forKey:[@"_" stringByAppendingString:name]];
-                } else if ([i isEqualToString:@"duration"]) {
-                    
                 }
             }
         } else {
@@ -376,7 +453,8 @@ NSArray *decodeData(id self, SEL _cmd, NSData *data)
         foo = nil;
     }
     
-    class_addMethod(ret, @selector(decodeData), (IMP)decodeData, "@@:@");
+    class_replaceMethod(ret, NSSelectorFromString(@"deserialize:"), (IMP)deserialize, "@@:@");
+    class_replaceMethod(ret, NSSelectorFromString(@"serialize"), (IMP)serialize, "@@:");
     
     objc_registerClassPair(ret);
     

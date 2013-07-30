@@ -18,7 +18,7 @@
 
 -(id)getTypes;
 -(NSData *)serialize;
--(NSArray *)decodeData:(NSData *)str;
+-(NSArray *)deserialize:(NSData *)str;
 
 @end
 
