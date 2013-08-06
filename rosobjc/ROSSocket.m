@@ -35,9 +35,15 @@
     return self;
 }
 
--(void)startServer
+-(BOOL)hasConnection:(NSURL *)url
 {
-    int sockfd, new_fd;
+    return NO;
+}
+
+-(void)startServerFromNode:(ROSNode *)node
+{
+    _node = node;
+    int new_fd;
     struct addrinfo hints, *servinfo, *p;
     struct sockaddr_storage their_addr; // connector's address information
     socklen_t sin_size;
@@ -108,9 +114,11 @@
     }
 }
 
--(void)startClient:(NSURL *)url
+-(void)startClient:(NSURL *)url Node:(ROSNode *)node
 {
-    int sockfd, numbytes;
+    _node = node;
+    
+    int numbytes;
     char buf[MAXDATASIZE];
     struct addrinfo hints, *servinfo, *p;
     int rv;
@@ -156,9 +164,25 @@
     
     freeaddrinfo(servinfo); // all done with this structure
     
+    NSData *(^readMsg)(void) = ^NSData *(void) {
+        char shortBuf[4];
+        int foo = recv(sockfd, shortBuf, 4, 0);
+        char *s = malloc(foo+1);
+        int justSent = 0, totalSent = 0;
+        while (YES) {
+            justSent = recv(sockfd, s+totalSent, foo-totalSent, 0);
+            totalSent += justSent;
+            if (foo == totalSent) { break; }
+        }
+        return [NSData dataWithBytes:s length:foo];
+    };
+    
     dispatch_async(queue, ^{
         while (_run) {
-            
+            NSData *d = readMsg();
+            ROSMsg *foo = [[_msgClass alloc] init];
+            [foo deserialize:d];
+            [_node recvMsg:foo Topic:_topic];
         }
     });
     if ((numbytes = recv(sockfd, buf, MAXDATASIZE-1, 0)) == -1) {
@@ -171,6 +195,19 @@
     printf("client: received '%s'\n",buf);
     
     close(sockfd);
+}
+
+-(int)sendMsg:(ROSMsg *)msg
+{
+    NSData *d = [msg serialize];
+    int foo = [d length], justSent = 0, totalSent = 0;
+    const void *data = [d bytes];
+    while (YES) {
+        justSent = send(sockfd, data+totalSent, foo-totalSent, 0);
+        totalSent += justSent;
+        if (foo == totalSent) { break; }
+    }
+    return totalSent;
 }
 
 @end

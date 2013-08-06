@@ -38,7 +38,7 @@
     return nil;
 }
 
--(NSArray *)decodeData:(NSString *)str
+-(NSArray *)deserialize:(NSString *)str
 {
     return nil;
 }
@@ -80,7 +80,7 @@
 -(NSArray *)deserialize:(NSData *)str
 {
     _buffer = str;
-    return @[_buffer, @""];
+    return @[_buffer, _buffer];
 }
 
 -(NSString *)description
@@ -193,49 +193,56 @@ NSData *serializeBuiltInType(id data, NSString *type)
     NSArray *builtInTypes = @[@"bool", @"int8", @"uint8", @"int16", @"uint16",
                               @"int32", @"uint32", @"int64", @"uint64", @"float32",
                               @"float64", @"string", @"time", @"duration"];
+    NSData *ret = nil;
     for (NSString *i in builtInTypes) {
         if ([i isEqualToString:@"bool"] || [i isEqualToString:@"uint8"]) {
             UInt8 foo = htons([data unsignedCharValue]);
-            return [NSData dataWithBytes:&foo length:1];
+            ret = [NSData dataWithBytes:&foo length:1];
         } else if ([i isEqualToString:@"int8"]) {
             int8_t foo = htons([data charValue]);
-            return [NSData dataWithBytes:&foo length:1];
+            ret = [NSData dataWithBytes:&foo length:1];
         } else if ([i isEqualToString:@"int16"]) {
             int16_t foo = htons([data shortValue]);
-            return [NSData dataWithBytes:&foo length:2];
+            ret = [NSData dataWithBytes:&foo length:2];
         } else if ([i isEqualToString:@"uint16"]) {
             UInt16 foo = htons([data unsignedShortValue]);
-            return [NSData dataWithBytes:&foo length:2];
+            ret = [NSData dataWithBytes:&foo length:2];
         } else if ([i isEqualToString:@"int32"]) {
             int32_t foo = htonl([data intValue]);
-            return [NSData dataWithBytes:&foo length:4];
+            ret = [NSData dataWithBytes:&foo length:4];
         } else if ([i isEqualToString:@"uint32"]) {
             UInt32 foo = htonl([data unsignedIntValue]);
-            return [NSData dataWithBytes:&foo length:4];
+            ret = [NSData dataWithBytes:&foo length:4];
         } else if ([i isEqualToString:@"int64"]) {
             int64_t foo = htonl([data longLongValue]);
-            return [NSData dataWithBytes:&foo length:8];
+            ret = [NSData dataWithBytes:&foo length:8];
         } else if ([i isEqualToString:@"uint64"]) {
             UInt64 foo = htonl([data unsignedLongLongValue]);
-            return [NSData dataWithBytes:&foo length:8];
+            ret = [NSData dataWithBytes:&foo length:8];
         } else if ([i isEqualToString:@"float32"]) {
             float foo = htonl([data floatValue]);
-            return [NSData dataWithBytes:&foo length:4];
+            ret = [NSData dataWithBytes:&foo length:4];
         } else if ([i isEqualToString:@"float64"]) {
             double foo = htonl([data doubleValue]);
-            return [NSData dataWithBytes:&foo length:8];
+            ret = [NSData dataWithBytes:&foo length:8];
         } else if ([i isEqualToString:@"string"]) {
-            return [data dataUsingEncoding:NSUTF8StringEncoding];
+            ret = [data dataUsingEncoding:NSUTF8StringEncoding];
         } else if ([i isEqualToString:@"time"] || [i isEqualToString:@"duration"]) {
             float secs = htonl([data secs]);
             float nsecs = htonl([data nsecs]);
             
             NSMutableData *d = [NSMutableData dataWithBytes:&secs length:4];
             [d appendData:[NSData dataWithBytes:&nsecs length:4]];
-            return d;
+            ret = d;
         }
     }
-    return nil;
+    if (ret == nil)
+        return ret;
+    int blah = htonl([ret length]);
+    NSMutableData *d = [NSMutableData dataWithBytes:&blah length:4];
+    [d appendData:ret];
+    
+    return d;
 }
 
 NSData *serialize(id self, SEL _cmd)
@@ -259,9 +266,15 @@ NSData *serialize(id self, SEL _cmd)
             //def = [i lastObject];
         // I, actually, am not sure if constants are transmitted or not. They shouldn't be, but I'll look it up later.
         if ([builtInTypes containsObject:type]) {
-            [d appendData:serializeBuiltInType(foo, type)];
+            NSData *temp = serializeBuiltInType(foo, type);
+            int l = htonl([temp length]);
+            [d appendBytes:&l length:4];
+            [d appendData:temp];
         } else {
-            [d appendData:[foo serialize]];
+            NSData *temp = [foo serialize];
+            int l = htonl([temp length]);
+            [d appendBytes:&l length:4];
+            [d appendData:temp];
         }
     }
     return d;
@@ -288,79 +301,81 @@ NSArray *deserialize(id self, SEL _cmd, NSData *data)
         
         if ([builtInTypes containsObject:type]) {
             for (NSString *i in builtInTypes) {
+                int l = 0;
+                [d getBytes:&l length:4];
+                d = [d subdataWithRange:NSMakeRange(4, [d length] - 4)];
                 if ([i isEqualToString:@"bool"]) {
                     UInt8 foo;
-                    [d getBytes:&foo length:1];
+                    [d getBytes:&foo length:l];
                     [self setObject:@(foo) forKey:[@"_" stringByAppendingString:name]];
-                    d = [d subdataWithRange:NSMakeRange(1, [d length] - 1)];
+                    d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
                 } else if ([i isEqualToString:@"int8"]) {
                     int8_t foo;
-                    [d getBytes:&foo length:1];
+                    [d getBytes:&foo length:l];
                     [self setObject:@(foo) forKey:[@"_" stringByAppendingString:name]];
-                    d = [d subdataWithRange:NSMakeRange(1, [d length] - 1)];
+                    d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
                 } else if ([i isEqualToString:@"uint8"]) {
                     UInt8 foo;
-                    [d getBytes:&foo length:1];
+                    [d getBytes:&foo length:l];
                     [self setObject:@(foo) forKey:[@"_" stringByAppendingString:name]];
-                    d = [d subdataWithRange:NSMakeRange(1, [d length] - 1)];
+                    d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
                 } else if ([i isEqualToString:@"int16"]) {
                     int16_t foo;
-                    [d getBytes:&foo length:2];
+                    [d getBytes:&foo length:l];
                     foo = ntohs(foo);
                     [self setObject:@(foo) forKey:[@"_" stringByAppendingString:name]];
-                    d = [d subdataWithRange:NSMakeRange(2, [d length] - 2)];
+                    d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
                 } else if ([i isEqualToString:@"uint16"]) {
                     UInt16 foo;
-                    [d getBytes:&foo length:2];
+                    [d getBytes:&foo length:l];
                     foo = ntohs(foo);
                     [self setObject:@(foo) forKey:[@"_" stringByAppendingString:name]];
-                    d = [d subdataWithRange:NSMakeRange(2, [d length] - 2)];
+                    d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
                 } else if ([i isEqualToString:@"int32"]) {
                     int32_t foo;
-                    [d getBytes:&foo length:4];
+                    [d getBytes:&foo length:l];
                     foo = ntohl(foo);
                     [self setObject:@(foo) forKey:[@"_" stringByAppendingString:name]];
-                    d = [d subdataWithRange:NSMakeRange(4, [d length] - 4)];
+                    d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
                 } else if ([i isEqualToString:@"uint32"]) {
                     UInt32 foo;
-                    [d getBytes:&foo length:4];
+                    [d getBytes:&foo length:l];
                     foo = ntohl(foo);
                     [self setObject:@(foo) forKey:[@"_" stringByAppendingString:name]];
-                    d = [d subdataWithRange:NSMakeRange(4, [d length] - 4)];
+                    d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
                 } else if ([i isEqualToString:@"int64"]) {
                     int64_t foo;
-                    [d getBytes:&foo length:8];
+                    [d getBytes:&foo length:l];
                     foo = ntohl(foo);
                     [self setObject:@(foo) forKey:[@"_" stringByAppendingString:name]];
-                    d = [d subdataWithRange:NSMakeRange(8, [d length] - 8)];
+                    d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
                 } else if ([i isEqualToString:@"uint64"]) {
                     UInt64 foo;
-                    [d getBytes:&foo length:8];
+                    [d getBytes:&foo length:l];
                     foo = ntohl(foo);
                     [self setObject:@(foo) forKey:[@"_" stringByAppendingString:name]];
-                    d = [d subdataWithRange:NSMakeRange(8, [d length] - 8)];
+                    d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
                 } else if ([i isEqualToString:@"float32"]) {
                     float foo;
-                    [d getBytes:&foo length:4];
+                    [d getBytes:&foo length:l];
                     foo = ntohl(foo);
                     [self setObject:@(foo) forKey:[@"_" stringByAppendingString:name]];
-                    d = [d subdataWithRange:NSMakeRange(4, [d length] - 4)];
+                    d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
                 } else if ([i isEqualToString:@"float64"]) {
                     double foo;
-                    [d getBytes:&foo length:8];
+                    [d getBytes:&foo length:l];
                     foo = ntohl(foo);
                     [self setObject:@(foo) forKey:[@"_" stringByAppendingString:name]];
-                    d = [d subdataWithRange:NSMakeRange(8, [d length] - 8)];
+                    d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
                 } else if ([i isEqualToString:@"string"]) {
-                    NSMutableString *s = [[NSMutableString alloc] init];
-                    char foo;
-                    do {
-                        [d getBytes:&foo length:1];
-                        [s appendFormat:@"%c", foo];
-                        d = [d subdataWithRange:NSMakeRange(1, [d length] - 1)];
-                    } while (foo != 0);
+                    char *foo = malloc(l+1);
+                    [d getBytes:foo length:l];
+                    foo[l] = 0;
+                    NSString *s = [[NSString alloc] init];
+                    d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
                     [self setObject:[NSString stringWithString:s] forKey:[@"_" stringByAppendingString:name]];
                 } else if ([i isEqualToString:@"time"] || [i isEqualToString:@"duration"]) {
+                    // Oh, I hope this works...
                     float secs;
                     float nsecs;
                     [d getBytes:&secs length:4];
@@ -377,14 +392,9 @@ NSArray *deserialize(id self, SEL _cmd, NSData *data)
             }
         } else {
             Class a = NSClassFromString(type);
-            id foo = [[a alloc] init];
-            SEL blah = NSSelectorFromString(@"decodeData:");
+            ROSMsg *foo = [[a alloc] init];
             NSArray *b = nil;
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-            if ([foo respondsToSelector:blah])
-                b = [foo performSelector:blah withObject:d];
-#pragma clang diagnostic pop
+            b = [foo deserialize:d];
             d = [b lastObject];
             [self setObject:[b firstObject] forKey:[@"_" stringByAppendingString:name]];
         }
@@ -443,9 +453,21 @@ NSArray *deserialize(id self, SEL _cmd, NSData *data)
         NSString *def = nil;
         if ([fields count] > 2)
             def = [i lastObject];
-        Class tc = [[_knownMessages objectForKey:type] firstObject];
-        NSAssert1(tc != nil, @"Unknown type name %@", type);
-        // we do check this earlier, this is just a later check to make sure shit works.
+        NSAssert1([builtInTypes containsObject:type] || [[_knownMessages objectForKey:type] firstObject] != nil, @"Unknown type name %@", type);
+        // we do check this earlier, this is just a later check to make sure it works.
+        
+        Class tc;
+        if ([builtInTypes containsObject:type]) {
+            if ([type isEqualToString:@"string"]) {
+                tc = [NSString class];
+            } else if ([type isEqualToString:@"time"] || [type isEqualToString:@"duration"]) {
+                tc = [ROSTime class];
+            } else {
+                tc = [NSNumber class];
+            }
+        } else {
+            tc = [[_knownMessages objectForKey:type] firstObject];
+        }
         id foo = [[tc alloc] init];
         class_addIvar(ret, [[@"_" stringByAppendingString:name] UTF8String], sizeof(foo), log2(sizeof(foo)), @encode(id));
         class_addMethod(ret, NSSelectorFromString(name), (IMP)getObject, "@@:");

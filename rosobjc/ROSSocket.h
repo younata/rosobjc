@@ -7,19 +7,28 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ROSNode.h"
+#import "ROSMsg.h"
 
 @interface ROSSocket : NSObject
 {
     dispatch_queue_t queue;
+    ROSNode *_node;
+    int sockfd;
 }
 
 @property (nonatomic) short port;
 @property (nonatomic) short queueLength;
+@property (nonatomic) Class msgClass;
+@property (nonatomic, strong) NSString *topic;
 
 @property (nonatomic) __block BOOL run;
 
--(void)startServer;
--(void)startClient:(NSURL *)url;
+-(BOOL)hasConnection:(NSURL *)url;
+-(void)startServerFromNode:(ROSNode *)node;
+-(void)startClient:(NSURL *)url Node:(ROSNode *)node;
+
+-(int)sendMsg:(ROSMsg *)msg;
 
 
 @end

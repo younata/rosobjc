@@ -38,6 +38,9 @@
 -(id)initWithName:(NSString *)name;
 -(void)shutdown:(NSString *)reason;
 
+-(void)recvMsg:(ROSMsg *)msg Topic:(NSString *)topic;
+-(void)publishMsg:(ROSMsg *)msg Topic:(NSString *)topic;
+
 #pragma mark - Stuff most used by the programmer.
 
 -(void)subscribe:(NSString *)topic callback:(void(^)(ROSMsg *))block;

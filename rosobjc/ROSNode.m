@@ -70,7 +70,12 @@
                 break;
             }
         }
-        [masterClient registerSubscriber:[self name] Topic:topic TopicType:type callback:^(NSArray *foo){}];
+        [masterClient registerSubscriber:[self name] Topic:topic TopicType:type callback:^(NSArray *foo){
+            NSArray *subs = [res lastObject];
+            for (NSString *i in subs) {
+                [self connectTopic:topic uri:i Server:NO];
+            }
+        }];
     }];
     if ([subscribedTopics objectForKey:topic] == nil) {
         NSMutableArray *foo = [[NSMutableArray alloc] init];
@@ -88,9 +93,29 @@
         // res is an array of things already subscribing to this.
         NSArray *subs = [res lastObject];
         for (NSString *i in subs) {
-            [self connectTopic:topic uri:i];
+            [self connectTopic:topic uri:i Server:YES];
         }
     }];
+}
+
+-(void)recvMsg:(ROSMsg *)msg Topic:(NSString *)topic
+{
+    void (^cb)(ROSMsg *) = [subscribedTopics objectForKey:topic];
+    if (cb == nil)
+        return;
+    cb(msg);
+}
+
+-(void)publishMsg:(ROSMsg *)msg Topic:(NSString *)topic
+{
+    ROSSocket *s = nil;
+    for (ROSSocket *soc in [servers arrayByAddingObjectsFromArray:clients]) {
+        if (soc.topic == topic) {
+            s = soc;
+            break;
+        }
+    }
+    [s sendMsg:msg];
 }
 
 #pragma mark - Slave API
@@ -133,30 +158,36 @@
 
 -(NSArray *)getSubscriptions:(NSString *)callerID
 {
-    return @[@1, @"subscriptions", [[ROSTopicManager sharedTopicManager] getSubscriptions]];
+    return @[@1, @"subscriptions", [subscribedTopics allKeys]];
 }
 
 -(NSArray *)getPublications:(NSString *)callerID
 {
-    return @[@1, @"publications", [[ROSTopicManager sharedTopicManager] getPublications]];
+    return @[@1, @"publications", [publishedTopics allKeys]];
 }
 
 #pragma mark - internal
--(NSArray *)connectTopic:(NSString*)topic uri:(NSString *)URI
+-(NSArray *)connectTopic:(NSString*)topic uri:(NSString *)URI Server:(BOOL)isServer
 {
-    ROSTopic *t = [[ROSTopicManager sharedTopicManager] getSubImpl:topic];
-    if (t == nil)
-        return @[@(-1), [NSString stringWithFormat:@"No subscriber for topic [%@]", topic], @0];
-    else if ([t hasConnection:URI])
-        return @[@1, [NSString stringWithFormat:@"connectTopic:(%@: subscriber already connected to publisher", topic], @0];
-    //[protocols addObject:@"TCPROS"]; Not yet implemented.
-    // FIXME: better way of doing the above.
     if ([protocols count] == 0) {
         return @[@0, @"ERROR: no available protocol handlers", @0];
     }
     // actually connect.
-#warning implement ROSNode connectTopic
-    return nil;
+    NSURL *u = [NSURL URLWithString:URI];
+    for (ROSSocket *soc in clients) {
+        if ([soc hasConnection:u]) {
+            return @[@1, [NSString stringWithFormat:@"connectTopic:(%@: subscriber already connected to publisher", topic], @0];
+        }
+    }
+    ROSSocket *s = [[ROSSocket alloc] init];
+    if (isServer) {
+        [s startServerFromNode:self];
+        [servers addObject:s];
+    } else {
+        [s startClient:u Node:self];
+        [clients addObject:s];
+    }
+    return @[@1, [NSString stringWithFormat:@"Subscribed to %@", topic], @0];
 }
 
 #pragma mark - public
@@ -192,11 +223,17 @@
 
 -(NSArray *)requestTopic:(NSString *)callerID topic:(NSString *)topic protocols:(NSArray *)_protocols
 {
-    if (![[ROSTopicManager sharedTopicManager] hasPublication:topic])
+    ROSSocket *s = nil;
+    for (ROSSocket *soc in servers) {
+        if (soc.topic == topic) {
+            s = soc;
+            break;
+        }
+    }
+    if (s == nil) {
         return @[@(-1), [NSString stringWithFormat:@"Not a publisher of %@", topic], @[]];
-#warning implement protocols...
-    //return [[_protocols objectAtIndex:0] initPublisher];
-    return @[@0, @"no supported protocol implementations", @[]];
+    }
+    return @[@0, @"TCPROS", @[@"TCPROS", @(s.port)]];
 }
 
 @end
