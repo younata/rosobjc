@@ -24,7 +24,7 @@
 @property (atomic, strong) NSURL *URL;
 
 #pragma mark - Arbitrary calls.
--(void)makeCall:(NSString *)methodName WithArgs:(NSArray *)args callback:(void (^)(NSArray *))callback URL:(NSURL *)url
+-(void)makeCall:(NSString *)methodName WithArgs:(NSArray *)args callback:(void (^)(NSArray *))callback URL:(NSURL *)url;
 
 #pragma mark - Register/unregister methods
 

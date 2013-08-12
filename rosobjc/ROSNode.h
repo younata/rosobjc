@@ -39,7 +39,7 @@
 -(void)shutdown:(NSString *)reason;
 
 -(void)recvMsg:(ROSMsg *)msg Topic:(NSString *)topic;
--(void)publishMsg:(ROSMsg *)msg Topic:(NSString *)topic;
+-(BOOL)publishMsg:(ROSMsg *)msg Topic:(NSString *)topic;
 
 #pragma mark - Stuff most used by the programmer.
 

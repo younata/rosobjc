@@ -49,12 +49,12 @@
 -(void)shutdown:(NSString *)reason
 {
     keepRunning = NO;
-    if ([_delegate respondsToSelector:@selector(onShutdown:)])
+    if (_delegate != nil && [_delegate respondsToSelector:@selector(onShutdown:)])
         [_delegate onShutdown:reason];
     [_core removeNode:self];
 }
 
-#pragma mark - Most used by the programmer.
+#pragma mark - Most used by the developer.
 -(void)subscribe:(NSString *)topic callback:(void (^)(ROSMsg *))block
 {
     if (![topic hasPrefix:@"/"]) {
@@ -106,7 +106,7 @@
     cb(msg);
 }
 
--(void)publishMsg:(ROSMsg *)msg Topic:(NSString *)topic
+-(BOOL)publishMsg:(ROSMsg *)msg Topic:(NSString *)topic
 {
     ROSSocket *s = nil;
     for (ROSSocket *soc in [servers arrayByAddingObjectsFromArray:clients]) {
@@ -115,7 +115,10 @@
             break;
         }
     }
+    if (s == nil)
+        return NO;
     [s sendMsg:msg];
+    return YES;
 }
 
 #pragma mark - Slave API

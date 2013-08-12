@@ -10,6 +10,7 @@
 
 #import "HTTPServer.h"
 #import "RPCConnection.h"
+#import "ROSMsg.h"
 
 @interface ROSCore () {
     ROSNode *masterProxy;
@@ -127,6 +128,28 @@ static ROSCore *roscoreSingleton = nil;
 -(void)removeNode:(ROSNode *)node
 {
     [rosobjects removeObject:node];
+}
+
+-(void)parseMessageFilesInDirectory:(NSString *)directory
+{
+    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:directory error:nil];
+    ROSGenMsg *gm = [[ROSGenMsg alloc] init];
+    gm.knownMessages = knownMessageTypes;
+    for (NSString *i in files) {
+        if (![[i pathExtension] isEqualToString:@"msg"]) {
+            continue;
+        }
+        NSString *classname = [i stringByDeletingPathExtension];
+        if ([[knownMessageTypes allKeys] containsObject:classname]) {
+            continue;
+        }
+        [knownMessageTypes setObject:[gm GenerateMessageClass:classname FromFile:[NSURL URLWithString:i]] forKey:classname];
+    }
+}
+
+-(NSArray *)getFieldsForMessageType:(NSString *)messageType
+{
+    return [knownMessageTypes objectForKey:messageType];
 }
 
 -(ROSNode *)getMaster

@@ -38,7 +38,7 @@ static NSString *master = @"master"; // reserved for master node...
 -(BOOL)isShutdownRequested;
 -(void)signalShutdown:(NSString *)reason;
 
--(NSArray *)getFieldsForMessageType:(NSString *)messageType;
+-(NSDictionary *)getFieldsForMessageType:(NSString *)messageType;
 
 -(ROSNode *)getMaster;
 -(ROSNode *)createNode:(NSString *)name;
