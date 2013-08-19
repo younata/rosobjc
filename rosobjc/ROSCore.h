@@ -11,9 +11,6 @@
 
 @class HTTPServer;
 
-static NSString *schema = @"rosrpc";
-static NSString *master = @"master"; // reserved for master node...
-
 @interface ROSCore : NSObject
 {
     BOOL clientReady;
@@ -27,20 +24,25 @@ static NSString *master = @"master"; // reserved for master node...
     HTTPServer *_httpServer;
 }
 
-@property (nonatomic, strong, readonly) NSString *uri;
+@property (nonatomic, strong) NSString *uri;
 
 // takes a string, outputs an array of form [address, port]
 +(NSArray *)ParseRosObjcURI:(NSString *)uri;
 +(ROSCore *)sharedCore;
 
 -(BOOL)isInitialized;
+-(void)setInitialized:(BOOL)inited;
+
 -(BOOL)isShutdown;
 -(BOOL)isShutdownRequested;
 -(void)signalShutdown:(NSString *)reason;
 
+
+-(void)registerMessageClasses:(NSArray *)classes;
+-(Class)getClassForTopicType:(NSString *)type;
+-(void)parseMessageFilesInDirectory:(NSString *)directory;
 -(NSDictionary *)getFieldsForMessageType:(NSString *)messageType;
 
--(ROSNode *)getMaster;
 -(ROSNode *)createNode:(NSString *)name;
 -(void)removeNode:(ROSNode *)node;
 -(void)startNode:(ROSNode *)node;

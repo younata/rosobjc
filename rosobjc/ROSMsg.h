@@ -20,6 +20,11 @@
 -(NSData *)serialize;
 -(NSArray *)deserialize:(NSData *)str;
 
+-(NSString *)md5sum;
+-(NSString *)definition;
+-(NSString *)type;
+-(NSArray *)fields;
+
 @end
 
 
@@ -51,11 +56,14 @@
 void serializeMessage(NSMutableData *buffer, int seq, ROSMsg *msg);
 void deserializeMessages(NSMutableData *buffer, NSArray *msgQueue, ROSMsg *msgClass, int maxMsgs, int start);
 
+NSData *serialize(id self, SEL _cmd);
+NSArray *deserialize(id self, SEL _cmd, NSData *data);
+
 @interface ROSGenMsg : NSObject
 
 @property (nonatomic, weak) NSMutableDictionary *knownMessages; // name: class
 
--(NSArray *)GenerateMessageClass:(NSString *)classname FromFile:(NSURL *)filelocation;
+-(NSDictionary *)GenerateMessageClass:(NSString *)classname FromFile:(NSURL *)filelocation;
 
 @end
 

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		891F1C771770245400E4C321 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 891F1C761770245400E4C321 /* Foundation.framework */; };
 		891F1C7C1770245400E4C321 /* rosobjc.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 891F1C7B1770245400E4C321 /* rosobjc.h */; };
-		891F1C7E1770245400E4C321 /* rosobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F1C7D1770245400E4C321 /* rosobjc.m */; };
 		891F1C851770245400E4C321 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 891F1C841770245400E4C321 /* XCTest.framework */; };
 		891F1C861770245400E4C321 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 891F1C761770245400E4C321 /* Foundation.framework */; };
 		891F1C881770245400E4C321 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 891F1C871770245400E4C321 /* UIKit.framework */; };
@@ -21,7 +20,6 @@
 		891F1CBB1770255500E4C321 /* rosobjc-osx.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 891F1CA11770255500E4C321 /* rosobjc-osx.framework */; };
 		891F1CC11770255500E4C321 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 891F1CBF1770255500E4C321 /* InfoPlist.strings */; };
 		891F1CC31770255500E4C321 /* rosobjc_osxTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F1CC21770255500E4C321 /* rosobjc_osxTests.m */; };
-		891F1CCA1770284200E4C321 /* rosobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F1C7D1770245400E4C321 /* rosobjc.m */; };
 		891F1CCB1770284500E4C321 /* rosobjc.h in Headers */ = {isa = PBXBuildFile; fileRef = 891F1C7B1770245400E4C321 /* rosobjc.h */; };
 		891F1CD4177028F800E4C321 /* ROSCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 891F1CD2177028F800E4C321 /* ROSCore.h */; };
 		891F1CD5177028F800E4C321 /* ROSCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F1CD3177028F800E4C321 /* ROSCore.m */; };
@@ -247,7 +245,6 @@
 		891F1C761770245400E4C321 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		891F1C7A1770245400E4C321 /* rosobjc-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "rosobjc-Prefix.pch"; sourceTree = "<group>"; };
 		891F1C7B1770245400E4C321 /* rosobjc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = rosobjc.h; sourceTree = "<group>"; };
-		891F1C7D1770245400E4C321 /* rosobjc.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = rosobjc.m; sourceTree = "<group>"; };
 		891F1C831770245400E4C321 /* rosobjcTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = rosobjcTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		891F1C841770245400E4C321 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		891F1C871770245400E4C321 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -475,7 +472,6 @@
 			isa = PBXGroup;
 			children = (
 				891F1C7B1770245400E4C321 /* rosobjc.h */,
-				891F1C7D1770245400E4C321 /* rosobjc.m */,
 				891F1CD2177028F800E4C321 /* ROSCore.h */,
 				891F1CD3177028F800E4C321 /* ROSCore.m */,
 				891F1CDE177142C900E4C321 /* ROSMsg.h */,
@@ -1066,7 +1062,6 @@
 				898F7E1F17964F53009B8961 /* XMLRPCResponse.m in Sources */,
 				898F7E1917964F53009B8961 /* XMLRPCEventBasedParserDelegate.m in Sources */,
 				891F1CDC1770318300E4C321 /* ROSNode.m in Sources */,
-				891F1C7E1770245400E4C321 /* rosobjc.m in Sources */,
 				891F1CE1177142C900E4C321 /* ROSMsg.m in Sources */,
 				891F1CD5177028F800E4C321 /* ROSCore.m in Sources */,
 				89E302511787EF9E000608D2 /* DDData.m in Sources */,
@@ -1124,7 +1119,6 @@
 				898F7E2017964F53009B8961 /* XMLRPCResponse.m in Sources */,
 				898F7E1A17964F53009B8961 /* XMLRPCEventBasedParserDelegate.m in Sources */,
 				891F1CDD1770318300E4C321 /* ROSNode.m in Sources */,
-				891F1CCA1770284200E4C321 /* rosobjc.m in Sources */,
 				891F1CE2177142C900E4C321 /* ROSMsg.m in Sources */,
 				891F1CD6177028F800E4C321 /* ROSCore.m in Sources */,
 				89E302521787EF9E000608D2 /* DDData.m in Sources */,
@@ -1288,6 +1282,7 @@
 				DSTROOT = /tmp/rosobjc.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "rosobjc/rosobjc-Prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/system",
@@ -1304,6 +1299,7 @@
 				DSTROOT = /tmp/rosobjc.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "rosobjc/rosobjc-Prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/system",
@@ -1330,6 +1326,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "rosobjcTests/rosobjcTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -1348,6 +1345,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "rosobjc/rosobjc-Prefix.pch";
 				INFOPLIST_FILE = "rosobjcTests/rosobjcTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;

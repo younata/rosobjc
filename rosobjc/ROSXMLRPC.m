@@ -16,8 +16,9 @@
 -(void)request:(XMLRPCRequest *)request didReceiveResponse:(XMLRPCResponse *)response
 {
     if (!response.isFault) {
-        void (^callback)(NSArray *) = [callbacks objectForKey:request];
-        callback((NSArray *)response.object);
+        void (^callback)(NSArray *) = [callbacks objectForKey:request.method];
+        if (callback != nil)
+            callback((NSArray *)response.object);
     } else {
         NSLog(@"%@", response);
     }
@@ -58,7 +59,7 @@
     
     if (callbacks == nil)
         callbacks = [[NSMutableDictionary alloc] init];
-    [callbacks setObject:callback forKey:request];
+    [callbacks setObject:callback forKey:methodName];
 }
 
 #pragma mark - public methods
@@ -74,7 +75,7 @@
     
     if (callbacks == nil)
         callbacks = [[NSMutableDictionary alloc] init];
-    [callbacks setObject:callback forKey:request];
+    [callbacks setObject:callback forKey:methodName];
 }
 
 -(void)registerService:(NSString *)callerID Service:(NSString *)service ServiceAPI:(NSString *)serviceAPI callback:(void(^)(NSArray *))callback

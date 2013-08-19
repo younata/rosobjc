@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Rachel Brindle. All rights reserved.
 //
 
+/*
 #import <XCTest/XCTest.h>
 
 @interface rosobjcTests : XCTestCase
@@ -34,3 +35,5 @@
 }
 
 @end
+
+*/

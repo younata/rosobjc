@@ -31,6 +31,7 @@
     if ((self = [super init])) {
         _queueLength = 512;
         _port = 1234;
+        _run = YES;
         
         queue = dispatch_queue_create([NSStringFromClass([self class]) UTF8String], 0);
     }
@@ -44,7 +45,8 @@
 
 -(NSData *)generatePublisherHeader
 {
-    NSString *md5sum = [@"md5sum=" stringByAppendingString:[[[ROSCore sharedCore] getFieldsForMessageType:NSStringFromClass(_msgClass)] objectForKey:@"md5sum"]];
+    ROSMsg *a = [[_msgClass alloc] init];
+    NSString *md5sum = [@"md5sum=" stringByAppendingString:[a md5sum]];
     int i = (int)[md5sum length];
     BOOL NSStringPreservesEndingZero = NO;
     NSData *d = [md5sum dataUsingEncoding:NSUTF8StringEncoding];
@@ -53,20 +55,19 @@
         i--;
         d = [d subdataWithRange:NSMakeRange(0, i)];
     }
-    i = htonl(i);
     NSMutableData *da = [[NSMutableData alloc] initWithBytes:&i length:4];
     [da appendData:d];
-    NSString *type = [@"type=" stringByAppendingString:[[[ROSCore sharedCore] getFieldsForMessageType:NSStringFromClass(_msgClass)] objectForKey:@"type"]];
+    NSString *type = [@"type=" stringByAppendingString:[a type]];
     d = [type dataUsingEncoding:NSUTF8StringEncoding];
     if (NSStringPreservesEndingZero) {
-        i = htonl([type length] -1);
+        i = [type length] -1;
         d = [d subdataWithRange:NSMakeRange(0, [d length] -1)];
     } else {
-        i = htonl([type length]);
+        i = [type length];
     }
     [da appendBytes:&i length:4];
     [da appendData:d];
-    i = htonl([da length]);
+    i = [da length];
     NSMutableData *data = [NSMutableData dataWithBytes:&i length:4];
     [data appendData:da];
     
@@ -75,16 +76,17 @@
 
 -(NSData *)generateSubscriberHeader
 {
-    NSString *md5sum = [@"md5sum=" stringByAppendingString:[[[ROSCore sharedCore] getFieldsForMessageType:NSStringFromClass([self msgClass])] objectForKey:@"md5sum"]];
-    NSString *type = [@"type=" stringByAppendingString:[[[ROSCore sharedCore] getFieldsForMessageType:NSStringFromClass([self msgClass])] objectForKey:@"type"]];
+    ROSMsg *a = [[_msgClass alloc] init];
+    NSString *md5sum = [@"md5sum=" stringByAppendingString:[a md5sum]];
+    NSString *type = [@"type=" stringByAppendingString:[a type]];
     NSString *callerid = [@"callerid=" stringByAppendingString:_node.name];
     NSString *topic = [@"topic=" stringByAppendingString:[self topic]];
-    NSString *message_definition = [@"message_definition=" stringByAppendingString:[[[ROSCore sharedCore] getFieldsForMessageType:NSStringFromClass([self msgClass])] objectForKey:@"definition"]];
+    NSString *message_definition = [@"message_definition=" stringByAppendingString:[a definition]];
     
     NSMutableData *ret = [[NSMutableData alloc] init];
     NSMutableData *ret1 = [[NSMutableData alloc] init];
     
-    int i, l;
+    int l;
     l = (int)[md5sum length];
     BOOL NSStringPreservesEndingZero = NO;
     NSData *d = [md5sum dataUsingEncoding:NSUTF8StringEncoding];
@@ -98,11 +100,10 @@
         if (NSStringPreservesEndingZero) {
             l--;
         }
-        i = htonl(l);
-        [ret1 appendBytes:&i length:4];
+        [ret1 appendBytes:&l length:4];
         [ret1 appendData:[[s dataUsingEncoding:NSUTF8StringEncoding] subdataWithRange:NSMakeRange(0, l)]];
     }
-    i = htonl([ret1 length]);
+    int i = [ret1 length];
     [ret appendBytes:&i length:4];
     [ret appendData:ret1];
     
@@ -222,17 +223,30 @@
     }
 }
 
+void prettyPrintHeader(NSData *data)
+{
+    NSData *d = data;
+    while ([d length] > 1) {
+        int i;
+        [d getBytes:&i range:NSMakeRange(0, 4)];
+        char *s = malloc(i);
+        [d getBytes:s range:NSMakeRange(4, i)];
+        NSString *str = [[NSString alloc] initWithBytes:s length:i encoding:NSUTF8StringEncoding];
+        printf("%s\n", [str UTF8String]);
+        free(s);
+        d = [d subdataWithRange:NSMakeRange(4+i, [d length] - (4+i))];
+    }
+}
+
 -(void)startClient:(NSURL *)url Node:(ROSNode *)node
 {
     _node = node;
     
-    int numbytes;
-    char buf[MAXDATASIZE];
     struct addrinfo hints, *servinfo, *p;
     int rv;
     char s[INET6_ADDRSTRLEN];
     
-    _port = [[url port] shortValue];
+    _port = (unsigned short)[[url port] unsignedShortValue];
     const char *host = [[url host] UTF8String];
     
     memset(&hints, 0, sizeof hints);
@@ -272,8 +286,9 @@
     freeaddrinfo(servinfo); // all done with this structure
     
     NSData *(^readMsg)(void) = ^NSData *(void) {
-        char shortBuf[4];
-        int foo = (int)recv(sockfd, shortBuf, 4, 0);
+        int i;
+        int foo = (int)recv(sockfd, &i, 4, 0);
+        foo = i;
         char *s = malloc(foo+1);
         int justSent = 0, totalSent = 0;
         while (YES) {
@@ -285,8 +300,10 @@
     };
     
     NSData *toSend = [self generateSubscriberHeader];
+    //prettyPrintHeader(toSend);
     [self sendData:toSend];
-    readMsg(); // TODO: Actually check that the message types are valid.
+    NSData *argle = readMsg(); // TODO: Actually check that the message types are valid.
+    prettyPrintHeader(argle);
     
     dispatch_async(queue, ^{
         while (_run) {
@@ -296,15 +313,11 @@
             [_node recvMsg:foo Topic:_topic];
         }
     });
-    if ((numbytes = (int)recv(sockfd, buf, MAXDATASIZE-1, 0)) == -1) {
-        perror("recv");
-        exit(1);
-    }
-    
-    buf[numbytes] = '\0';
-    
-    printf("client: received '%s'\n",buf);
-    
+}
+
+-(void)shutdown
+{
+    _run = NO;
     close(sockfd);
 }
 

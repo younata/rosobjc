@@ -48,6 +48,26 @@
     return [_buffer description];
 }
 
+-(NSString *)md5sum
+{
+    return nil;
+}
+
+-(NSString *)definition
+{
+    return nil;
+}
+
+-(NSString *)type
+{
+    return nil;
+}
+
+-(NSArray *)fields
+{
+    return nil;
+}
+
 @end
 
 @interface ROSAnyMsg ()
@@ -99,6 +119,7 @@
 
 @end
 
+/*
 void serializeMessage(NSMutableData *buffer, int seq, ROSMsg *msg)
 {
     NSRange r = NSMakeRange(4, [buffer length]-4);
@@ -133,7 +154,7 @@ void deserializeMessages(NSMutableData *buffer, NSMutableArray *msgQueue, Class 
             [buffer getBytes:foo range:NSMakeRange(pos, 4)];
             uint32_t s;
             s = (uint32_t)*foo;
-            size = NTOHL(s);
+            size = s;
             len -= 4;
         }
         if (size > -1 && len >= size) {
@@ -147,29 +168,11 @@ void deserializeMessages(NSMutableData *buffer, NSMutableArray *msgQueue, Class 
         }
     }
     for (NSData *q in buffs) {
-        [msgQueue addObject:[[msg deserialize:q] firstObject]];
+        [msgQueue addObject:[msg deserialize:q][0]];
     }
     [buffer setData:[buffer subdataWithRange:NSMakeRange(pos, [buffer length] - pos)]];
 }
-
-#pragma mark - autogenerating classes
-
-id getObject(id self, SEL _cmd)
-{
-    NSString *cmd = [[NSString alloc] initWithUTF8String:sel_getName(_cmd)];
-    
-    return [self valueForKey:[@"_" stringByAppendingString:cmd]];
-}
-
-void setObject(id self, SEL _cmd, id obj)
-{
-    NSString *cmd = [[NSString alloc] initWithUTF8String:sel_getName(_cmd)];
-    
-    // cmd is of form setValue:...
-    NSString *iv = [[cmd substringWithRange:NSMakeRange(3, [cmd length] - 4)] lowercaseString];
-    
-    [self setValue:obj forKey:[@"_" stringByAppendingString:iv]];
-}
+ */
 
 /*
  bool
@@ -248,7 +251,7 @@ NSData *serializeBuiltInType(id data, NSString *type)
 NSData *serialize(id self, SEL _cmd)
 {
     // get the format...
-    NSArray *fields = [[ROSCore sharedCore] getFieldsForMessageType:[self classNameForClass:[self class]]];
+    NSArray *fields = [self fields];
     
     // built in types...
     NSArray *builtInTypes = @[@"bool", @"int8", @"uint8", @"int16", @"uint16",
@@ -257,14 +260,10 @@ NSData *serialize(id self, SEL _cmd)
     
     NSMutableData *d = [[NSMutableData alloc] init];
     for (NSArray *i in fields) {
-        NSString *type = [i firstObject];
+        NSString *type = [i objectAtIndex:0];
         NSString *name = [i objectAtIndex:1];
-        id foo = [self valueForKey:[@"_" stringByAppendingString:name]];
-        //NSString *def = nil;
-        if ([i count] > 2)
-            continue;
-            //def = [i lastObject];
-        // I, actually, am not sure if constants are transmitted or not. They shouldn't be, but I'll look it up later.
+        SEL getter = NSSelectorFromString(name);
+        id foo = [self performSelector:getter];
         if ([builtInTypes containsObject:type]) {
             NSData *temp = serializeBuiltInType(foo, type);
             int l = htonl([temp length]);
@@ -283,7 +282,7 @@ NSData *serialize(id self, SEL _cmd)
 NSArray *deserialize(id self, SEL _cmd, NSData *data)
 {
     // get the format...
-    NSArray *fields = [[ROSCore sharedCore] getFieldsForMessageType:[self classNameForClass:[self class]]];
+    NSArray *fields = [self fields];
     
     // built in types...
     NSArray *builtInTypes = @[@"bool", @"int8", @"uint8", @"int16", @"uint16",
@@ -293,102 +292,100 @@ NSArray *deserialize(id self, SEL _cmd, NSData *data)
     
     NSData *d = data;
     for (NSArray *i in fields) {
-        NSString *type = [i firstObject];
+        NSString *type = [i objectAtIndex:0];
         NSString *name = [i objectAtIndex:1];
+        SEL setter = NSSelectorFromString([NSString stringWithFormat:@"set%@:", [name capitalizedString]]);
         NSString *def = nil;
         if ([i count] > 2)
             def = [i lastObject];
         
         if ([builtInTypes containsObject:type]) {
-            for (NSString *i in builtInTypes) {
-                int l = 0;
-                [d getBytes:&l length:4];
+            int l = 0;
+            [d getBytes:&l length:4];
+            if ([d length] == 0)
+                break;
+            d = [d subdataWithRange:NSMakeRange(4, [d length] - 4)];
+            if ([type isEqualToString:@"bool"]) {
+                UInt8 foo;
+                [d getBytes:&foo length:l];
+                [self performSelector:setter withObject:@(foo)];
+                d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
+            } else if ([type isEqualToString:@"int8"]) {
+                int8_t foo;
+                [d getBytes:&foo length:l];
+                [self performSelector:setter withObject:@(foo)];
+                d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
+            } else if ([type isEqualToString:@"uint8"]) {
+                UInt8 foo;
+                [d getBytes:&foo length:l];
+                [self performSelector:setter withObject:@(foo)];
+                d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
+            } else if ([type isEqualToString:@"int16"]) {
+                int16_t foo;
+                [d getBytes:&foo length:l];
+                foo = foo;
+                [self performSelector:setter withObject:@(foo)];
+                d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
+            } else if ([type isEqualToString:@"uint16"]) {
+                UInt16 foo;
+                [d getBytes:&foo length:l];
+                foo = foo;
+                [self performSelector:setter withObject:@(foo)];
+                d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
+            } else if ([type isEqualToString:@"int32"]) {
+                int32_t foo;
+                [d getBytes:&foo length:l];
+                foo = foo;
+                [self performSelector:setter withObject:@(foo)];
+                d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
+            } else if ([type isEqualToString:@"uint32"]) {
+                UInt32 foo;
+                [d getBytes:&foo length:l];
+                foo = foo;
+                [self performSelector:setter withObject:@(foo)];
+                d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
+            } else if ([type isEqualToString:@"int64"]) {
+                int64_t foo;
+                [d getBytes:&foo length:l];
+                foo = foo;
+                [self performSelector:setter withObject:@(foo)];
+                d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
+            } else if ([type isEqualToString:@"uint64"]) {
+                UInt64 foo;
+                [d getBytes:&foo length:l];
+                foo = foo;
+                [self performSelector:setter withObject:@(foo)];
+                d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
+            } else if ([type isEqualToString:@"float32"]) {
+                float foo;
+                [d getBytes:&foo length:l];
+                foo = foo;
+                [self performSelector:setter withObject:@(foo)];
+                d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
+            } else if ([type isEqualToString:@"float64"]) {
+                double foo;
+                [d getBytes:&foo length:l];
+                foo = foo;
+                [self performSelector:setter withObject:@(foo)];
+                d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
+            } else if ([type isEqualToString:@"string"]) {
+                NSString *s = [[NSString alloc] initWithData:[d subdataWithRange:NSMakeRange(0, l)] encoding:NSUTF8StringEncoding];
+                d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
+                [self performSelector:setter withObject:s];
+            } else if ([type isEqualToString:@"time"] || [type isEqualToString:@"duration"]) {
+                // Oh, I hope this works...
+                float secs;
+                float nsecs;
+                [d getBytes:&secs length:4];
                 d = [d subdataWithRange:NSMakeRange(4, [d length] - 4)];
-                if ([i isEqualToString:@"bool"]) {
-                    UInt8 foo;
-                    [d getBytes:&foo length:l];
-                    [self setObject:@(foo) forKey:[@"_" stringByAppendingString:name]];
-                    d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
-                } else if ([i isEqualToString:@"int8"]) {
-                    int8_t foo;
-                    [d getBytes:&foo length:l];
-                    [self setObject:@(foo) forKey:[@"_" stringByAppendingString:name]];
-                    d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
-                } else if ([i isEqualToString:@"uint8"]) {
-                    UInt8 foo;
-                    [d getBytes:&foo length:l];
-                    [self setObject:@(foo) forKey:[@"_" stringByAppendingString:name]];
-                    d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
-                } else if ([i isEqualToString:@"int16"]) {
-                    int16_t foo;
-                    [d getBytes:&foo length:l];
-                    foo = ntohs(foo);
-                    [self setObject:@(foo) forKey:[@"_" stringByAppendingString:name]];
-                    d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
-                } else if ([i isEqualToString:@"uint16"]) {
-                    UInt16 foo;
-                    [d getBytes:&foo length:l];
-                    foo = ntohs(foo);
-                    [self setObject:@(foo) forKey:[@"_" stringByAppendingString:name]];
-                    d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
-                } else if ([i isEqualToString:@"int32"]) {
-                    int32_t foo;
-                    [d getBytes:&foo length:l];
-                    foo = ntohl(foo);
-                    [self setObject:@(foo) forKey:[@"_" stringByAppendingString:name]];
-                    d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
-                } else if ([i isEqualToString:@"uint32"]) {
-                    UInt32 foo;
-                    [d getBytes:&foo length:l];
-                    foo = ntohl(foo);
-                    [self setObject:@(foo) forKey:[@"_" stringByAppendingString:name]];
-                    d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
-                } else if ([i isEqualToString:@"int64"]) {
-                    int64_t foo;
-                    [d getBytes:&foo length:l];
-                    foo = ntohl(foo);
-                    [self setObject:@(foo) forKey:[@"_" stringByAppendingString:name]];
-                    d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
-                } else if ([i isEqualToString:@"uint64"]) {
-                    UInt64 foo;
-                    [d getBytes:&foo length:l];
-                    foo = ntohl(foo);
-                    [self setObject:@(foo) forKey:[@"_" stringByAppendingString:name]];
-                    d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
-                } else if ([i isEqualToString:@"float32"]) {
-                    float foo;
-                    [d getBytes:&foo length:l];
-                    foo = ntohl(foo);
-                    [self setObject:@(foo) forKey:[@"_" stringByAppendingString:name]];
-                    d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
-                } else if ([i isEqualToString:@"float64"]) {
-                    double foo;
-                    [d getBytes:&foo length:l];
-                    foo = ntohl(foo);
-                    [self setObject:@(foo) forKey:[@"_" stringByAppendingString:name]];
-                    d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
-                } else if ([i isEqualToString:@"string"]) {
-                    char *foo = malloc(l+1);
-                    [d getBytes:foo length:l];
-                    foo[l] = 0;
-                    NSString *s = [[NSString alloc] init];
-                    d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
-                    [self setObject:[NSString stringWithString:s] forKey:[@"_" stringByAppendingString:name]];
-                } else if ([i isEqualToString:@"time"] || [i isEqualToString:@"duration"]) {
-                    // Oh, I hope this works...
-                    float secs;
-                    float nsecs;
-                    [d getBytes:&secs length:4];
-                    d = [d subdataWithRange:NSMakeRange(4, [d length] - 4)];
-                    [d getBytes:&nsecs length:4];
-                    d = [d subdataWithRange:NSMakeRange(4, [d length] - 4)];
-                    secs = ntohl(secs);
-                    nsecs = ntohl(nsecs);
-                    ROSTime *t = [[ROSTime alloc] init];
-                    t.secs = secs;
-                    t.nsecs = nsecs;
-                    [self setObject:t forKey:[@"_" stringByAppendingString:name]];
-                }
+                [d getBytes:&nsecs length:4];
+                d = [d subdataWithRange:NSMakeRange(4, [d length] - 4)];
+                secs = secs;
+                nsecs = nsecs;
+                ROSTime *t = [[ROSTime alloc] init];
+                t.secs = secs;
+                t.nsecs = nsecs;
+                [self performSelector:setter withObject:t];
             }
         } else {
             Class a = NSClassFromString(type);
@@ -396,15 +393,38 @@ NSArray *deserialize(id self, SEL _cmd, NSData *data)
             NSArray *b = nil;
             b = [foo deserialize:d];
             d = [b lastObject];
-            [self setObject:[b firstObject] forKey:[@"_" stringByAppendingString:name]];
+            [self performSelector:setter withObject:[b objectAtIndex:0]];
         }
     }
     return @[self, d];
 }
 
+#pragma mark - autogenerating classes
+
+// TODO: get this working better.
+// This is probably a more robust way than having a script auto-generate classes.
+// However, that script works much better for nearly all cases than this.
+
+id getObject(id self, SEL _cmd)
+{
+    NSString *cmd = [[NSString alloc] initWithUTF8String:sel_getName(_cmd)];
+    
+    return [self valueForKey:[@"_" stringByAppendingString:cmd]];
+}
+
+void setObject(id self, SEL _cmd, id obj)
+{
+    NSString *cmd = [[NSString alloc] initWithUTF8String:sel_getName(_cmd)];
+    
+    // cmd is of form setValue:...
+    NSString *iv = [[cmd substringWithRange:NSMakeRange(3, [cmd length] - 4)] lowercaseString];
+    
+    [self setValue:obj forKey:[@"_" stringByAppendingString:iv]];
+}
+
 @implementation ROSGenMsg
 
--(NSArray *)GenerateMessageClass:(NSString *)classname FromFile:(NSURL *)filelocation
+-(NSDictionary *)GenerateMessageClass:(NSString *)classname FromFile:(NSURL *)filelocation
 {
     if (_knownMessages == nil) {
         return nil;
@@ -430,12 +450,12 @@ NSArray *deserialize(id self, SEL _cmd, NSData *data)
         NSArray *parts = [nc componentsSeparatedByString:@" "];
         if ([parts count] < 2)
             continue;
-        NSString *type = [parts firstObject];
+        NSString *type = [parts objectAtIndex:0];
         if (![builtInTypes containsObject:type] && [[_knownMessages objectForKey:type] firstObject] == nil)
             return nil;
         NSString *a = [parts objectAtIndex:1];
         NSArray *b = [a componentsSeparatedByString:@"="];
-        NSString *tn = [b firstObject];
+        NSString *tn = [b objectAtIndex:0];
         NSString *def = nil;
         if ([b count] > 1) {
             def = [b objectAtIndex:1];
@@ -448,7 +468,7 @@ NSArray *deserialize(id self, SEL _cmd, NSData *data)
     // Run away, run far away.
     Class ret = objc_allocateClassPair([ROSMsg class], [classname UTF8String], 0);
     for (NSArray *i in fields) {
-        NSString *type = [i firstObject];
+        NSString *type = [i objectAtIndex:0];
         NSString *name = [i objectAtIndex:1];
         NSString *def = nil;
         if ([fields count] > 2)
@@ -480,7 +500,12 @@ NSArray *deserialize(id self, SEL _cmd, NSData *data)
     
     objc_registerClassPair(ret);
     
-    return @[ret, fields];
+    // calculate md5sum, calculate the type, message_definition...
+    NSString *md5sum = @"";
+    NSString *type = @"";
+    NSString *definition = @"";
+    
+    return @{@"message": ret, @"fields": fields, @"md5sum": md5sum, @"type": type, @"definition": definition};
 }
 
 @end

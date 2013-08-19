@@ -17,7 +17,7 @@
     int sockfd;
 }
 
-@property (nonatomic) short port;
+@property (nonatomic) unsigned short port;
 @property (nonatomic) short queueLength;
 @property (nonatomic) Class msgClass;
 @property (nonatomic, strong) NSString *topic;
@@ -27,6 +27,8 @@
 -(BOOL)hasConnection:(NSURL *)url;
 -(void)startServerFromNode:(ROSNode *)node;
 -(void)startClient:(NSURL *)url Node:(ROSNode *)node;
+
+-(void)shutdown;
 
 -(int)sendMsg:(ROSMsg *)msg;
 

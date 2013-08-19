@@ -8,7 +8,6 @@
 
 #import "ROSNode.h"
 #import "ROSCore.h"
-#import "ROSTopics.h"
 
 #import "ROSMsg.h"
 #import "ROSXMLRPC.h"
@@ -35,6 +34,9 @@
     publishedTopics = [[NSMutableDictionary alloc] init];
     subscribedTopics = [[NSMutableDictionary alloc] init];
     
+    clients = [[NSMutableArray alloc] init];
+    servers = [[NSMutableArray alloc] init];
+    
     masterClient = [[ROSXMLRPCC alloc] init];
 }
 
@@ -51,6 +53,11 @@
     keepRunning = NO;
     if (_delegate != nil && [_delegate respondsToSelector:@selector(onShutdown:)])
         [_delegate onShutdown:reason];
+    for (ROSSocket *s in [servers arrayByAddingObjectsFromArray:clients]) {
+        [s shutdown];
+    }
+    [clients removeAllObjects];
+    [servers removeAllObjects];
     [_core removeNode:self];
 }
 
@@ -63,17 +70,18 @@
     [masterClient getTopicTypes:[self name] callback:^(NSArray *res) {
         NSString *type = @"";
         for (NSArray *i in [res lastObject]) {
-            NSString *tname = [i firstObject];
+            NSString *tname = i[0];
             NSString *ttype = [i lastObject];
             if ([tname isEqualToString:topic]) {
                 type = ttype;
                 break;
             }
         }
+        type = [type lowercaseString];
         [masterClient registerSubscriber:[self name] Topic:topic TopicType:type callback:^(NSArray *foo){
-            NSArray *subs = [res lastObject];
+            NSArray *subs = [foo lastObject];
             for (NSString *i in subs) {
-                [self connectTopic:topic uri:i Server:NO];
+                [self connectTopic:topic uri:i type:type Server:NO];
             }
         }];
     }];
@@ -93,17 +101,19 @@
         // res is an array of things already subscribing to this.
         NSArray *subs = [res lastObject];
         for (NSString *i in subs) {
-            [self connectTopic:topic uri:i Server:YES];
+            [self connectTopic:topic uri:i type:msgName Server:YES];
         }
     }];
 }
 
 -(void)recvMsg:(ROSMsg *)msg Topic:(NSString *)topic
 {
-    void (^cb)(ROSMsg *) = [subscribedTopics objectForKey:topic];
-    if (cb == nil)
-        return;
-    cb(msg);
+    NSArray *foo = [subscribedTopics objectForKey:topic];
+    for (void (^cb)(ROSMsg *) in foo) {
+        if (cb == nil)
+            continue;
+        cb(msg);
+    }
 }
 
 -(BOOL)publishMsg:(ROSMsg *)msg Topic:(NSString *)topic
@@ -121,6 +131,47 @@
     return YES;
 }
 
+#pragma mark - internal
+-(NSArray *)connectTopic:(NSString*)topic uri:(NSString *)URI type:(NSString *)topicType Server:(BOOL)isServer
+{
+    // actually connect.
+    NSURL *u = [NSURL URLWithString:URI]; // wait.
+    
+    NSString *tcpros = @"TCPROS";
+    
+    ROSXMLRPCC *xrc = [[ROSXMLRPCC alloc] init];
+    xrc.URL = u;
+    if (!isServer) {
+        [xrc makeCall:@"requestTopic" WithArgs:@[self.name, topic, @[@[@"TCPROS"]]] callback:^(NSArray *res){;
+            if ([res[2] count] == 0) {
+                // problem.
+                NSLog(@"Unable to subscribe to %@", topic);
+                NSLog(@"Recieved %@", res);
+                [masterClient unregisterSubscriber:self.name Topic:topic callback:^(NSArray *a){;}];
+                return;
+            }
+            
+            NSArray *a = res[2];
+            if ([a[0] isEqualToString:tcpros]) {
+                NSString *hostname = a[1];
+                NSNumber *port = a[2];
+                NSURL *ur = [NSURL URLWithString:[NSString stringWithFormat:@"//%@:%@", hostname, port]];
+                ROSSocket *s = [[ROSSocket alloc] init];
+                s.topic = topic;
+                s.msgClass = [[ROSCore sharedCore] getClassForTopicType:topicType];
+                [s startClient:ur Node:self];
+                [clients addObject:s];
+            }
+        } URL:u];
+    } else {
+        /*
+         [s startServerFromNode:self];
+         [servers addObject:s];
+         */
+    }
+    return @[@1, [NSString stringWithFormat:@"Connected to %@", topic], @0];
+}
+
 #pragma mark - Slave API
 -(NSArray *)getPublishedTopics:(NSString *)NameSpace
 {
@@ -128,22 +179,22 @@
         NameSpace = @"/";
     }
     NSMutableArray *ret = [[NSMutableArray alloc] init];
-    for (ROSTopic *t in [publishedTopics allKeys]) {
-        if ([t.name hasPrefix:NameSpace])
-            [ret addObject:t.name];
+    for (NSString *t in [publishedTopics allKeys]) {
+        if ([t hasPrefix:NameSpace])
+            [ret addObject:t];
     }
     return @[@1, @"published topics", ret];
 }
 
 -(NSArray *)getBusStats:(NSString *)callerID
 {
-    NSArray *foo = [[ROSTopicManager sharedTopicManager] getPubSubStats];
-    return @[@1, @"", [foo arrayByAddingObject:@[]]];
+    //NSArray *foo = [[ROSTopicManager sharedTopicManager] getPubSubStats];
+    return @[@1, @"", [@[] arrayByAddingObject:@[]]];
 }
 
 -(NSArray *)getBusInfo:(NSString *)callerID
 {
-    return @[@1, @"bus info", [[ROSTopicManager sharedTopicManager] getPubSubInfo]];
+    return @[@1, @"bus info", @[]];//[[ROSTopicManager sharedTopicManager] getPubSubInfo]];
 }
 
 -(NSArray *)getMasterUri:(NSString *)callerID
@@ -156,6 +207,15 @@
 
 -(NSArray *)shutdown:(NSString *)callerID msg:(NSString *)msg
 {
+    for (ROSSocket *s in [servers arrayByAddingObjectsFromArray:clients]) {
+        [s shutdown];
+    }
+    for (NSString *p in publishedTopics.allKeys) {
+        ;
+    }
+    for (NSString *s in subscribedTopics.allKeys) {
+        ;
+    }
     return nil;
 }
 
@@ -167,30 +227,6 @@
 -(NSArray *)getPublications:(NSString *)callerID
 {
     return @[@1, @"publications", [publishedTopics allKeys]];
-}
-
-#pragma mark - internal
--(NSArray *)connectTopic:(NSString*)topic uri:(NSString *)URI Server:(BOOL)isServer
-{
-    if ([protocols count] == 0) {
-        return @[@0, @"ERROR: no available protocol handlers", @0];
-    }
-    // actually connect.
-    NSURL *u = [NSURL URLWithString:URI];
-    for (ROSSocket *soc in clients) {
-        if ([soc hasConnection:u]) {
-            return @[@1, [NSString stringWithFormat:@"connectTopic:(%@: subscriber already connected to publisher", topic], @0];
-        }
-    }
-    ROSSocket *s = [[ROSSocket alloc] init];
-    if (isServer) {
-        [s startServerFromNode:self];
-        [servers addObject:s];
-    } else {
-        [s startClient:u Node:self];
-        [clients addObject:s];
-    }
-    return @[@1, [NSString stringWithFormat:@"Subscribed to %@", topic], @0];
 }
 
 #pragma mark - public

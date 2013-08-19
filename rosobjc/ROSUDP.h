@@ -13,9 +13,5 @@
 #import "ROSSocket.h"
 
 @interface ROSUDP : ROSSocket
-{
-    dispatche_queue_t queue;
-    ROSNode *_node;
-}
 
 @end

@@ -8,6 +8,8 @@
 
 #import "ROSCore.h"
 
+#import "ROSXMLRPC.h"
+
 #import "HTTPServer.h"
 #import "RPCConnection.h"
 #import "ROSMsg.h"
@@ -24,8 +26,8 @@ static ROSCore *roscoreSingleton = nil;
 
 +(NSArray *)ParseRosObjcURI:(NSString *)uri
 {
-    NSAssert1([uri hasPrefix:schema], @"Invalid protocol for ROS service URL: %@", uri);
-    uri = [uri substringFromIndex:[schema length]];
+    //NSAssert1([uri hasPrefix:schema], @"Invalid protocol for ROS service URL: %@", uri);
+    //uri = [uri substringFromIndex:[schema length]];
     NSString *destLoc = nil;
     NSInteger destPort;
     NSAssert1([uri rangeOfString:@"/"].location != NSNotFound, @"Invalid protocol for ROS service URL: %@", uri);
@@ -60,6 +62,7 @@ static ROSCore *roscoreSingleton = nil;
         clientReady = NO;
         shutdownFlag = NO;
         inShutdown = NO;
+        knownMessageTypes = [[NSMutableDictionary alloc] init];
         rosobjects = [[NSMutableArray alloc] init];
     }
     return self;
@@ -78,25 +81,31 @@ static ROSCore *roscoreSingleton = nil;
 
 -(void)setInitialized:(BOOL)inited
 {
-    clientReady = inited;
+    if (clientReady == inited)
+        return;
+    if (inited) {
+        clientReady = inited;
+        
+        _httpServer = [[HTTPServer alloc] init];
+        
+        [_httpServer setConnectionClass:[RPCConnection class]];
+        [_httpServer setPort:8080];
+        
+        // Enable Bonjour
+        [_httpServer setType:@"_http._tcp."];
+        
+        // Set document root
+        [_httpServer setDocumentRoot:[@"~/Documents/Sites" stringByExpandingTildeInPath]];
+        
+        // Start XMLRPC server
+        NSError* error = nil;
+        if (![_httpServer start:&error]) {
+            NSLog(@"Error starting HTTP Server: %@", error);
+        }
     
-    [_httpServer setConnectionClass:[RPCConnection class]];
-    [_httpServer setPort:8080];
-    
-    // Enable Bonjour
-    [_httpServer setType:@"_http._tcp."];
-    
-    // Set document root
-    [_httpServer setDocumentRoot:[@"~/Documents/Sites" stringByExpandingTildeInPath]];
-    
-    // Start XMLRPC server
-    NSError* error = nil;
-    if (![_httpServer start:&error]) {
-        NSLog(@"Error starting HTTP Server: %@", error);
+        shutdownFlag = NO;
+        inShutdown = NO;
     }
-    
-    shutdownFlag = NO;
-    inShutdown = NO;
 }
 
 -(BOOL)isShutdown
@@ -130,8 +139,22 @@ static ROSCore *roscoreSingleton = nil;
     [rosobjects removeObject:node];
 }
 
+-(void)registerMessageClasses:(NSArray *)classes
+{
+    for (Class c in classes) {
+        NSString *type = [[(ROSMsg *)[[c alloc] init] type] lowercaseString];
+        [knownMessageTypes setObject:c forKey:type];
+    }
+}
+
+-(Class)getClassForTopicType:(NSString *)type
+{
+    return [knownMessageTypes objectForKey:[type lowercaseString]];
+}
+
 -(void)parseMessageFilesInDirectory:(NSString *)directory
 {
+    NSAssert(NO, @"Do not call [ROSCore parseMessageFilesInDirectory]");
     NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:directory error:nil];
     ROSGenMsg *gm = [[ROSGenMsg alloc] init];
     gm.knownMessages = knownMessageTypes;
@@ -152,14 +175,6 @@ static ROSCore *roscoreSingleton = nil;
     return [knownMessageTypes objectForKey:messageType];
 }
 
--(ROSNode *)getMaster
-{
-    if (masterProxy == nil) {
-        
-    }
-    return masterProxy;
-}
-
 -(ROSNode *)createNode:(NSString *)name
 {
     // NOTE: this is something that we should fix.
@@ -168,7 +183,7 @@ static ROSCore *roscoreSingleton = nil;
     
     // Unfortunately, it would take a core ROS change to fix this.
     if ([rosobjects count] != 0) {
-        return nil;
+        return [rosobjects objectAtIndex:0];
     }
     for (ROSNode *node in rosobjects) {
         if ([node.name isEqualToString:name])
@@ -189,10 +204,10 @@ static ROSCore *roscoreSingleton = nil;
 -(NSArray *)respondToRPC:(NSString *)method Params:(NSArray *)params
 {
     NSArray *ret = nil;
-    ROSNode *r = [rosobjects firstObject];
+    ROSNode *r = rosobjects[0];
     if (r == nil)
         return nil;
-    NSString *cid = [params firstObject];
+    NSString *cid = params[0];
     if (cid == nil)
         return nil;
     if ([method isEqualToString:@"getBusStats"]) {
@@ -236,7 +251,7 @@ static ROSCore *roscoreSingleton = nil;
 
 -(NSArray *)getPublishedTopics:(NSString *)NameSpace
 {
-    NSArray *t = [[self getMaster] getPublishedTopics:NameSpace];
+    NSArray *t = [rosobjects[0] getPublishedTopics:NameSpace];
     NSAssert1([[t objectAtIndex:0] intValue] == 1, @"unable to get published topics: %@", [t objectAtIndex:1]);
     return ([t objectAtIndex:2]);
 }
