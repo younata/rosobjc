@@ -302,8 +302,8 @@ void prettyPrintHeader(NSData *data)
     NSData *toSend = [self generateSubscriberHeader];
     //prettyPrintHeader(toSend);
     [self sendData:toSend];
-    NSData *argle = readMsg(); // TODO: Actually check that the message types are valid.
-    prettyPrintHeader(argle);
+    readMsg(); // TODO: Actually check that the message types are valid.
+    //prettyPrintHeader(argle);
     
     dispatch_async(queue, ^{
         while (_run) {

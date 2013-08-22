@@ -158,7 +158,7 @@
                 NSURL *ur = [NSURL URLWithString:[NSString stringWithFormat:@"//%@:%@", hostname, port]];
                 ROSSocket *s = [[ROSSocket alloc] init];
                 s.topic = topic;
-                s.msgClass = [[ROSCore sharedCore] getClassForTopicType:topicType];
+                s.msgClass = [[ROSCore sharedCore] getClassForMessageType:topicType];
                 [s startClient:ur Node:self];
                 [clients addObject:s];
             }

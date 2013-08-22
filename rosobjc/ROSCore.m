@@ -152,6 +152,11 @@ static ROSCore *roscoreSingleton = nil;
     return [knownMessageTypes objectForKey:[type lowercaseString]];
 }
 
+-(NSArray *)getKnownMessageTypes
+{
+    return knownMessageTypes.allKeys;
+}
+
 -(void)parseMessageFilesInDirectory:(NSString *)directory
 {
     NSAssert(NO, @"Do not call [ROSCore parseMessageFilesInDirectory]");

@@ -256,7 +256,7 @@
 		891F1CA51770255500E4C321 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		891F1CA61770255500E4C321 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		891F1CA71770255500E4C321 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
-		891F1CB61770255500E4C321 /* rosobjc-osxTests.xctest */ = {isa = PBXFileReference; explicitFileType = folder; includeInIndex = 0; path = "rosobjc-osxTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		891F1CB61770255500E4C321 /* rosobjc-osxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "rosobjc-osxTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		891F1CBE1770255500E4C321 /* rosobjc-osxTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "rosobjc-osxTests-Info.plist"; sourceTree = "<group>"; };
 		891F1CC01770255500E4C321 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		891F1CC21770255500E4C321 /* rosobjc_osxTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = rosobjc_osxTests.m; sourceTree = "<group>"; };

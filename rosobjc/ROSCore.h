@@ -39,7 +39,8 @@
 
 
 -(void)registerMessageClasses:(NSArray *)classes;
--(Class)getClassForTopicType:(NSString *)type;
+-(Class)getClassForMessageType:(NSString *)type;
+-(NSArray *)getKnownMessageTypes;
 -(void)parseMessageFilesInDirectory:(NSString *)directory;
 -(NSDictionary *)getFieldsForMessageType:(NSString *)messageType;
 
