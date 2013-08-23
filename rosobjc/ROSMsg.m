@@ -288,113 +288,154 @@ NSArray *deserialize(id self, SEL _cmd, NSData *data)
     NSArray *builtInTypes = @[@"bool", @"int8", @"uint8", @"int16", @"uint16",
                               @"int32", @"uint32", @"int64", @"uint64", @"float32",
                               @"float64", @"string", @"time", @"duration"];
-
     
     NSData *d = data;
     for (NSArray *i in fields) {
         NSString *type = [i objectAtIndex:0];
         NSString *name = [i objectAtIndex:1];
+        
+        BOOL isArray = NO;
+        signed int arrayLength = 0;
+        
+        NSRange a = [type rangeOfString:@"["];
+        
+        if (a.location != NSNotFound) {
+            isArray = YES;
+            NSRange b = [type rangeOfString:@"]"];
+            if (b.location == (a.location + 1))
+                arrayLength = -1;
+            else {
+                NSRange c = NSMakeRange(a.location + 1, (a.location - b.location) - 1);
+                arrayLength = [[type substringWithRange:c] intValue];
+            }
+        }
+        
         SEL setter = NSSelectorFromString([NSString stringWithFormat:@"set%@:", [name capitalizedString]]);
         NSString *def = nil;
         if ([i count] > 2)
             def = [i lastObject];
         
-        if ([builtInTypes containsObject:type]) {
-            int l = 0;
-            [d getBytes:&l length:4];
+        if ([d length] == 0)
+            break;
+
+        int l = 1;
+        if (isArray && arrayLength != -1) {
+            [d getBytes:&arrayLength length:4];
             if ([d length] == 0)
                 break;
+            l = 1;
             d = [d subdataWithRange:NSMakeRange(4, [d length] - 4)];
-            if ([type isEqualToString:@"bool"]) {
-                UInt8 foo;
-                [d getBytes:&foo length:l];
-                [self performSelector:setter withObject:@(foo)];
-                d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
-            } else if ([type isEqualToString:@"int8"]) {
-                int8_t foo;
-                [d getBytes:&foo length:l];
-                [self performSelector:setter withObject:@(foo)];
-                d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
-            } else if ([type isEqualToString:@"uint8"]) {
-                UInt8 foo;
-                [d getBytes:&foo length:l];
-                [self performSelector:setter withObject:@(foo)];
-                d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
-            } else if ([type isEqualToString:@"int16"]) {
-                int16_t foo;
-                [d getBytes:&foo length:l];
-                foo = foo;
-                [self performSelector:setter withObject:@(foo)];
-                d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
-            } else if ([type isEqualToString:@"uint16"]) {
-                UInt16 foo;
-                [d getBytes:&foo length:l];
-                foo = foo;
-                [self performSelector:setter withObject:@(foo)];
-                d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
-            } else if ([type isEqualToString:@"int32"]) {
-                int32_t foo;
-                [d getBytes:&foo length:l];
-                foo = foo;
-                [self performSelector:setter withObject:@(foo)];
-                d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
-            } else if ([type isEqualToString:@"uint32"]) {
-                UInt32 foo;
-                [d getBytes:&foo length:l];
-                foo = foo;
-                [self performSelector:setter withObject:@(foo)];
-                d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
-            } else if ([type isEqualToString:@"int64"]) {
-                int64_t foo;
-                [d getBytes:&foo length:l];
-                foo = foo;
-                [self performSelector:setter withObject:@(foo)];
-                d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
-            } else if ([type isEqualToString:@"uint64"]) {
-                UInt64 foo;
-                [d getBytes:&foo length:l];
-                foo = foo;
-                [self performSelector:setter withObject:@(foo)];
-                d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
-            } else if ([type isEqualToString:@"float32"]) {
-                float foo;
-                [d getBytes:&foo length:l];
-                foo = foo;
-                [self performSelector:setter withObject:@(foo)];
-                d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
-            } else if ([type isEqualToString:@"float64"]) {
-                double foo;
-                [d getBytes:&foo length:l];
-                foo = foo;
-                [self performSelector:setter withObject:@(foo)];
-                d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
-            } else if ([type isEqualToString:@"string"]) {
-                NSString *s = [[NSString alloc] initWithData:[d subdataWithRange:NSMakeRange(0, l)] encoding:NSUTF8StringEncoding];
-                d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
-                [self performSelector:setter withObject:s];
-            } else if ([type isEqualToString:@"time"] || [type isEqualToString:@"duration"]) {
-                // Oh, I hope this works...
-                float secs;
-                float nsecs;
-                [d getBytes:&secs length:4];
-                d = [d subdataWithRange:NSMakeRange(4, [d length] - 4)];
-                [d getBytes:&nsecs length:4];
-                d = [d subdataWithRange:NSMakeRange(4, [d length] - 4)];
-                secs = secs;
-                nsecs = nsecs;
-                ROSTime *t = [[ROSTime alloc] init];
-                t.secs = secs;
-                t.nsecs = nsecs;
-                [self performSelector:setter withObject:t];
-            }
-        } else {
-            Class a = NSClassFromString(type);
-            ROSMsg *foo = [[a alloc] init];
-            NSArray *b = nil;
-            b = [foo deserialize:d];
-            d = [b lastObject];
-            [self performSelector:setter withObject:[b objectAtIndex:0]];
         }
+        if (arrayLength < 1)
+            arrayLength = 1;
+        id obj = nil;
+        NSMutableArray *arr = [[NSMutableArray alloc] init];
+
+        for (int j = 0; j < arrayLength; j++) {
+            obj = nil;
+            if ([builtInTypes containsObject:type]) {
+                if ([type isEqualToString:@"bool"]) {
+                    UInt8 foo;
+                    [d getBytes:&foo length:l];
+                    obj = @(foo);
+                    d = [d subdataWithRange:NSMakeRange(l, [d length] - 1)];
+                } else if ([type isEqualToString:@"int8"]) {
+                    int8_t foo;
+                    [d getBytes:&foo length:l];
+                    obj = @(foo);
+                    d = [d subdataWithRange:NSMakeRange(l, [d length] - 1)];
+                } else if ([type isEqualToString:@"uint8"]) {
+                    UInt8 foo;
+                    [d getBytes:&foo length:l];
+                    obj = @(foo);
+                    d = [d subdataWithRange:NSMakeRange(l, [d length] - 1)];
+                } else if ([type isEqualToString:@"int16"]) {
+                    int16_t foo;
+                    [d getBytes:&foo length:l];
+                    foo = foo;
+                    obj = @(foo);
+                    d = [d subdataWithRange:NSMakeRange(l, [d length] - 2)];
+                } else if ([type isEqualToString:@"uint16"]) {
+                    UInt16 foo;
+                    [d getBytes:&foo length:l];
+                    foo = foo;
+                    obj = @(foo);
+                    d = [d subdataWithRange:NSMakeRange(l, [d length] - 2)];
+                } else if ([type isEqualToString:@"int32"]) {
+                    int32_t foo;
+                    [d getBytes:&foo length:l];
+                    foo = foo;
+                    obj = @(foo);
+                    d = [d subdataWithRange:NSMakeRange(l, [d length] - 4)];
+                } else if ([type isEqualToString:@"uint32"]) {
+                    UInt32 foo;
+                    [d getBytes:&foo length:l];
+                    foo = foo;
+                    obj = @(foo);
+                    d = [d subdataWithRange:NSMakeRange(l, [d length] - 4)];
+                } else if ([type isEqualToString:@"int64"]) {
+                    int64_t foo;
+                    [d getBytes:&foo length:l];
+                    foo = foo;
+                    obj = @(foo);
+                    d = [d subdataWithRange:NSMakeRange(l, [d length] - 8)];
+                } else if ([type isEqualToString:@"uint64"]) {
+                    UInt64 foo;
+                    [d getBytes:&foo length:l];
+                    foo = foo;
+                    obj = @(foo);
+                    d = [d subdataWithRange:NSMakeRange(l, [d length] - 8)];
+                } else if ([type isEqualToString:@"float32"]) {
+                    float foo;
+                    [d getBytes:&foo length:l];
+                    foo = foo;
+                    obj = @(foo);
+                    d = [d subdataWithRange:NSMakeRange(l, [d length] - 4)];
+                } else if ([type isEqualToString:@"float64"]) {
+                    double foo;
+                    [d getBytes:&foo length:l];
+                    foo = foo;
+                    obj = @(foo);
+                    d = [d subdataWithRange:NSMakeRange(l, [d length] - 8)];
+                } else if ([type isEqualToString:@"string"]) {
+                    [d getBytes:&l length:4];
+                    d = [d subdataWithRange:NSMakeRange(4, [d length] - 4)];
+                    
+                    NSString *s = [[NSString alloc] initWithData:[d subdataWithRange:NSMakeRange(0, l)] encoding:NSUTF8StringEncoding];
+                    d = [d subdataWithRange:NSMakeRange(l, [d length] - l)];
+                    obj = s;
+                } else if ([type isEqualToString:@"time"] || [type isEqualToString:@"duration"]) {
+                    // Oh, I hope this works...
+                    float secs;
+                    float nsecs;
+                    [d getBytes:&secs length:4];
+                    d = [d subdataWithRange:NSMakeRange(4, [d length] - 4)];
+                    [d getBytes:&nsecs length:4];
+                    d = [d subdataWithRange:NSMakeRange(4, [d length] - 4)];
+                    secs = secs;
+                    nsecs = nsecs;
+                    ROSTime *t = [[ROSTime alloc] init];
+                    t.secs = secs;
+                    t.nsecs = nsecs;
+                    obj = t;
+                }
+            } else {
+                Class a = NSClassFromString(type);
+                ROSMsg *foo = [[a alloc] init];
+                NSArray *b = nil;
+                b = [foo deserialize:d];
+                d = [b lastObject];
+                obj = [b objectAtIndex:0];
+            }
+            if (isArray) {
+                [arr addObject:obj];
+            } else {
+                [self performSelector:setter withObject:obj];
+            }
+        }
+        if (isArray)
+            [self performSelector:setter withObject:arr];
+        arr = nil;
     }
     return @[self, d];
 }
