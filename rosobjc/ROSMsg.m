@@ -248,6 +248,27 @@ NSData *serializeBuiltInType(id data, NSString *type)
     return d;
 }
 
+NSArray *isArrayDataType(NSString *type)
+{
+    BOOL isArray = NO;
+    signed int arrayLength = 0;
+    
+    NSRange a = [type rangeOfString:@"["];
+    
+    if (a.location != NSNotFound) {
+        isArray = YES;
+        NSRange b = [type rangeOfString:@"]"];
+        if (b.location == (a.location + 1))
+            arrayLength = -1;
+        else {
+            NSRange c = NSMakeRange(a.location + 1, (a.location - b.location) - 1);
+            arrayLength = [[type substringWithRange:c] intValue];
+        }
+    }
+    return @[@(isArray), @(arrayLength)];
+}
+
+
 NSData *serialize(id self, SEL _cmd)
 {
     // get the format...
@@ -258,22 +279,46 @@ NSData *serialize(id self, SEL _cmd)
                               @"int32", @"uint32", @"int64", @"uint64", @"float32",
                               @"float64", @"string", @"time", @"duration"];
     
-    NSMutableData *d = [[NSMutableData alloc] init];
+    __block NSMutableData *d = [[NSMutableData alloc] init];
     for (NSArray *i in fields) {
         NSString *type = [i objectAtIndex:0];
         NSString *name = [i objectAtIndex:1];
+        
+        BOOL isArray = NO;
+        signed int arrayLength = 0;
+        
+        NSArray *bar = isArrayDataType(type);
+        isArray = [[bar objectAtIndex:0] boolValue];
+        int l = arrayLength;
+        if (!isArray || arrayLength < 1)
+            l = 1;
+        
         SEL getter = NSSelectorFromString(name);
         id foo = [self performSelector:getter];
-        if ([builtInTypes containsObject:type]) {
-            NSData *temp = serializeBuiltInType(foo, type);
-            int l = htonl([temp length]);
-            [d appendBytes:&l length:4];
-            [d appendData:temp];
+        
+        void (^synth)(id) = ^(id foo){
+            if ([builtInTypes containsObject:type]) {
+                NSData *temp = serializeBuiltInType(foo, type);
+                int l = htonl([temp length]);
+                [d appendBytes:&l length:4];
+                [d appendData:temp];
+            } else {
+                NSData *temp = [foo serialize];
+                int l = htonl([temp length]);
+                [d appendBytes:&l length:4];
+                [d appendData:temp];
+            }
+        };
+        
+        if (isArray) {
+            bar = (NSArray *)foo;
+            if (arrayLength == -1)
+                [d appendBytes:&arrayLength length:4];
+            for (id obj in bar) {
+                synth(obj);
+            }
         } else {
-            NSData *temp = [foo serialize];
-            int l = htonl([temp length]);
-            [d appendBytes:&l length:4];
-            [d appendData:temp];
+            synth(foo);
         }
     }
     return d;
@@ -297,18 +342,9 @@ NSArray *deserialize(id self, SEL _cmd, NSData *data)
         BOOL isArray = NO;
         signed int arrayLength = 0;
         
-        NSRange a = [type rangeOfString:@"["];
-        
-        if (a.location != NSNotFound) {
-            isArray = YES;
-            NSRange b = [type rangeOfString:@"]"];
-            if (b.location == (a.location + 1))
-                arrayLength = -1;
-            else {
-                NSRange c = NSMakeRange(a.location + 1, (a.location - b.location) - 1);
-                arrayLength = [[type substringWithRange:c] intValue];
-            }
-        }
+        NSArray *bar = isArrayDataType(type);
+        isArray = [[bar objectAtIndex:0] boolValue];
+        arrayLength = [[bar objectAtIndex:0] intValue];
         
         SEL setter = NSSelectorFromString([NSString stringWithFormat:@"set%@:", [name capitalizedString]]);
         NSString *def = nil;
