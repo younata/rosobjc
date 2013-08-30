@@ -97,13 +97,22 @@
 
 -(void)advertize:(NSString *)topic msgType:(NSString *)msgName
 {
+    if (![topic hasPrefix:@"/"]) {
+        topic = [@"/" stringByAppendingString:topic];
+    }
+    if ([publishedTopics objectForKey:topic] != nil) {
+        return;
+    }
+    [publishedTopics setObject:topic forKey:msgName];
     [masterClient registerPublisher:[self name] Topic:topic TopicType:msgName callback:^(NSArray *res){
         // res is an array of things already subscribing to this.
         NSArray *subs = [res lastObject];
         for (NSString *i in subs) {
-            [self connectTopic:topic uri:i type:msgName Server:YES];
+            [self requestTopic:nil topic:topic protocols:nil];
+            //[self connectTopic:topic uri:i type:msgName Server:YES];
         }
     }];
+    
 }
 
 -(void)recvMsg:(ROSMsg *)msg Topic:(NSString *)topic
@@ -119,7 +128,7 @@
 -(BOOL)publishMsg:(ROSMsg *)msg Topic:(NSString *)topic
 {
     ROSSocket *s = nil;
-    for (ROSSocket *soc in [servers arrayByAddingObjectsFromArray:clients]) {
+    for (ROSSocket *soc in servers) {
         if (soc.topic == topic) {
             s = soc;
             break;
@@ -129,6 +138,29 @@
         return NO;
     [s sendMsg:msg];
     return YES;
+}
+
+-(void)stopPublishingTopic:(NSString *)topic
+{
+    NSMutableArray *foo = [[NSMutableArray alloc] init];
+    for (ROSSocket *soc in servers) {
+        if (soc.topic == topic) {
+            [soc shutdown];
+        }
+    }
+    for (ROSSocket *soc in foo) {
+        [servers removeObject:soc];
+    }
+}
+
+-(void)unSubscribeFromTopic:(NSString *)topic
+{
+    for (ROSSocket *soc in clients) {
+        if (soc.topic == topic){
+            [soc shutdown];
+        }
+    }
+    [subscribedTopics removeObjectForKey:topic];
 }
 
 #pragma mark - internal
@@ -164,6 +196,7 @@
             }
         } URL:u];
     } else {
+        NSLog(@"uh... problem?");
         /*
          [s startServerFromNode:self];
          [servers addObject:s];
@@ -179,7 +212,7 @@
         NameSpace = @"/";
     }
     NSMutableArray *ret = [[NSMutableArray alloc] init];
-    for (NSString *t in [publishedTopics allKeys]) {
+    for (NSString *t in publishedTopics.allKeys) {
         if ([t hasPrefix:NameSpace])
             [ret addObject:t];
     }
@@ -226,7 +259,7 @@
 
 -(NSArray *)getPublications:(NSString *)callerID
 {
-    return @[@1, @"publications", [publishedTopics allKeys]];
+    return @[@1, @"publications", publishedTopics.allKeys];
 }
 
 #pragma mark - public
@@ -262,16 +295,33 @@
 
 -(NSArray *)requestTopic:(NSString *)callerID topic:(NSString *)topic protocols:(NSArray *)_protocols
 {
-    ROSSocket *s = nil;
-    for (ROSSocket *soc in servers) {
-        if (soc.topic == topic) {
-            s = soc;
+    if ([topic hasPrefix:@"/"]) {
+        topic = [@"/" stringByAppendingString:topic];
+    }
+    if ([publishedTopics objectForKey:topic] == nil) {
+        return @[@(-1), [NSString stringWithFormat:@"Not a publisher of %@", topic], @[]];
+    }
+    BOOL found = NO;
+    if (_protocols == nil) {
+        found = YES;
+    }
+    for (NSArray *i in _protocols) {
+        if ([[i objectAtIndex:0] isEqualToString:@"TCPROS"]) {
+            found = YES;
             break;
         }
     }
-    if (s == nil) {
-        return @[@(-1), [NSString stringWithFormat:@"Not a publisher of %@", topic], @[]];
-    }
+    if (!found)
+        return @[@(-1), @"No protocol match made", @[]];
+
+    ROSSocket *s = [[ROSSocket alloc] init];
+    s.topic = topic;
+    s.msgClass = [[ROSCore sharedCore] getClassForMessageType:[publishedTopics objectForKey:topic]];
+    unsigned short port = 12345;
+    for (ROSSocket *s in servers)
+        port = s.port;
+    s.port = port + 1;
+    [servers addObject:s];
     return @[@0, @"TCPROS", @[@"TCPROS", @(s.port)]];
 }
 

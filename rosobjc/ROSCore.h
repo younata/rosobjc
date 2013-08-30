@@ -25,6 +25,7 @@
 }
 
 @property (nonatomic, strong) NSString *uri;
+@property (nonatomic, strong) NSString *masterURI;
 
 // takes a string, outputs an array of form [address, port]
 +(NSArray *)ParseRosObjcURI:(NSString *)uri;
@@ -47,6 +48,7 @@
 -(ROSNode *)createNode:(NSString *)name;
 -(void)removeNode:(ROSNode *)node;
 -(void)startNode:(ROSNode *)node;
+-(ROSNode *)getFirstNode;
 
 -(NSArray *)respondToRPC:(NSString *)method Params:(NSArray *)params;
 

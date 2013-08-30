@@ -15,8 +15,8 @@
 
 @interface ROSNode : NSObject
 {
-    NSMutableDictionary *publishedTopics;
-    NSMutableDictionary *subscribedTopics;
+    NSMutableDictionary *publishedTopics; //{topic: msgClass}
+    NSMutableDictionary *subscribedTopics; //{topic: [
     
     // next two are the NSSocketPorts for the servers and clients...
     NSMutableArray *servers;
@@ -38,14 +38,17 @@
 -(id)initWithName:(NSString *)name;
 -(void)shutdown:(NSString *)reason;
 
--(void)recvMsg:(ROSMsg *)msg Topic:(NSString *)topic;
--(BOOL)publishMsg:(ROSMsg *)msg Topic:(NSString *)topic;
-
 #pragma mark - Stuff most used by the programmer.
 
 -(void)subscribe:(NSString *)topic callback:(void(^)(ROSMsg *))block;
 
 -(void)advertize:(NSString *)topic msgType:(NSString *)msgName;
+
+-(void)recvMsg:(ROSMsg *)msg Topic:(NSString *)topic;
+-(BOOL)publishMsg:(ROSMsg *)msg Topic:(NSString *)topic;
+
+-(void)stopPublishingTopic:(NSString *)topic;
+-(void)unSubscribeFromTopic:(NSString *)topic;
 
 #pragma mark - Slave API
 -(NSArray *)getPublishedTopics:(NSString *)NameSpace;

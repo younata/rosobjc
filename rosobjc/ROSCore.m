@@ -147,7 +147,7 @@ static ROSCore *roscoreSingleton = nil;
     }
 }
 
--(Class)getClassForTopicType:(NSString *)type
+-(Class)getClassForMessageType:(NSString *)type
 {
     return [knownMessageTypes objectForKey:[type lowercaseString]];
 }
@@ -196,9 +196,16 @@ static ROSCore *roscoreSingleton = nil;
     }
     ROSNode *ret = [[ROSNode alloc] initWithName:name];
     ret.core = self;
-    ret.masterURI = _uri;
+    ret.masterURI = _masterURI;
     [rosobjects addObject:ret];
     return ret;
+}
+
+-(ROSNode *)getFirstNode
+{
+    if ([rosobjects count] == 0)
+        return nil;
+    return [rosobjects objectAtIndex:0];
 }
 
 -(void)startNode:(ROSNode *)node
