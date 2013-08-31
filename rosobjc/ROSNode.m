@@ -103,11 +103,12 @@
     if ([publishedTopics objectForKey:topic] != nil) {
         return;
     }
-    [publishedTopics setObject:topic forKey:msgName];
+    [publishedTopics setObject:msgName forKey:topic];
     [masterClient registerPublisher:[self name] Topic:topic TopicType:msgName callback:^(NSArray *res){
         // res is an array of things already subscribing to this.
         NSArray *subs = [res lastObject];
         for (NSString *i in subs) {
+            break;
             [self requestTopic:nil topic:topic protocols:nil];
             //[self connectTopic:topic uri:i type:msgName Server:YES];
         }
@@ -295,14 +296,14 @@
 
 -(NSArray *)requestTopic:(NSString *)callerID topic:(NSString *)topic protocols:(NSArray *)_protocols
 {
-    if ([topic hasPrefix:@"/"]) {
+    if (![topic hasPrefix:@"/"]) {
         topic = [@"/" stringByAppendingString:topic];
     }
     if ([publishedTopics objectForKey:topic] == nil) {
-        return @[@(-1), [NSString stringWithFormat:@"Not a publisher of %@", topic], @[]];
+        return @[@0, [NSString stringWithFormat:@"Not a publisher of %@", topic], @[]];
     }
     BOOL found = NO;
-    if (_protocols == nil) {
+    if (_protocols == nil || _protocols.count == 0) {
         found = YES;
     }
     for (NSArray *i in _protocols) {
@@ -312,7 +313,7 @@
         }
     }
     if (!found)
-        return @[@(-1), @"No protocol match made", @[]];
+        return @[@0, @"No protocol match made", @[]];
 
     ROSSocket *s = [[ROSSocket alloc] init];
     s.topic = topic;
@@ -322,7 +323,7 @@
         port = s.port;
     s.port = port + 1;
     [servers addObject:s];
-    return @[@0, @"TCPROS", @[@"TCPROS", @(s.port)]];
+    return @[@1, @"TCPROS", @[@"TCPROS", @(s.port)]];
 }
 
 @end

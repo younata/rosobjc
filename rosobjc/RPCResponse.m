@@ -11,22 +11,24 @@
 #import "ROSCore.h"
 
 #import "XMLRPCDefaultEncoder.h"
+#import "XMLReader.h"
+
+NSString *NSStringTrim(NSString *str, NSCharacterSet *toTrim)
+{
+    NSString *a = [str stringByTrimmingCharactersInSet:toTrim];
+    while (![a isEqualToString:str]) {
+        str = a;
+        a = [str stringByTrimmingCharactersInSet:toTrim];
+    }
+    return a;
+}
 
 @implementation RPCResponse
 {
     NSString *responseString;
-    NSXMLParser *parser;
     NSMutableArray *params;
-    NSMutableArray *structs;
     
-    NSString *memberName;
-    
-    id workingObject;
-    
-    NSMutableString *currentElementValue;
     NSString *methodName;
-    
-    int currentStructIndex;
     
     NSDateFormatter *isoFormatter;
     
@@ -40,31 +42,56 @@
     if ((self = [super init])) {
         _status = 200;
         
-        params = [[NSMutableArray alloc] init];
-        structs = [[NSMutableArray alloc] init];
-        
-        workingObject = params;
-        currentStructIndex = -1;
-        
-        done = NO;
         isoFormatter = [[NSDateFormatter alloc] init];
         [isoFormatter setDateFormat:@"yyyyMMdd'T'HH:mm:ss"];
         
-        parser = [[NSXMLParser alloc] initWithData:bodyData];
-        // this is a very brittle implementation. It would be a good idea
-        // if someone more experienced than myself at implementing this
-        // were to take a look at it.
-                
-        [parser setDelegate:self];
-        if ([parser parse]) {
-            NSArray *r = [[ROSCore sharedCore] respondToRPC:methodName Params:params];
-            if (r == nil) // fault.
-                [self fault];
-            else { // success.
-                [self response:r];
+        
+        NSDictionary *reader = [[XMLReader dictionaryForXMLData:bodyData error:nil] objectForKey:@"methodCall"];
+        methodName = [[[reader objectForKey:@"methodName"] objectForKey:@"text"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        NSArray *p = [[reader objectForKey:@"params"] objectForKey:@"param"];
+        //NSLog(@"%@", params);
+        
+        NSString *callerID;
+        NSString *msg = nil;
+        id thirdArg = nil;
+        
+        // this is meant to parse the ROS-specific stuff, not to be a generic xmlrpc parser.
+        
+        callerID = [[[[[p objectAtIndex:0] objectForKey:@"value"] objectForKey:@"string"] objectForKey:@"text"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        if (!callerID) {
+            callerID = [[[[p objectAtIndex:0] objectForKey:@"value"] objectForKey:@"text"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        }
+        if ([p count] > 1) {
+            msg = [[[[[p objectAtIndex:1] objectForKey:@"value"] objectForKey:@"string"] objectForKey:@"text"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            if (!msg) {
+                msg = [[[[p objectAtIndex:1] objectForKey:@"value"] objectForKey:@"text"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
             }
-        } else {
-            
+        }
+        if ([p count] > 2) {
+            thirdArg = @(0);
+            // TODO: parse the third argument.
+            id a = [[p objectAtIndex:2] objectForKey:@"value"];
+            if ([a objectForKey:@"array"] != nil) {
+                thirdArg = @[];
+            }
+        }
+        
+        params = [[NSMutableArray alloc] init];
+        if (callerID != nil) {
+            [params addObject:callerID];
+        }
+        if (msg != nil) {
+            [params addObject:msg];
+        }
+        if (thirdArg != nil) {
+            [params addObject:thirdArg];
+        }
+        
+        NSArray *r = [[ROSCore sharedCore] respondToRPC:methodName Params:params];
+        if (r == nil) // fault.
+            [self fault];
+        else { // success.
+            [self response:r];
         }
     }
     return self;
@@ -111,12 +138,13 @@
     return _status;
 }
 
+/*
 #pragma mark - NSXMLParserDelegate
 
 -(void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict
 {
     if ([[elementName lowercaseString] isEqualToString:@"methodname"]) {
-        
+        ;
     }
     else if ([[elementName lowercaseString] isEqualToString:@"struct"]) {
         currentStructIndex++;
@@ -150,7 +178,7 @@
 {
     if ([self isStruct]) {
         NSMutableDictionary *foo = (NSMutableDictionary *)workingObject;
-        foo[memberName] = object;
+        [foo setObject:object forKey:memberName];
         memberName = nil;
     } else {
         [((NSMutableArray *)workingObject) addObject:object];
@@ -204,5 +232,6 @@
 {
     done = YES;
 }
+ */
 
 @end
