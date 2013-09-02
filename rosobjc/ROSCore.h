@@ -21,11 +21,13 @@
     NSMutableDictionary *knownMessageTypes;
     //ROSNode *node;
     
+    
     HTTPServer *_httpServer;
 }
 
 @property (nonatomic, strong) NSString *uri;
 @property (nonatomic, strong) NSString *masterURI;
+@property (nonatomic, readonly) unsigned short rpcPort;
 
 // takes a string, outputs an array of form [address, port]
 +(NSArray *)ParseRosObjcURI:(NSString *)uri;

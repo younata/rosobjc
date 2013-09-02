@@ -10,11 +10,17 @@
 #import "ROSNode.h"
 #import "ROSMsg.h"
 
-@interface ROSSocket : NSObject
+#import "GCDAsyncSocket.h"
+
+@interface ROSSocket : NSObject <GCDAsyncSocketDelegate>
 {
     dispatch_queue_t queue;
     ROSNode *_node;
     int sockfd;
+    NSMutableArray *gcdSockets;
+    NSMutableData *readData;
+    unsigned long long dataLength;
+    BOOL exchangedHeaders;
 }
 
 @property (nonatomic) unsigned short port;
@@ -23,6 +29,8 @@
 @property (nonatomic, strong) NSString *topic;
 
 @property (nonatomic) __block BOOL run;
+
++(BOOL)localServerAtPort:(short)port;
 
 -(BOOL)hasConnection:(NSURL *)url;
 -(void)startServerFromNode:(ROSNode *)node;

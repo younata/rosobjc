@@ -130,14 +130,14 @@
 {
     ROSSocket *s = nil;
     for (ROSSocket *soc in servers) {
-        if (soc.topic == topic) {
+        if ([soc.topic isEqualToString:topic]) {
             s = soc;
+            [s sendMsg:msg];
             break;
         }
     }
     if (s == nil)
         return NO;
-    [s sendMsg:msg];
     return YES;
 }
 
@@ -318,12 +318,14 @@
     ROSSocket *s = [[ROSSocket alloc] init];
     s.topic = topic;
     s.msgClass = [[ROSCore sharedCore] getClassForMessageType:[publishedTopics objectForKey:topic]];
-    unsigned short port = 12345;
-    for (ROSSocket *s in servers)
-        port = s.port;
-    s.port = port + 1;
+    unsigned short port = 9000;
+    while ([ROSSocket localServerAtPort:port]) {
+        port++;
+    }
+    s.port = port;
+    [s startServerFromNode:self];
     [servers addObject:s];
-    return @[@1, @"TCPROS", @[@"TCPROS", @(s.port)]];
+    return @[@1, @"TCPROS", @[@"TCPROS", [[NSProcessInfo processInfo] hostName], @(s.port)]];
 }
 
 @end

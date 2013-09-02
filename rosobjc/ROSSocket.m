@@ -22,6 +22,8 @@
 #include <arpa/inet.h>
 #include <sys/wait.h>
 
+#import "GCDAsyncSocket.h"
+
 #define MAXDATASIZE 1024
 
 @implementation ROSSocket
@@ -32,6 +34,8 @@
         _queueLength = 512;
         _port = 1234;
         _run = YES;
+        
+        dataLength = 0;
         
         queue = dispatch_queue_create([NSStringFromClass([self class]) UTF8String], 0);
     }
@@ -110,16 +114,82 @@
     return ret;
 }
 
+#pragma mark - GCDAsyncSocketDelegate
+
+-(void)socket:(GCDAsyncSocket *)sock didAcceptNewSocket:(GCDAsyncSocket *)newSocket
+{
+    if (gcdSockets == nil) {
+        gcdSockets = [[NSMutableArray alloc] init];
+    }
+    [gcdSockets addObject:newSocket];
+}
+
+-(void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
+{
+    if (dataLength == 0) {
+        readData = [[NSMutableData alloc] init];
+        [data getBytes:&dataLength length:4];
+        data = [data subdataWithRange:NSMakeRange(4, [data length] - 4)];
+    }
+    unsigned long long i = [data length];
+    if (i > dataLength) {
+        [readData appendData:[data subdataWithRange:NSMakeRange(0, dataLength)]];
+    } else {
+        [readData appendData:[data subdataWithRange:NSMakeRange(0, i)]];
+    }
+    
+    if (i >= dataLength) {
+        [self handleServerData:sock];
+    }
+    
+    if (i > dataLength) {
+        [self socket:sock didReadData:[data subdataWithRange:NSMakeRange(dataLength, i-dataLength)] withTag:tag];
+    }
+}
+
+#pragma mark - Methods
+
+-(void)handleServerData:(GCDAsyncSocket *)socket
+{
+    NSData *s = [readData copy];
+    if (!exchangedHeaders) {
+        NSMutableDictionary *headers = [[NSMutableDictionary alloc] init];
+        while ([s length] != 0) {
+            int len = *(int*)[[s subdataWithRange:NSMakeRange(0, 4)] bytes];
+            s = [s subdataWithRange:NSMakeRange(0, 4)];
+            NSString *t = [[NSString alloc] initWithData:[s subdataWithRange:NSMakeRange(0, len)] encoding:NSUTF8StringEncoding];
+            NSArray *a = [t componentsSeparatedByString:@"="];
+            if ([a count] == 1)
+                break;
+            [headers setObject:a[1] forKey:a[0]];
+            s = [s subdataWithRange:NSMakeRange(4, [s length] - len)];
+        }
+        // construct a respanse...
+        // lookup the md5sum for this...
+        
+        [socket writeData:[self generatePublisherHeader] withTimeout:-1 tag:0];
+        exchangedHeaders = YES;
+    } else {
+        ROSMsg *foo = [[_msgClass alloc] init];
+        [foo deserialize:s];
+        [_node recvMsg:foo Topic:_topic];
+    }
+}
+
 -(void)startServerFromNode:(ROSNode *)node
 {
     _node = node;
-    int new_fd;
+    _run = YES;
+    exchangedHeaders = NO;
+    GCDAsyncSocket *a = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:queue];
+    [a acceptOnPort:_port error:nil];
+    
+    /*
     struct addrinfo hints, *servinfo, *p;
     struct sockaddr_storage their_addr; // connector's address information
-    socklen_t sin_size;
     int yes=1;
-    char s[INET6_ADDRSTRLEN];
     int rv;
+    _run = YES;
     
     memset(&hints, 0, sizeof hints);
     hints.ai_family = AF_UNSPEC;
@@ -178,49 +248,53 @@
         return [NSData dataWithBytes:s length:foo];
     };
     
-    while(1) {  // main accept() loop
-        sin_size = sizeof their_addr;
-        new_fd = accept(sockfd, (struct sockaddr *)&their_addr, &sin_size);
-        if (new_fd == -1) {
-            perror("accept");
-            continue;
-        }
-        
-        inet_ntop(their_addr.ss_family,
-                  &(((struct sockaddr_in*)&their_addr)->sin_addr),
-                  s, sizeof s);
-        
-        NSData *d = readMsg(); // This is the connection header.
-        d = [d subdataWithRange:NSMakeRange(4, [d length] - 4)];
-        NSData *s = [d copy];
-        NSMutableDictionary *headers = [[NSMutableDictionary alloc] init];
-        while ([s length] != 0) {
-            int len = *(int*)[[s subdataWithRange:NSMakeRange(0, 4)] bytes];
-            s = [s subdataWithRange:NSMakeRange(0, 4)];
-            NSString *t = [[NSString alloc] initWithData:[s subdataWithRange:NSMakeRange(0, len)] encoding:NSUTF8StringEncoding];
-            NSArray *a = [t componentsSeparatedByString:@"="];
-            if ([a count] == 1)
-                break;
-            [headers setObject:a[1] forKey:a[0]];
-            s = [s subdataWithRange:NSMakeRange(4, [s length] - len)];
-        }
-        // construct a respanse...
-        // lookup the md5sum for this...
-        
-        [self sendData:[self generatePublisherHeader]];
-        
-        d = s = nil;
-        
-        dispatch_async(queue, ^{
-            while (_run) {
-                NSData *d = readMsg();
-                ROSMsg *foo = [[_msgClass alloc] init];
-                [foo deserialize:d];
-                [_node recvMsg:foo Topic:_topic];
-                // I HIGHLY doubt this is used, though...
+    dispatch_async(queue, ^{
+        while(_run) {  // main accept() loop
+            socklen_t sin_size = sizeof(their_addr);
+            int new_fd = accept(sockfd, (struct sockaddr *)&their_addr, &sin_size);
+            if (new_fd == -1) {
+                perror("accept");
+                continue;
             }
-        });
-    }
+            char s_[INET6_ADDRSTRLEN];
+            
+            inet_ntop(their_addr.ss_family,
+                      &(((struct sockaddr_in*)&their_addr)->sin_addr),
+                      s_, sizeof(s_));
+            
+            NSData *d = readMsg(); // This is the connection header.
+            d = [d subdataWithRange:NSMakeRange(4, [d length] - 4)];
+            NSData *s = [d copy];
+            NSMutableDictionary *headers = [[NSMutableDictionary alloc] init];
+            while ([s length] != 0) {
+                int len = *(int*)[[s subdataWithRange:NSMakeRange(0, 4)] bytes];
+                s = [s subdataWithRange:NSMakeRange(0, 4)];
+                NSString *t = [[NSString alloc] initWithData:[s subdataWithRange:NSMakeRange(0, len)] encoding:NSUTF8StringEncoding];
+                NSArray *a = [t componentsSeparatedByString:@"="];
+                if ([a count] == 1)
+                    break;
+                [headers setObject:a[1] forKey:a[0]];
+                s = [s subdataWithRange:NSMakeRange(4, [s length] - len)];
+            }
+            // construct a respanse...
+            // lookup the md5sum for this...
+            
+            [self sendData:[self generatePublisherHeader]];
+            
+            d = s = nil;
+            
+            dispatch_async(queue, ^{
+                while (_run) {
+                    NSData *d = readMsg();
+                    ROSMsg *foo = [[_msgClass alloc] init];
+                    [foo deserialize:d];
+                    [_node recvMsg:foo Topic:_topic];
+                    // I HIGHLY doubt this is used, though...
+                }
+            });
+        }
+    });
+     */
 }
 
 void prettyPrintHeader(NSData *data)
@@ -236,6 +310,36 @@ void prettyPrintHeader(NSData *data)
         free(s);
         d = [d subdataWithRange:NSMakeRange(4+i, [d length] - (4+i))];
     }
+}
+
++(BOOL)localServerAtPort:(short)port
+{
+    int sockfd;
+    
+    BOOL ret = YES;
+    
+    const char *host = "127.0.0.1";
+
+    // loop through all the results and connect to the first we can
+    sockfd = socket(PF_INET, SOCK_STREAM, 0);
+    if (sockfd == -1)
+        return NO;
+    
+    struct sockaddr_in addr;
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(port);
+    addr.sin_addr.s_addr = inet_addr(host);
+    memset(addr.sin_zero, '\0', sizeof(addr.sin_zero));
+    
+    if (connect(sockfd, (struct sockaddr *)&addr, sizeof(addr)) == -1) {
+        if (errno == ECONNREFUSED) {
+            ret = NO;
+        }
+    }
+    
+    close(sockfd);
+    
+    return ret;
 }
 
 -(void)startClient:(NSURL *)url Node:(ROSNode *)node
@@ -335,7 +439,11 @@ void prettyPrintHeader(NSData *data)
 
 -(int)sendMsg:(ROSMsg *)msg
 {
-    return [self sendData:[msg serialize]];
+    if (!gcdSockets || [gcdSockets count] == 0)
+        return 0;
+    NSData *d = [msg serialize];
+    [gcdSockets[0] writeData:d withTimeout:-1 tag:0];
+    return [d length];
 }
 
 @end

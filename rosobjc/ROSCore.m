@@ -13,6 +13,7 @@
 #import "HTTPServer.h"
 #import "RPCConnection.h"
 #import "ROSMsg.h"
+#import "ROSSocket.h"
 
 @interface ROSCore () {
     ROSNode *masterProxy;
@@ -89,7 +90,15 @@ static ROSCore *roscoreSingleton = nil;
         _httpServer = [[HTTPServer alloc] init];
         
         [_httpServer setConnectionClass:[RPCConnection class]];
-        [_httpServer setPort:8080];
+        _rpcPort = 8080;
+        
+        while ([ROSSocket localServerAtPort:_rpcPort]) {
+            _rpcPort++;
+        }
+        [_httpServer setPort:_rpcPort];
+        NSString *hostname = [[NSProcessInfo processInfo] hostName];
+        NSString *uri = [NSString stringWithFormat:@"http://%@:%u", hostname, _rpcPort];
+        [self setUri:uri];
         
         // Enable Bonjour
         [_httpServer setType:@"_http._tcp."];
