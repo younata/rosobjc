@@ -152,7 +152,7 @@
 
 void prettyPrintHeader(NSData *data)
 {
-    NSData *d = data;
+    NSData *d = data;//[data subdataWithRange:NSMakeRange(4, [data length] - 4)];
     while ([d length] > 4) {
         int len = 0;
         unsigned char shortBuf[4];
@@ -161,9 +161,15 @@ void prettyPrintHeader(NSData *data)
             len += (shortBuf[j]&0xff) << (24-(j*8));
         char *s = malloc(len);
         [d getBytes:s range:NSMakeRange(4, len)];
+        for (int i = 0; i < len; i++) {
+            printf("%02x:", s[i]);
+        }
+        printf("\n");
         NSString *str = [[NSString alloc] initWithBytes:s length:len encoding:NSUTF8StringEncoding];
-        printf("%s\n", [str UTF8String]);
+        if (str != nil)
+            printf("%s\n", [str UTF8String]);
         free(s);
+        s = NULL;
         d = [d subdataWithRange:NSMakeRange(4+len, [d length] - (4+len))];
     }
 }
@@ -316,7 +322,6 @@ void prettyPrintHeader(NSData *data)
                 if (EWOULDBLOCK == errno)
                     continue;
                 perror("accept");
-                continue;
             }
             NSLog(@"ROSSocket - recieved connection");
             char s_[INET6_ADDRSTRLEN];
@@ -332,7 +337,7 @@ void prettyPrintHeader(NSData *data)
                 printf("%02x:", b[i]);
             }
             printf("\n");
-            //prettyPrintHeader(d);
+            prettyPrintHeader(d);
 #warning FIXME: the following
             ///*
             NSData *s = [d copy];
