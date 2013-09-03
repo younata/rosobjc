@@ -151,14 +151,14 @@ static ROSCore *roscoreSingleton = nil;
 -(void)registerMessageClasses:(NSArray *)classes
 {
     for (Class c in classes) {
-        NSString *type = [[(ROSMsg *)[[c alloc] init] type] lowercaseString];
+        NSString *type = [(ROSMsg *)[[c alloc] init] type];
         [knownMessageTypes setObject:c forKey:type];
     }
 }
 
 -(Class)getClassForMessageType:(NSString *)type
 {
-    return [knownMessageTypes objectForKey:[type lowercaseString]];
+    return [knownMessageTypes objectForKey:type];
 }
 
 -(NSArray *)getKnownMessageTypes

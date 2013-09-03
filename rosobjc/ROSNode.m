@@ -77,7 +77,10 @@
                 break;
             }
         }
-        type = [type lowercaseString];
+        if (!topicTypes) {
+            topicTypes = [[NSMutableDictionary alloc] init];
+        }
+        [topicTypes setObject:type forKey:topic];
         [masterClient registerSubscriber:[self name] Topic:topic TopicType:type callback:^(NSArray *foo){
             NSArray *subs = [foo lastObject];
             for (NSString *i in subs) {
@@ -100,12 +103,19 @@
     if (![topic hasPrefix:@"/"]) {
         topic = [@"/" stringByAppendingString:topic];
     }
+    if ([[ROSCore sharedCore] getClassForMessageType:msgName] == nil)
+        return;
     if ([publishedTopics objectForKey:topic] != nil) {
         return;
     }
     [publishedTopics setObject:msgName forKey:topic];
+    if (!topicTypes) {
+        topicTypes = [[NSMutableDictionary alloc] init];
+    }
+    [topicTypes setObject:msgName forKey:topic];
     [masterClient registerPublisher:[self name] Topic:topic TopicType:msgName callback:^(NSArray *res){
         // res is an array of things already subscribing to this.
+        NSLog(@"%@", res);
         NSArray *subs = [res lastObject];
         for (NSString *i in subs) {
             break;
@@ -180,9 +190,11 @@
                 // problem.
                 NSLog(@"Unable to subscribe to %@", topic);
                 NSLog(@"Recieved %@", res);
-                [masterClient unregisterSubscriber:self.name Topic:topic callback:^(NSArray *a){;}];
+                //[masterClient unregisterSubscriber:self.name Topic:topic callback:^(NSArray *a){;}];
                 return;
             }
+            
+            NSLog(@"%@", res);
             
             NSArray *a = res[2];
             if ([a[0] isEqualToString:tcpros]) {
@@ -276,19 +288,23 @@
 
 -(NSArray *)publisherUpdate:(NSString *)callerID topic:(NSString *)topic publishers:(NSArray *)publishers
 {
+    if ([publishers count] != 0) {
+        return nil;
+    }
+    NSString *topicType = [topicTypes objectForKey:topic];
+    if (!topicType) {
+        return nil;
+    }
+    NSMutableArray *knownHosts = [[NSMutableArray alloc] init];
+    for (ROSSocket *soc in clients) {
+        [knownHosts addObject:soc.host];
+    }
     for (NSString *uri in publishers) {
-        if ([publishers count] != 0) {
-            if (servers == nil) {
-                servers = [[NSMutableArray alloc] init];
-            }
-            [masterClient makeCall:@"requestTopic" WithArgs:@[[self name], topic, @[protocols]] callback:^(NSArray *res){
-                NSArray *protocolParams = [res lastObject];
-                if ([protocolParams count] == 0) {
-                    // problem!
-                } else {
-                    // hm.
-                }
-            } URL:[NSURL URLWithString:uri]];
+        NSURL *u = [NSURL URLWithString:uri];
+        NSString *h = [u host];
+        if (![knownHosts containsObject:h]) {
+            [self connectTopic:topic uri:uri type:topicType Server:NO];
+            [knownHosts addObject:h];
         }
     }
     return nil;
@@ -325,7 +341,12 @@
     s.port = port;
     [s startServerFromNode:self];
     [servers addObject:s];
-    return @[@1, @"TCPROS", @[@"TCPROS", [[NSProcessInfo processInfo] hostName], @(s.port)]];
+    
+    NSString *hn = [[NSProcessInfo processInfo] hostName];
+    NSArray *ret = @[@1, [NSString stringWithFormat:@"ready on %@:%u", hn, s.port], @[@"TCPROS", hn, @(s.port)]];
+    NSLog(@"%@", ret);
+    
+    return ret;
 }
 
 @end

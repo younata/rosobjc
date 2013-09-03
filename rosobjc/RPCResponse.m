@@ -56,6 +56,7 @@ NSString *NSStringTrim(NSString *str, NSCharacterSet *toTrim)
         id thirdArg = nil;
         
         // this is meant to parse the ROS-specific stuff, not to be a generic xmlrpc parser.
+        // FIXME: this would probably work far better if it was a generic xmlrpc parser
         
         callerID = [[[[[p objectAtIndex:0] objectForKey:@"value"] objectForKey:@"string"] objectForKey:@"text"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         if (!callerID) {

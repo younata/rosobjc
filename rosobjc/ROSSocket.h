@@ -27,6 +27,7 @@
 @property (nonatomic) short queueLength;
 @property (nonatomic) Class msgClass;
 @property (nonatomic, strong) NSString *topic;
+@property (nonatomic, strong) NSString *host;
 
 @property (nonatomic) __block BOOL run;
 

@@ -193,51 +193,47 @@ void deserializeMessages(NSMutableData *buffer, NSMutableArray *msgQueue, Class 
 
 NSData *serializeBuiltInType(id data, NSString *type)
 {
-    NSArray *builtInTypes = @[@"bool", @"int8", @"uint8", @"int16", @"uint16",
-                              @"int32", @"uint32", @"int64", @"uint64", @"float32",
-                              @"float64", @"string", @"time", @"duration"];
     NSData *ret = nil;
-    for (NSString *i in builtInTypes) {
-        if ([i isEqualToString:@"bool"] || [i isEqualToString:@"uint8"]) {
-            UInt8 foo = htons([data unsignedCharValue]);
-            ret = [NSData dataWithBytes:&foo length:1];
-        } else if ([i isEqualToString:@"int8"]) {
-            int8_t foo = htons([data charValue]);
-            ret = [NSData dataWithBytes:&foo length:1];
-        } else if ([i isEqualToString:@"int16"]) {
-            int16_t foo = htons([data shortValue]);
-            ret = [NSData dataWithBytes:&foo length:2];
-        } else if ([i isEqualToString:@"uint16"]) {
-            UInt16 foo = htons([data unsignedShortValue]);
-            ret = [NSData dataWithBytes:&foo length:2];
-        } else if ([i isEqualToString:@"int32"]) {
-            int32_t foo = htonl([data intValue]);
-            ret = [NSData dataWithBytes:&foo length:4];
-        } else if ([i isEqualToString:@"uint32"]) {
-            UInt32 foo = htonl([data unsignedIntValue]);
-            ret = [NSData dataWithBytes:&foo length:4];
-        } else if ([i isEqualToString:@"int64"]) {
-            int64_t foo = htonl([data longLongValue]);
-            ret = [NSData dataWithBytes:&foo length:8];
-        } else if ([i isEqualToString:@"uint64"]) {
-            UInt64 foo = htonl([data unsignedLongLongValue]);
-            ret = [NSData dataWithBytes:&foo length:8];
-        } else if ([i isEqualToString:@"float32"]) {
-            float foo = htonl([data floatValue]);
-            ret = [NSData dataWithBytes:&foo length:4];
-        } else if ([i isEqualToString:@"float64"]) {
-            double foo = htonl([data doubleValue]);
-            ret = [NSData dataWithBytes:&foo length:8];
-        } else if ([i isEqualToString:@"string"]) {
-            ret = [data dataUsingEncoding:NSUTF8StringEncoding];
-        } else if ([i isEqualToString:@"time"] || [i isEqualToString:@"duration"]) {
-            float secs = htonl([data secs]);
-            float nsecs = htonl([data nsecs]);
-            
-            NSMutableData *d = [NSMutableData dataWithBytes:&secs length:4];
-            [d appendData:[NSData dataWithBytes:&nsecs length:4]];
-            ret = d;
-        }
+    NSString *i = [type lowercaseString];
+    if ([i isEqualToString:@"bool"] || [i isEqualToString:@"uint8"]) {
+        UInt8 foo = htons([data unsignedCharValue]);
+        ret = [NSData dataWithBytes:&foo length:1];
+    } else if ([i isEqualToString:@"int8"]) {
+        int8_t foo = htons([data charValue]);
+        ret = [NSData dataWithBytes:&foo length:1];
+    } else if ([i isEqualToString:@"int16"]) {
+        int16_t foo = htons([data shortValue]);
+        ret = [NSData dataWithBytes:&foo length:2];
+    } else if ([i isEqualToString:@"uint16"]) {
+        UInt16 foo = htons([data unsignedShortValue]);
+        ret = [NSData dataWithBytes:&foo length:2];
+    } else if ([i isEqualToString:@"int32"]) {
+        int32_t foo = htonl([data intValue]);
+        ret = [NSData dataWithBytes:&foo length:4];
+    } else if ([i isEqualToString:@"uint32"]) {
+        UInt32 foo = htonl([data unsignedIntValue]);
+        ret = [NSData dataWithBytes:&foo length:4];
+    } else if ([i isEqualToString:@"int64"]) {
+        int64_t foo = htonl([data longLongValue]);
+        ret = [NSData dataWithBytes:&foo length:8];
+    } else if ([i isEqualToString:@"uint64"]) {
+        UInt64 foo = htonl([data unsignedLongLongValue]);
+        ret = [NSData dataWithBytes:&foo length:8];
+    } else if ([i isEqualToString:@"float32"]) {
+        float foo = htonl([data floatValue]);
+        ret = [NSData dataWithBytes:&foo length:4];
+    } else if ([i isEqualToString:@"float64"]) {
+        double foo = htonl([data doubleValue]);
+        ret = [NSData dataWithBytes:&foo length:8];
+    } else if ([i isEqualToString:@"string"]) {
+        ret = [data dataUsingEncoding:NSUTF8StringEncoding];
+    } else if ([i isEqualToString:@"time"] || [i isEqualToString:@"duration"]) {
+        float secs = htonl([data secs]);
+        float nsecs = htonl([data nsecs]);
+        
+        NSMutableData *d = [NSMutableData dataWithBytes:&secs length:4];
+        [d appendData:[NSData dataWithBytes:&nsecs length:4]];
+        ret = d;
     }
     if (ret == nil)
         return ret;

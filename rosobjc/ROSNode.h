@@ -21,6 +21,7 @@
     // next two are the NSSocketPorts for the servers and clients...
     NSMutableArray *servers;
     NSMutableArray *clients;
+    NSMutableDictionary *topicTypes;
     
     NSMutableDictionary *params;
     
