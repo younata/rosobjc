@@ -17,13 +17,17 @@
     dispatch_queue_t queue;
     ROSNode *_node;
     int sockfd;
-    NSMutableArray *gcdSockets;
+    
+    GCDAsyncSocket *serverSock;
+    NSMutableArray *servers;
+    GCDAsyncSocket *clientSock;
+    
     NSMutableData *readData;
     unsigned long long dataLength;
     BOOL exchangedHeaders;
 }
 
-@property (nonatomic) unsigned short port;
+@property (nonatomic) uint16_t port;
 @property (nonatomic) short queueLength;
 @property (nonatomic) Class msgClass;
 @property (nonatomic, strong) NSString *topic;
@@ -31,10 +35,10 @@
 
 @property (nonatomic) __block BOOL run;
 
-+(BOOL)localServerAtPort:(short)port;
++(BOOL)localServerAtPort:(uint16_t)port;
 
 -(BOOL)hasConnection:(NSURL *)url;
--(void)startServerFromNode:(ROSNode *)node;
+-(void)startServerFromNode:(ROSNode *)node onAccept:(void (^)(void))onAcc;
 -(void)startClient:(NSURL *)url Node:(ROSNode *)node;
 
 -(void)shutdown;

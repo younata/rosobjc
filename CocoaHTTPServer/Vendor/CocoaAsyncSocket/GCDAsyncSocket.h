@@ -955,6 +955,12 @@ typedef enum GCDAsyncSocketError GCDAsyncSocketError;
 @optional
 
 /**
+ * This method is called immediately after a socket is configured to listen on a port.
+ * It allows the user to know when the server that is created is ready to be connected to.
+**/
+-(void)socketDidConfigureForListening:(GCDAsyncSocket *)sock;
+
+/**
  * This method is called immediately prior to socket:didAcceptNewSocket:.
  * It optionally allows a listening socket to specify the socketQueue for a new accepted socket.
  * If this method is not implemented, or returns NULL, the new accepted socket will create its own default queue.

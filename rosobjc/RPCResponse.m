@@ -10,8 +10,9 @@
 
 #import "ROSCore.h"
 
-#import "XMLRPCDefaultEncoder.h"
 #import "XMLReader.h"
+#import "XMLRPCDefaultEncoder.h"
+#import "XMLRPCEventBasedParser.h"
 
 NSString *NSStringTrim(NSString *str, NSCharacterSet *toTrim)
 {
@@ -45,48 +46,23 @@ NSString *NSStringTrim(NSString *str, NSCharacterSet *toTrim)
         isoFormatter = [[NSDateFormatter alloc] init];
         [isoFormatter setDateFormat:@"yyyyMMdd'T'HH:mm:ss"];
         
-        
+        NSString *bodyString = [[NSString alloc] initWithData:bodyData encoding:NSUTF8StringEncoding];
+        NSArray *_params = [bodyString componentsSeparatedByString:@"<param>"];
+        params = [[NSMutableArray alloc] init];
+        for (int i = 1; i < [_params count]; i++) {
+            NSString *j = [@"<param>" stringByAppendingString:[_params objectAtIndex:i]];
+            if (i == [_params count] - 1) {
+                j = [[j componentsSeparatedByString:@"</params>"] objectAtIndex:0];
+            }
+            NSData *d = [NSData dataWithBytes:[j UTF8String] length:[j length]];
+            XMLRPCEventBasedParser *ebp = [[XMLRPCEventBasedParser alloc] initWithData:d];
+            id foo = [ebp parse];
+            NSAssert(foo != nil, @"[ebp parse] produced a nil object");
+            [params addObject:foo];
+
+        }
         NSDictionary *reader = [[XMLReader dictionaryForXMLData:bodyData error:nil] objectForKey:@"methodCall"];
         methodName = [[[reader objectForKey:@"methodName"] objectForKey:@"text"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        NSArray *p = [[reader objectForKey:@"params"] objectForKey:@"param"];
-        //NSLog(@"%@", params);
-        
-        NSString *callerID;
-        NSString *msg = nil;
-        id thirdArg = nil;
-        
-        // this is meant to parse the ROS-specific stuff, not to be a generic xmlrpc parser.
-        // FIXME: this would probably work far better if it was a generic xmlrpc parser
-        
-        callerID = [[[[[p objectAtIndex:0] objectForKey:@"value"] objectForKey:@"string"] objectForKey:@"text"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        if (!callerID) {
-            callerID = [[[[p objectAtIndex:0] objectForKey:@"value"] objectForKey:@"text"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        }
-        if ([p count] > 1) {
-            msg = [[[[[p objectAtIndex:1] objectForKey:@"value"] objectForKey:@"string"] objectForKey:@"text"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            if (!msg) {
-                msg = [[[[p objectAtIndex:1] objectForKey:@"value"] objectForKey:@"text"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            }
-        }
-        if ([p count] > 2) {
-            thirdArg = @(0);
-            // TODO: parse the third argument.
-            id a = [[p objectAtIndex:2] objectForKey:@"value"];
-            if ([a objectForKey:@"array"] != nil) {
-                thirdArg = @[];
-            }
-        }
-        
-        params = [[NSMutableArray alloc] init];
-        if (callerID != nil) {
-            [params addObject:callerID];
-        }
-        if (msg != nil) {
-            [params addObject:msg];
-        }
-        if (thirdArg != nil) {
-            [params addObject:thirdArg];
-        }
         
         NSArray *r = [[ROSCore sharedCore] respondToRPC:methodName Params:params];
         if (r == nil) // fault.

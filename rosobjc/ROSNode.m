@@ -14,6 +14,8 @@
 
 #import "ROSSocket.h"
 
+#include <pthread.h>
+
 @implementation ROSNode
 
 -(id)initWithName:(NSString *)name
@@ -35,7 +37,7 @@
     subscribedTopics = [[NSMutableDictionary alloc] init];
     
     clients = [[NSMutableArray alloc] init];
-    servers = [[NSMutableArray alloc] init];
+    servers = [[NSMutableDictionary alloc] init];
     
     masterClient = [[ROSXMLRPCC alloc] init];
 }
@@ -53,7 +55,7 @@
     keepRunning = NO;
     if (_delegate != nil && [_delegate respondsToSelector:@selector(onShutdown:)])
         [_delegate onShutdown:reason];
-    for (ROSSocket *s in [servers arrayByAddingObjectsFromArray:clients]) {
+    for (ROSSocket *s in [servers.allValues arrayByAddingObjectsFromArray:clients]) {
         [s shutdown];
     }
     [clients removeAllObjects];
@@ -113,6 +115,8 @@
         topicTypes = [[NSMutableDictionary alloc] init];
     }
     [topicTypes setObject:msgName forKey:topic];
+    [self createServerForTopic:topic];
+    NSLog(@"About to register %@ as a publisher of %@ publishing '%@'", [self name], topic, msgName);
     [masterClient registerPublisher:[self name] Topic:topic TopicType:msgName callback:^(NSArray *res){
         // res is an array of things already subscribing to this.
         NSLog(@"%@", res);
@@ -138,14 +142,11 @@
 
 -(BOOL)publishMsg:(ROSMsg *)msg Topic:(NSString *)topic
 {
-    ROSSocket *s = nil;
-    for (ROSSocket *soc in servers) {
-        if ([soc.topic isEqualToString:topic]) {
-            s = soc;
-            [s sendMsg:msg];
-            break;
-        }
+    if (![topic hasPrefix:@"/"]) {
+        topic = [@"/" stringByAppendingString:topic];
     }
+    ROSSocket *s = [servers objectForKey:topic];
+    [s sendMsg:msg];
     if (s == nil)
         return NO;
     return YES;
@@ -153,15 +154,11 @@
 
 -(void)stopPublishingTopic:(NSString *)topic
 {
-    NSMutableArray *foo = [[NSMutableArray alloc] init];
-    for (ROSSocket *soc in servers) {
-        if (soc.topic == topic) {
-            [soc shutdown];
-        }
+    if (![topic hasPrefix:@"/"]) {
+        topic = [@"/" stringByAppendingString:topic];
     }
-    for (ROSSocket *soc in foo) {
-        [servers removeObject:soc];
-    }
+    [[servers objectForKey:topic] shutdown];
+    [servers removeObjectForKey:topic];
 }
 
 -(void)unSubscribeFromTopic:(NSString *)topic
@@ -172,6 +169,11 @@
         }
     }
     [subscribedTopics removeObjectForKey:topic];
+}
+
+-(void)socketClosed:(ROSSocket *)socket
+{
+    [clients removeObject:socket];
 }
 
 #pragma mark - internal
@@ -210,10 +212,6 @@
         } URL:u];
     } else {
         NSLog(@"uh... problem?");
-        /*
-         [s startServerFromNode:self];
-         [servers addObject:s];
-         */
     }
     return @[@1, [NSString stringWithFormat:@"Connected to %@", topic], @0];
 }
@@ -234,13 +232,12 @@
 
 -(NSArray *)getBusStats:(NSString *)callerID
 {
-    //NSArray *foo = [[ROSTopicManager sharedTopicManager] getPubSubStats];
     return @[@1, @"", [@[] arrayByAddingObject:@[]]];
 }
 
 -(NSArray *)getBusInfo:(NSString *)callerID
 {
-    return @[@1, @"bus info", @[]];//[[ROSTopicManager sharedTopicManager] getPubSubInfo]];
+    return @[@1, @"bus info", @[]];
 }
 
 -(NSArray *)getMasterUri:(NSString *)callerID
@@ -253,15 +250,7 @@
 
 -(NSArray *)shutdown:(NSString *)callerID msg:(NSString *)msg
 {
-    for (ROSSocket *s in [servers arrayByAddingObjectsFromArray:clients]) {
-        [s shutdown];
-    }
-    for (NSString *p in publishedTopics.allKeys) {
-        ;
-    }
-    for (NSString *s in subscribedTopics.allKeys) {
-        ;
-    }
+    [self shutdown:msg];
     return nil;
 }
 
@@ -310,6 +299,23 @@
     return nil;
 }
 
+-(void)createServerForTopic:(NSString *)topic
+{
+    if (![topic hasPrefix:@"/"]) {
+        topic = [@"/" stringByAppendingString:topic];
+    }
+    ROSSocket *s = [[ROSSocket alloc] init];
+    s.topic = topic;
+    s.msgClass = [[ROSCore sharedCore] getClassForMessageType:[publishedTopics objectForKey:topic]];
+    uint16_t port = 12345;
+    while ([ROSSocket localServerAtPort:port]) {
+        port++;
+    }
+    s.port = port;
+    [s startServerFromNode:self onAccept:^{;}];
+    [servers setObject:s forKey:topic];
+}
+
 -(NSArray *)requestTopic:(NSString *)callerID topic:(NSString *)topic protocols:(NSArray *)_protocols
 {
     if (![topic hasPrefix:@"/"]) {
@@ -320,7 +326,7 @@
     }
     BOOL found = NO;
     if (_protocols == nil || _protocols.count == 0) {
-        found = YES;
+        return @[@0, @"No protocol match", @[]];
     }
     for (NSArray *i in _protocols) {
         if ([[i objectAtIndex:0] isEqualToString:@"TCPROS"]) {
@@ -330,17 +336,13 @@
     }
     if (!found)
         return @[@0, @"No protocol match made", @[]];
-
-    ROSSocket *s = [[ROSSocket alloc] init];
-    s.topic = topic;
-    s.msgClass = [[ROSCore sharedCore] getClassForMessageType:[publishedTopics objectForKey:topic]];
-    unsigned short port = 9000;
-    while ([ROSSocket localServerAtPort:port]) {
-        port++;
+    
+    ROSSocket *s = [servers objectForKey:topic];
+    if (s == nil) {
+        [self createServerForTopic:topic];
     }
-    s.port = port;
-    [s startServerFromNode:self];
-    [servers addObject:s];
+    
+    NSLog(@"Recieved topicRequest on %@ from %@ for protocols: %@", topic, callerID, _protocols);
     
     NSString *hn = [[NSProcessInfo processInfo] hostName];
     NSArray *ret = @[@1, [NSString stringWithFormat:@"ready on %@:%u", hn, s.port], @[@"TCPROS", hn, @(s.port)]];

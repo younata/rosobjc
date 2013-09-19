@@ -35,11 +35,17 @@
         _port = 1234;
         _run = YES;
         
-        dataLength = 0;
+        servers = [[NSMutableArray alloc] init];
         
-        queue = dispatch_queue_create([NSStringFromClass([self class]) UTF8String], 0);
+        dataLength = 0;
     }
     return self;
+}
+
+-(void)createQueue
+{
+    NSString *qs = [[NSStringFromClass([self class]) stringByAppendingString:_topic] stringByAppendingString:NSStringFromClass(_msgClass)];
+    queue = dispatch_queue_create([qs UTF8String], 0);
 }
 
 -(BOOL)hasConnection:(NSURL *)url
@@ -116,12 +122,16 @@
 
 #pragma mark - GCDAsyncSocketDelegate
 
+-(void)socketDidConfigureForListening:(GCDAsyncSocket *)sock
+{
+    ;
+}
+
 -(void)socket:(GCDAsyncSocket *)sock didAcceptNewSocket:(GCDAsyncSocket *)newSocket
 {
-    if (gcdSockets == nil) {
-        gcdSockets = [[NSMutableArray alloc] init];
-    }
-    [gcdSockets addObject:newSocket];
+    [servers addObject:newSocket];
+    NSLog(@"Received connection from %@ on port %d", [newSocket connectedHost], [newSocket connectedPort]);
+    [newSocket readDataToLength:4096 withTimeout:-1 tag:0];
 }
 
 -(void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
@@ -139,13 +149,20 @@
     }
     
     if (i >= dataLength) {
-        [self handleServerData:sock];
+        [self handleServerData];
         dataLength = 0;
     }
     
     if (i > dataLength) {
         [self socket:sock didReadData:[data subdataWithRange:NSMakeRange(dataLength, i-dataLength)] withTag:tag];
+    } else {
+        [sock readDataToLength:4096 withTimeout:-1 tag:0];
     }
+}
+
+-(void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err
+{
+    NSLog(@"Socket disconnected with error: %@", err);
 }
 
 #pragma mark - Methods
@@ -174,25 +191,29 @@ void prettyPrintHeader(NSData *data)
     }
 }
 
--(void)handleServerData:(GCDAsyncSocket *)socket
+-(void)handleServerData
 {
     NSData *s = [readData copy];
+    unsigned int len = [self handleReadMsg:s];
+    if ([s length] < len)
+        return;
     if (!exchangedHeaders) {
         NSMutableDictionary *headers = [[NSMutableDictionary alloc] init];
-        while ([s length] != 0) {
-            int len = *(int*)[[s subdataWithRange:NSMakeRange(0, 4)] bytes];
-            s = [s subdataWithRange:NSMakeRange(0, 4)];
+        NSData *d = [s subdataWithRange:NSMakeRange(4, len)];
+        while ([d length] != 0) {
+            unsigned int l = [self handleReadMsg:d];
+            NSAssert(l < [d length], @"l is longer than data");
             NSString *t = [[NSString alloc] initWithData:[s subdataWithRange:NSMakeRange(0, len)] encoding:NSUTF8StringEncoding];
+            NSAssert(t != nil, @"t is nil");
             NSArray *a = [t componentsSeparatedByString:@"="];
-            if ([a count] == 1)
-                break;
+            NSAssert([a count] == 1, @"components separated... returned only one object, expected 2");
             [headers setObject:a[1] forKey:a[0]];
-            s = [s subdataWithRange:NSMakeRange(4, [s length] - len)];
+            d = [d subdataWithRange:NSMakeRange(4+l, [d length] - (l + 4))];
         }
         // construct a respanse...
         // lookup the md5sum for this...
         
-        [socket writeData:[self generatePublisherHeader] withTimeout:-1 tag:0];
+        [clientSock writeData:[self generatePublisherHeader] withTimeout:-1 tag:0];
         exchangedHeaders = YES;
     } else {
         ROSMsg *foo = [[_msgClass alloc] init];
@@ -201,19 +222,26 @@ void prettyPrintHeader(NSData *data)
     }
 }
 
+-(unsigned int)handleReadMsg:(NSData *)input
+{
+    unsigned char *c = (unsigned char *)[input bytes];
+    unsigned int len = 0;
+    for (int i = 0; i < 4; i++)
+        len += (c[i]&0xFF) << ((i*8));
+    return len;
+}
+
 -(NSData *)readMsg
 {
     // this is the way rospy works.
     unsigned char *c = malloc(4096);
-    if (recv(sockfd, c, 4096, 0) == -1) {
+    unsigned int r = 0;
+    if ((r = recv(sockfd, c, 4096, 0)) == -1) {
         perror("readMsg");
         [self shutdown];
         return nil;
     }
-    unsigned int len = 0;
-    for (int i = 0; i < 4; i++)
-        len += (c[i]&0xFF) << (24-(i*8));
-    NSData *ret = [NSData dataWithBytes:c length:len+4];
+    NSData *ret = [NSData dataWithBytes:c length:r];
     free(c);
     return ret;
     /*
@@ -256,12 +284,23 @@ void prettyPrintHeader(NSData *data)
      */
 };
 
--(void)startServerFromNode:(ROSNode *)node
+-(void)startServerFromNode:(ROSNode *)node onAccept:(void (^)(void))onAcc
 {
     _node = node;
     _run = YES;
     
-    ///*
+    //onSocketAccept = onAcc;
+    [self createQueue];
+    
+    serverSock = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:queue];
+    NSError *error = nil;
+    if (![serverSock acceptOnPort:_port error:&error]) {
+        NSLog(@"Error setting up server: %@", error);
+    }
+    
+    return;
+    
+    /*
     struct addrinfo hints, *servinfo, *p;
     struct sockaddr_storage their_addr; // connector's address information
     int yes=1;
@@ -274,10 +313,16 @@ void prettyPrintHeader(NSData *data)
     hints.ai_socktype = SOCK_STREAM;
     hints.ai_flags = AI_PASSIVE; // use my IP
     
+    if ([ROSSocket localServerAtPort:_port]) {
+        _port += 1;
+    }
+    
     if ((rv = getaddrinfo(NULL, [[@(_port) stringValue] UTF8String], &hints, &servinfo)) != 0) {
         fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
         return;
     }
+    
+    printf("listening on %u port\n", _port);
     
     for(p = servinfo; p != NULL; p = p->ai_next) {
         if ((serverfd = socket(p->ai_family, p->ai_socktype,
@@ -339,7 +384,6 @@ void prettyPrintHeader(NSData *data)
             printf("\n");
             prettyPrintHeader(d);
 #warning FIXME: the following
-            ///*
             NSData *s = [d copy];
             NSMutableDictionary *headers = [[NSMutableDictionary alloc] init];
             while ([s length] != 0) {
@@ -364,7 +408,7 @@ void prettyPrintHeader(NSData *data)
                 [headers setObject:a[1] forKey:a[0]];
                 s = [s subdataWithRange:NSMakeRange(4, [s length] - len)];
             }
-            // */
+            //
             // construct a respanse...
             // lookup the md5sum for this...
             
@@ -385,7 +429,7 @@ void prettyPrintHeader(NSData *data)
     //*/
 }
 
-+(BOOL)localServerAtPort:(short)port
++(BOOL)localServerAtPort:(uint16_t)port
 {
     int sockfd;
     
@@ -419,6 +463,8 @@ void prettyPrintHeader(NSData *data)
 {
     _node = node;
     _host = [url host];
+    
+    [self createQueue];
     
     struct addrinfo hints, *servinfo, *p;
     int rv;
@@ -509,10 +555,10 @@ void prettyPrintHeader(NSData *data)
     if (sockfd < 0 || !_run) {
         return -1;
     }
-    if (!gcdSockets || [gcdSockets count] == 0)
+    if (!clientSock)
         return [self sendData:[msg serialize]];
     NSData *d = [msg serialize];
-    [gcdSockets[0] writeData:d withTimeout:-1 tag:0];
+    [clientSock writeData:d withTimeout:-1 tag:0];
     return [d length];
 }
 

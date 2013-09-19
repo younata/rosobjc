@@ -8,6 +8,8 @@ import string
 import roslib.gentools
 import genmsg.msgs as msgs
 
+knownMessages = {}
+
 def testConfirm(fn):
     l = ['bool', 'int8', 'uint8', 'int16', 'uint16', 'int32', 'uint32', 'int64', 'uint64', 'float32', 'float64', 'string', 'time', 'duration']
     b = os.path.basename(fn)[:-4].lower()
@@ -42,12 +44,15 @@ def convertBaseToObjc(baseType, context):
     times = ['time', 'duration']
     if baseType in times:
         return "ROSTime"
-    return "NSObject"
+    if baseType in knownMessages.keys():
+        return knownMessages[baseType]
+    return None
 
 def writeHeader(className, fn, msgFileLoc):
-    f = open(fn+".h", "a")
+    retString = ""
+    #f = open(fn+".h", "a")
     a = string.join(className.split("/"), "")
-    f.write("@interface ROSMsg%s : ROSMsg\n" % a)
+    retString += "@interface ROSMsg%s : ROSMsg\n" % a
     j = open(msgFileLoc)
     c = j.read()
     j.close()
@@ -58,31 +63,30 @@ def writeHeader(className, fn, msgFileLoc):
         if len(l) == 2:
             t = l[0]
             n = l[1]
-            f.write("@property (nonatomic, retain) %s *%s;\n" % (convertBaseToObjc(t), n))
+            retString += "@property (nonatomic, retain) %s *%s;\n" % (convertBaseToObjc(t), n)
         elif len(l) == 3:
             t = l[0]
             n = l[1]
             d = l[2]
-            f.write("@property (nonatomic, retain, readonly) %s *%s;\n" % (convertBaseToObjc(t), n))
-    f.write("@end\n")
-    f.write("\n\n");
-    f.close()
+            retString += "@property (nonatomic, retain, readonly) %s *%s;\n" % (convertBaseToObjc(t), n)
+    retString += "@end\n"
+    retString += "\n\n"
 
 def writeImpl(className, fn, msgFileLoc, classDef, md5):
-    f = open(fn+".m", "a")
     a = string.join(className.split("/"), "")
-    f.write("@implementation ROSMsg%s\n" % a)
+    retString = ""
+    retString += "@implementation ROSMsg%s\n" % a
     f.write("-(NSString *)md5sum { return @\"%s\"; }\n" % md5)
     j = open(msgFileLoc)
     c = j.read();
     j.close()
     blah = str(c)
     argle = string.join(blah.split("\n"), "\\n")
-    f.write("-(NSString *)_messageDefinition { return @\"%s\"; }\n" % argle)
+    retString += "-(NSString *)_messageDefinition { return @\"%s\"; }\n" % argle
 
     argle = string.join(classDef.split("\n"), "\\n")
-    f.write("-(NSString *)definition { return @\"%s\"; }\n" % argle)
-    f.write("-(NSString *)type { return @\"%s\"; }\n" % className)
+    retString += "-(NSString *)definition { return @\"%s\"; }\n" % argle
+    retString += "-(NSString *)type { return @\"%s\"; }\n" % className
     fields = []
     for line in c.split("\n"):
         line = line.strip()
@@ -99,33 +103,44 @@ def writeImpl(className, fn, msgFileLoc, classDef, md5):
             d = l[2]
             blah = convertBaseToObjc(t)
             if blah == "NSNumber":
-                f.write("-(NSNumber *)%s { return @(%s); }\n" % (n, d))
+                retString += "-(NSNumber *)%s { return @(%s); }\n" % (n, d)
             elif blah == "NSString":
-                f.write("-(NSString *)%s { return @\"%s\"; }\n" % (n, d))
+                retString += "-(NSString *)%s { return @\"%s\"; }\n" % (n, d)
             elif blah == "NSArray":
-                f.write("-(NSArray *)%s { return @%s; }\n" % (n, d))
+                retString += "-(NSArray *)%s { return @%s; }\n" % (n, d)
             #elif blah == "ROSTime":
             #    f.write("-(ROSTime *)%s { ROSTime *r = [[ROSTime alloc] init]; r.secs = %s; r.nsecs = %s" % (n, 
-    f.write("-(NSArray *)fields { return @[");
+    retString += "-(NSArray *)fields { return @[")
     for i in fields:
-        f.write("@[@\"%s\", @\"%s\"], " % (i[0], i[1])) 
-    f.write("]; }\n")
+        retString += "@[@\"%s\", @\"%s\"], " % (i[0], i[1]))
+    retString += "]; }\n"
 
-    f.write("-(NSData *)serialize { return serialize(self, @selector(serialize)); }\n")
-    f.write("-(NSArray *)deserialize:(NSData *)d { return deserialize(self, @selector(deserialize:), d); }\n")
-    f.write("@end\n")
-    f.write("\n\n");
-    f.close()
+    retString += "-(NSData *)serialize { return serialize(self, @selector(serialize)); }\n"
+    retString += "-(NSArray *)deserialize:(NSData *)d { return deserialize(self, @selector(deserialize:), d); }\n"
+    retString += "@end\n"
+    retString += "\n\n")
     
-def generateSingleMsg(f, classFile, knownRosMsgs):
+def generateSingleMsg(f, classFile):
     if not testConfirm(f):
         return
     a = packageName(f)
     b = getFileDeps(f)
     c = cat(b)
     m = md5(b)
-    writeImpl(a, classFile, f, c, m)
-    writeHeader(a, classFile, f)
+    head = writeHeader(a, classFile, f)
+    impl = writeImpl(a, classFile, f, c, m)
+
+    if head == None:
+        return None;
+
+    fi = open(classFile+".h", "a")
+    fi.write(head)
+    fi.close()
+    fi = open(classFile+".m", "a")
+    fi.write(impl)
+    fi.close()
+
+
     ret = "ROSMsg" + string.join(a.split("/"), "")
     print ret
     return (ret, a.split("/")[0], a.split("/")[1])
@@ -136,11 +151,22 @@ def generateSingleMsg(f, classFile, knownRosMsgs):
 def main()
     classFile = "ROSGenMsg"
     knownRosLibraries = []
+    stack = []
     for root, dirs, files in os.walk("/opt/ros/groovy"):
         for i in files:
             if i.endswith(".msg"):
-                knownRosLibraries.append(generateSingleMsg(root + "/" + i, classFile))
-                
+                r = generateSingleMsg(root + "/" + i, classFile)
+                if r != None:
+                    knownMessages.append(r)
+                else:
+                    stack.append(root + "/" + i)
+    while len(stack) > 0:
+        i = stack.pop(0)
+        r = generateSingleMsg(i, classFile)
+        if r != None:
+            knownMessages.append(r)
+        else:
+            stack.append(i)
 
 if __name__ == "__main__":
     main()

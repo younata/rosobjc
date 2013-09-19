@@ -12,14 +12,15 @@
 @class ROSCore;
 @class ROSMsg;
 @class ROSXMLRPCC;
+@class ROSSocket;
 
 @interface ROSNode : NSObject
 {
     NSMutableDictionary *publishedTopics; //{topic: msgClass}
     NSMutableDictionary *subscribedTopics; //{topic: [
     
-    // next two are the NSSocketPorts for the servers and clients...
-    NSMutableArray *servers;
+    // next two are the ROSSockets for the servers and clients...
+    NSMutableDictionary *servers; // {topic: ROSSocket}
     NSMutableArray *clients;
     NSMutableDictionary *topicTypes;
     
@@ -50,6 +51,8 @@
 
 -(void)stopPublishingTopic:(NSString *)topic;
 -(void)unSubscribeFromTopic:(NSString *)topic;
+
+-(void)socketClosed:(ROSSocket *)socket;
 
 #pragma mark - Slave API
 -(NSArray *)getPublishedTopics:(NSString *)NameSpace;

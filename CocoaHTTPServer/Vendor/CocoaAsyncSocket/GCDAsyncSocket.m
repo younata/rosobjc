@@ -1723,6 +1723,10 @@ enum GCDAsyncSocketConfig
 		}
 		
 		flags |= kSocketStarted;
+        
+        if ([delegate respondsToSelector:@selector(socketDidConfigureForListening:)]) {
+            [delegate socketDidConfigureForListening:self];
+        }
 		
 		result = YES;
 	}};

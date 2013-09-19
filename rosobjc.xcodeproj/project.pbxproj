@@ -31,7 +31,11 @@
 		891F1CE0177142C900E4C321 /* ROSMsg.h in Headers */ = {isa = PBXBuildFile; fileRef = 891F1CDE177142C900E4C321 /* ROSMsg.h */; };
 		891F1CE1177142C900E4C321 /* ROSMsg.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F1CDF177142C900E4C321 /* ROSMsg.m */; };
 		891F1CE2177142C900E4C321 /* ROSMsg.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F1CDF177142C900E4C321 /* ROSMsg.m */; };
-		8961B0A91778040D005564A5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8961B0A81778040D005564A5 /* Foundation.framework */; };
+		8972AE1C17EAB37700E74D4F /* rosobjc-osx-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 8972AE1B17EAB37700E74D4F /* rosobjc-osx-Prefix.pch */; };
+		8972AE2117EAB3BC00E74D4F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8972AE2017EAB3BC00E74D4F /* Cocoa.framework */; };
+		8972AE2317EAB3FA00E74D4F /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8972AE2217EAB3FA00E74D4F /* XMLReader.m */; };
+		8972AE2717EAB41D00E74D4F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8972AE2617EAB41D00E74D4F /* CFNetwork.framework */; };
+		8972AE2C17EAB43A00E74D4F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8972AE2A17EAB43A00E74D4F /* Security.framework */; };
 		898F7DB517964F53009B8961 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 898F7D4117964F53009B8961 /* .gitignore */; };
 		898F7DB617964F53009B8961 /* Common.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 898F7D4317964F53009B8961 /* Common.xcconfig */; };
 		898F7DB717964F53009B8961 /* CommonDevelopment.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 898F7D4417964F53009B8961 /* CommonDevelopment.xcconfig */; };
@@ -269,6 +273,14 @@
 		891F1CDF177142C900E4C321 /* ROSMsg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ROSMsg.m; sourceTree = "<group>"; };
 		8961B0A81778040D005564A5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		8961B0AA17780432005564A5 /* libcommonCrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcommonCrypto.dylib; path = usr/lib/system/libcommonCrypto.dylib; sourceTree = SDKROOT; };
+		8972AE1B17EAB37700E74D4F /* rosobjc-osx-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "rosobjc-osx-Prefix.pch"; path = "rosobjc-osx/rosobjc-osx-Prefix.pch"; sourceTree = "<group>"; };
+		8972AE2017EAB3BC00E74D4F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
+		8972AE2217EAB3FA00E74D4F /* XMLReader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = XMLReader.m; path = rosobjc/XMLReader.m; sourceTree = "<group>"; };
+		8972AE2417EAB40F00E74D4F /* XMLReader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = XMLReader.h; path = rosobjc/XMLReader.h; sourceTree = "<group>"; };
+		8972AE2617EAB41D00E74D4F /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/CFNetwork.framework; sourceTree = DEVELOPER_DIR; };
+		8972AE2817EAB42700E74D4F /* libcommonCrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcommonCrypto.dylib; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib/system/libcommonCrypto.dylib; sourceTree = DEVELOPER_DIR; };
+		8972AE2A17EAB43A00E74D4F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
+		8972AE2B17EAB43A00E74D4F /* SecurityFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SecurityFoundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/SecurityFoundation.framework; sourceTree = DEVELOPER_DIR; };
 		898F7D4117964F53009B8961 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		898F7D4317964F53009B8961 /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		898F7D4417964F53009B8961 /* CommonDevelopment.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = CommonDevelopment.xcconfig; sourceTree = "<group>"; };
@@ -412,7 +424,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8961B0A91778040D005564A5 /* Foundation.framework in Frameworks */,
+				8972AE2C17EAB43A00E74D4F /* Security.framework in Frameworks */,
+				8972AE2717EAB41D00E74D4F /* CFNetwork.framework in Frameworks */,
+				8972AE2117EAB3BC00E74D4F /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -432,6 +446,9 @@
 		891F1C6A1770245400E4C321 = {
 			isa = PBXGroup;
 			children = (
+				8972AE2417EAB40F00E74D4F /* XMLReader.h */,
+				8972AE2217EAB3FA00E74D4F /* XMLReader.m */,
+				8972AE1B17EAB37700E74D4F /* rosobjc-osx-Prefix.pch */,
 				898F7D4017964F52009B8961 /* xmlrpc */,
 				89E3013E1787EF9C000608D2 /* CocoaHTTPServer */,
 				89E3036D17887A7D000608D2 /* XMLRPC */,
@@ -457,6 +474,11 @@
 		891F1C751770245400E4C321 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8972AE2A17EAB43A00E74D4F /* Security.framework */,
+				8972AE2B17EAB43A00E74D4F /* SecurityFoundation.framework */,
+				8972AE2817EAB42700E74D4F /* libcommonCrypto.dylib */,
+				8972AE2617EAB41D00E74D4F /* CFNetwork.framework */,
+				8972AE2017EAB3BC00E74D4F /* Cocoa.framework */,
 				8961B0AA17780432005564A5 /* libcommonCrypto.dylib */,
 				8961B0A81778040D005564A5 /* Foundation.framework */,
 				891F1C761770245400E4C321 /* Foundation.framework */,
@@ -837,6 +859,7 @@
 				89E302821787EF9E000608D2 /* WebSocket.h in Headers */,
 				89E303351787EF9E000608D2 /* GCDAsyncSocket.h in Headers */,
 				898F7E1817964F53009B8961 /* XMLRPCEventBasedParserDelegate.h in Headers */,
+				8972AE1C17EAB37700E74D4F /* rosobjc-osx-Prefix.pch in Headers */,
 				89E303391787EF9E000608D2 /* DDAbstractDatabaseLogger.h in Headers */,
 				89E3033C1787EF9E000608D2 /* DDASLLogger.h in Headers */,
 				898F7DC117964F53009B8961 /* NSData+Base64.h in Headers */,
@@ -1156,6 +1179,7 @@
 				89E3037717887CB1000608D2 /* RPCResponse.m in Sources */,
 				898F7E0C17964F53009B8961 /* XMLRPCConnection.m in Sources */,
 				898F7E4817B86CD8009B8961 /* ROSUDP.m in Sources */,
+				8972AE2317EAB3FA00E74D4F /* XMLReader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1372,6 +1396,10 @@
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				INFOPLIST_FILE = "rosobjc-osx/rosobjc-osx-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/system",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -1396,6 +1424,10 @@
 				GCC_PREFIX_HEADER = "rosobjc-osx/rosobjc-osx-Prefix.pch";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				INFOPLIST_FILE = "rosobjc-osx/rosobjc-osx-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/system",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;

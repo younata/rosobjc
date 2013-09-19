@@ -4,7 +4,9 @@ MANDATORY:
     handle node-to-node transport negotiation and connection setup. A client library may only support a subset of the possible transport mechanisms, most likely ROS/TCPROS
     handle transport-specific serialization and deserialization of messages. 
 
-We currently do a subset of each of the above, but none.
+We implement the slave side of the master/slave API, but there is no nice method call a developer can make to get the information from it.
+We have ROS/TCPROS implemented, and it has been tested (and works) for subscribing to messages. Still working on getting it to work for publishing.
+We do handle serialization and deserializing of messages for ROS/TCPROS
 
 SHOULD:
     parse command-line Remapping Arguments. A node that cannot do this will not be reconfigurable.
@@ -12,11 +14,16 @@ SHOULD:
     publish debugging messages to rosout
     depend on the roslang package, which allows rosbuild and other tools to perform appropriate actions, such as msg- and srv-based code generation 
 
-We may implement subscribing to simulated clcok, and publish debugging messages to rosout.
+We do not (and I don't think it's reasonable to do) command-line remapping arguments, because this is actually inherently different from other ROS client libraries. Similarly, we will not use rosbuild except for the message generating script.
+We do not (and we should) publish debug to rosout, once we get publishing working...
+We do not (though, actually, we can - this is probably something the user can configure) subscribe to a simulated Clock.
+
 
 NICE TO HAVE:
     object representation of message types
     event loop for connection servicing
     user callback invocation on message receipt 
 
-yes, all of these will be doable.
+We do object representation of mesasge types.
+we do event loop for connection servicing.
+We do user callback invocation on message receipt.
