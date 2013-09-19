@@ -102,7 +102,7 @@ NSString *NSStringTrim(NSString *str, NSCharacterSet *toTrim)
 
 -(NSData *)readDataOfLength:(NSUInteger)length
 {
-    return nil;
+    return [responseString dataUsingEncoding:NSUTF8StringEncoding];
 }
 
 -(BOOL)isDone

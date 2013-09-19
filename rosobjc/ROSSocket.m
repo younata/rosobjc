@@ -131,7 +131,7 @@
 {
     [servers addObject:newSocket];
     NSLog(@"Received connection from %@ on port %d", [newSocket connectedHost], [newSocket connectedPort]);
-    [newSocket readDataToLength:4096 withTimeout:-1 tag:0];
+    [newSocket readDataWithTimeout:-1 tag:0];
 }
 
 -(void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
@@ -156,7 +156,7 @@
     if (i > dataLength) {
         [self socket:sock didReadData:[data subdataWithRange:NSMakeRange(dataLength, i-dataLength)] withTag:tag];
     } else {
-        [sock readDataToLength:4096 withTimeout:-1 tag:0];
+        [sock readDataWithTimeout:-1 tag:0];
     }
 }
 
@@ -535,6 +535,8 @@ void prettyPrintHeader(NSData *data)
 
 -(int)sendData:(NSData *)d
 {
+    if (sockfd <= 0)
+        return 0;
     int foo = (int)[d length], justSent = 0, totalSent = 0;
     const void *data = [d bytes];
     while (YES) {
@@ -555,10 +557,11 @@ void prettyPrintHeader(NSData *data)
     if (sockfd < 0 || !_run) {
         return -1;
     }
-    if (!clientSock)
+    if ([servers count] == 0)
         return [self sendData:[msg serialize]];
     NSData *d = [msg serialize];
-    [clientSock writeData:d withTimeout:-1 tag:0];
+    for (GCDAsyncSocket *s in servers)
+        [s writeData:d withTimeout:-1 tag:0];
     return [d length];
 }
 

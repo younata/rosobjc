@@ -648,6 +648,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
+				SDKROOT = macosx10.8;
 				VERSION_INFO_FILE = "";
 			};
 			name = Development;
@@ -658,6 +659,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
+				SDKROOT = macosx10.8;
 				VERSION_INFO_FILE = "";
 			};
 			name = Release;

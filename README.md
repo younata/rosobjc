@@ -18,6 +18,8 @@ ROSObjc should be used for iOS or OSX applications where it's not desireable, pr
 
 ###Building
 
+It is currently recommended that you just drag the entire rosobjc folder into your project. I am working on changing this, but it's not that high on the todo list.
+
 This framework uses the ROS prefix for all classes and files, with the exception of rosobjc.h
 
 To compile a static library under iOS, select the "rosobjc-ios" target.

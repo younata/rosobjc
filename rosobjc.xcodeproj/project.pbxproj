@@ -7,207 +7,175 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		891E513217EADAB000DF46A2 /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8972AE2217EAB3FA00E74D4F /* XMLReader.m */; };
+		891E513317EADAB100DF46A2 /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8972AE2217EAB3FA00E74D4F /* XMLReader.m */; };
+		891E513417EADABB00DF46A2 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7D5117964F53009B8961 /* NSData+Base64.m */; };
+		891E513517EADABE00DF46A2 /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7D5317964F53009B8961 /* NSStringAdditions.m */; };
+		891E513617EADAC800DF46A2 /* XMLRPCConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7DA617964F53009B8961 /* XMLRPCConnection.m */; };
+		891E513717EADACE00DF46A2 /* XMLRPCConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7DA917964F53009B8961 /* XMLRPCConnectionManager.m */; };
+		891E513817EADAD200DF46A2 /* XMLRPCDefaultEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7DAB17964F53009B8961 /* XMLRPCDefaultEncoder.m */; };
+		891E513917EADAD500DF46A2 /* XMLRPCEventBasedParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7DAE17964F53009B8961 /* XMLRPCEventBasedParser.m */; };
+		891E513A17EADAD900DF46A2 /* XMLRPCEventBasedParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7DB017964F53009B8961 /* XMLRPCEventBasedParserDelegate.m */; };
+		891E513B17EADADD00DF46A2 /* XMLRPCRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7DB217964F53009B8961 /* XMLRPCRequest.m */; };
+		891E513C17EADAE300DF46A2 /* XMLRPCResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7DB417964F53009B8961 /* XMLRPCResponse.m */; };
+		891E513D17EADAF100DF46A2 /* DDData.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301441787EF9C000608D2 /* DDData.m */; };
+		891E513E17EADAF400DF46A2 /* DDNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301461787EF9C000608D2 /* DDNumber.m */; };
+		891E513F17EADAF700DF46A2 /* DDRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301481787EF9C000608D2 /* DDRange.m */; };
+		891E514017EADAFB00DF46A2 /* HTTPAuthenticationRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3014A1787EF9D000608D2 /* HTTPAuthenticationRequest.m */; };
+		891E514117EADAFE00DF46A2 /* HTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3014C1787EF9D000608D2 /* HTTPConnection.m */; };
+		891E514217EADB0300DF46A2 /* HTTPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3014F1787EF9D000608D2 /* HTTPMessage.m */; };
+		891E514317EADB0700DF46A2 /* HTTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301521787EF9D000608D2 /* HTTPServer.m */; };
+		891E514417EADB0F00DF46A2 /* MultipartFormDataParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301551787EF9D000608D2 /* MultipartFormDataParser.m */; };
+		891E514517EADB1300DF46A2 /* MultipartMessageHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301571787EF9D000608D2 /* MultipartMessageHeader.m */; };
+		891E514617EADB1600DF46A2 /* MultipartMessageHeaderField.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301591787EF9D000608D2 /* MultipartMessageHeaderField.m */; };
+		891E514717EADB1D00DF46A2 /* HTTPAsyncFileResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3015C1787EF9D000608D2 /* HTTPAsyncFileResponse.m */; };
+		891E514817EADB2100DF46A2 /* HTTPDataResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3015E1787EF9D000608D2 /* HTTPDataResponse.m */; };
+		891E514917EADB2400DF46A2 /* HTTPDynamicFileResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301601787EF9D000608D2 /* HTTPDynamicFileResponse.m */; };
+		891E514A17EADB2700DF46A2 /* HTTPErrorResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301621787EF9D000608D2 /* HTTPErrorResponse.m */; };
+		891E514B17EADB2A00DF46A2 /* HTTPFileResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301641787EF9D000608D2 /* HTTPFileResponse.m */; };
+		891E514C17EADB2E00DF46A2 /* HTTPRedirectResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301661787EF9D000608D2 /* HTTPRedirectResponse.m */; };
+		891E514D17EADB3200DF46A2 /* WebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301681787EF9D000608D2 /* WebSocket.m */; };
+		891E514E17EADB3900DF46A2 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3023B1787EF9E000608D2 /* GCDAsyncSocket.m */; };
+		891E514F17EADB3F00DF46A2 /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3023F1787EF9E000608D2 /* DDAbstractDatabaseLogger.m */; };
+		891E515017EADB4300DF46A2 /* DDASLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E302411787EF9E000608D2 /* DDASLLogger.m */; };
+		891E515117EADB4600DF46A2 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E302431787EF9E000608D2 /* DDFileLogger.m */; };
+		891E515217EADB4900DF46A2 /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E302451787EF9E000608D2 /* DDLog.m */; };
+		891E515317EADB4B00DF46A2 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E302471787EF9E000608D2 /* DDTTYLogger.m */; };
+		891E515417EADB5000DF46A2 /* ContextFilterLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3024A1787EF9E000608D2 /* ContextFilterLogFormatter.m */; };
+		891E515517EADB5600DF46A2 /* DispatchQueueLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3024C1787EF9E000608D2 /* DispatchQueueLogFormatter.m */; };
+		891E515617EADB5F00DF46A2 /* RPCConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3036F17887B3E000608D2 /* RPCConnection.m */; };
+		891E515717EADB6200DF46A2 /* RPCResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3037417887CB1000608D2 /* RPCResponse.m */; };
+		891E515817EADB6900DF46A2 /* ROSCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F1CD3177028F800E4C321 /* ROSCore.m */; };
+		891E515917EADB6C00DF46A2 /* ROSMsg.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F1CDF177142C900E4C321 /* ROSMsg.m */; };
+		891E515A17EADB6F00DF46A2 /* ROSSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7E2E179C94F0009B8961 /* ROSSocket.m */; };
+		891E515B17EADB7200DF46A2 /* ROSUDP.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7E4517B86CD8009B8961 /* ROSUDP.m */; };
+		891E515C17EADB7500DF46A2 /* ROSNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F1CDA1770318300E4C321 /* ROSNode.m */; };
+		891E515D17EADB7700DF46A2 /* ROSXMLRPC.m in Sources */ = {isa = PBXBuildFile; fileRef = 89949489177D6C26005E306F /* ROSXMLRPC.m */; };
 		891F1C771770245400E4C321 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 891F1C761770245400E4C321 /* Foundation.framework */; };
-		891F1C7C1770245400E4C321 /* rosobjc.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 891F1C7B1770245400E4C321 /* rosobjc.h */; };
-		891F1C851770245400E4C321 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 891F1C841770245400E4C321 /* XCTest.framework */; };
-		891F1C861770245400E4C321 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 891F1C761770245400E4C321 /* Foundation.framework */; };
-		891F1C881770245400E4C321 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 891F1C871770245400E4C321 /* UIKit.framework */; };
-		891F1C8B1770245400E4C321 /* librosobjc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 891F1C731770245400E4C321 /* librosobjc.a */; };
-		891F1C911770245400E4C321 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 891F1C8F1770245400E4C321 /* InfoPlist.strings */; };
-		891F1C931770245400E4C321 /* rosobjcTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F1C921770245400E4C321 /* rosobjcTests.m */; };
-		891F1CB71770255500E4C321 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 891F1C841770245400E4C321 /* XCTest.framework */; };
-		891F1CB81770255500E4C321 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 891F1CA21770255500E4C321 /* Cocoa.framework */; };
-		891F1CBB1770255500E4C321 /* rosobjc-osx.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 891F1CA11770255500E4C321 /* rosobjc-osx.framework */; };
-		891F1CC11770255500E4C321 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 891F1CBF1770255500E4C321 /* InfoPlist.strings */; };
-		891F1CC31770255500E4C321 /* rosobjc_osxTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F1CC21770255500E4C321 /* rosobjc_osxTests.m */; };
-		891F1CCB1770284500E4C321 /* rosobjc.h in Headers */ = {isa = PBXBuildFile; fileRef = 891F1C7B1770245400E4C321 /* rosobjc.h */; };
-		891F1CD4177028F800E4C321 /* ROSCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 891F1CD2177028F800E4C321 /* ROSCore.h */; };
 		891F1CD5177028F800E4C321 /* ROSCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F1CD3177028F800E4C321 /* ROSCore.m */; };
-		891F1CD6177028F800E4C321 /* ROSCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F1CD3177028F800E4C321 /* ROSCore.m */; };
-		891F1CD817702F4100E4C321 /* ROSNodeDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 891F1CD717702F4100E4C321 /* ROSNodeDelegate.h */; };
-		891F1CDB1770318300E4C321 /* ROSNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 891F1CD91770318300E4C321 /* ROSNode.h */; };
 		891F1CDC1770318300E4C321 /* ROSNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F1CDA1770318300E4C321 /* ROSNode.m */; };
-		891F1CDD1770318300E4C321 /* ROSNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F1CDA1770318300E4C321 /* ROSNode.m */; };
-		891F1CE0177142C900E4C321 /* ROSMsg.h in Headers */ = {isa = PBXBuildFile; fileRef = 891F1CDE177142C900E4C321 /* ROSMsg.h */; };
 		891F1CE1177142C900E4C321 /* ROSMsg.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F1CDF177142C900E4C321 /* ROSMsg.m */; };
-		891F1CE2177142C900E4C321 /* ROSMsg.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F1CDF177142C900E4C321 /* ROSMsg.m */; };
-		8972AE1C17EAB37700E74D4F /* rosobjc-osx-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 8972AE1B17EAB37700E74D4F /* rosobjc-osx-Prefix.pch */; };
-		8972AE2117EAB3BC00E74D4F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8972AE2017EAB3BC00E74D4F /* Cocoa.framework */; };
-		8972AE2317EAB3FA00E74D4F /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8972AE2217EAB3FA00E74D4F /* XMLReader.m */; };
-		8972AE2717EAB41D00E74D4F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8972AE2617EAB41D00E74D4F /* CFNetwork.framework */; };
-		8972AE2C17EAB43A00E74D4F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8972AE2A17EAB43A00E74D4F /* Security.framework */; };
-		898F7DB517964F53009B8961 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 898F7D4117964F53009B8961 /* .gitignore */; };
-		898F7DB617964F53009B8961 /* Common.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 898F7D4317964F53009B8961 /* Common.xcconfig */; };
-		898F7DB717964F53009B8961 /* CommonDevelopment.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 898F7D4417964F53009B8961 /* CommonDevelopment.xcconfig */; };
-		898F7DB817964F53009B8961 /* CommonRelease.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 898F7D4517964F53009B8961 /* CommonRelease.xcconfig */; };
-		898F7DB917964F53009B8961 /* XMLRPC.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 898F7D4617964F53009B8961 /* XMLRPC.xcconfig */; };
-		898F7DBA17964F53009B8961 /* XMLRPCDevelopment.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 898F7D4717964F53009B8961 /* XMLRPCDevelopment.xcconfig */; };
-		898F7DBB17964F53009B8961 /* XMLRPCRelease.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 898F7D4817964F53009B8961 /* XMLRPCRelease.xcconfig */; };
-		898F7DBC17964F53009B8961 /* XMLRPCUnitTests.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 898F7D4917964F53009B8961 /* XMLRPCUnitTests.xcconfig */; };
-		898F7DBD17964F53009B8961 /* XMLRPCUnitTestsDevelopment.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 898F7D4A17964F53009B8961 /* XMLRPCUnitTestsDevelopment.xcconfig */; };
-		898F7DBE17964F53009B8961 /* XMLRPCUnitTestsRelease.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 898F7D4B17964F53009B8961 /* XMLRPCUnitTestsRelease.xcconfig */; };
-		898F7DBF17964F53009B8961 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 898F7D4D17964F53009B8961 /* InfoPlist.strings */; };
-		898F7DC017964F53009B8961 /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = 898F7D4F17964F53009B8961 /* LICENSE.md */; };
-		898F7DC117964F53009B8961 /* NSData+Base64.h in Headers */ = {isa = PBXBuildFile; fileRef = 898F7D5017964F53009B8961 /* NSData+Base64.h */; };
+		8972AE3017EABF8400E74D4F /* XMLRPC.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 898F7E2817964F55009B8961 /* XMLRPC.framework */; };
+		8972AE3117EAC02800E74D4F /* DDData.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89E301431787EF9C000608D2 /* DDData.h */; };
+		8972AE3217EAC02800E74D4F /* DDNumber.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89E301451787EF9C000608D2 /* DDNumber.h */; };
+		8972AE3317EAC02800E74D4F /* DDRange.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89E301471787EF9C000608D2 /* DDRange.h */; };
+		8972AE3417EAC02800E74D4F /* HTTPAuthenticationRequest.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89E301491787EF9C000608D2 /* HTTPAuthenticationRequest.h */; };
+		8972AE3517EAC02800E74D4F /* HTTPConnection.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89E3014B1787EF9D000608D2 /* HTTPConnection.h */; };
+		8972AE3617EAC02800E74D4F /* HTTPLogging.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89E3014D1787EF9D000608D2 /* HTTPLogging.h */; };
+		8972AE3717EAC02800E74D4F /* HTTPMessage.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89E3014E1787EF9D000608D2 /* HTTPMessage.h */; };
+		8972AE3817EAC02800E74D4F /* HTTPResponse.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89E301501787EF9D000608D2 /* HTTPResponse.h */; };
+		8972AE3917EAC02800E74D4F /* HTTPServer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89E301511787EF9D000608D2 /* HTTPServer.h */; };
+		8972AE3A17EAC02800E74D4F /* MultipartFormDataParser.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89E301541787EF9D000608D2 /* MultipartFormDataParser.h */; };
+		8972AE3B17EAC02800E74D4F /* MultipartMessageHeader.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89E301561787EF9D000608D2 /* MultipartMessageHeader.h */; };
+		8972AE3C17EAC02800E74D4F /* MultipartMessageHeaderField.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89E301581787EF9D000608D2 /* MultipartMessageHeaderField.h */; };
+		8972AE3D17EAC02800E74D4F /* HTTPAsyncFileResponse.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89E3015B1787EF9D000608D2 /* HTTPAsyncFileResponse.h */; };
+		8972AE3E17EAC02800E74D4F /* HTTPDataResponse.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89E3015D1787EF9D000608D2 /* HTTPDataResponse.h */; };
+		8972AE3F17EAC02800E74D4F /* HTTPDynamicFileResponse.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89E3015F1787EF9D000608D2 /* HTTPDynamicFileResponse.h */; };
+		8972AE4017EAC02800E74D4F /* HTTPErrorResponse.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89E301611787EF9D000608D2 /* HTTPErrorResponse.h */; };
+		8972AE4117EAC02800E74D4F /* HTTPFileResponse.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89E301631787EF9D000608D2 /* HTTPFileResponse.h */; };
+		8972AE4217EAC02800E74D4F /* HTTPRedirectResponse.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89E301651787EF9D000608D2 /* HTTPRedirectResponse.h */; };
+		8972AE4317EAC02800E74D4F /* WebSocket.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89E301671787EF9D000608D2 /* WebSocket.h */; };
+		8972AE4417EAC02800E74D4F /* GCDAsyncSocket.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89E3023A1787EF9E000608D2 /* GCDAsyncSocket.h */; };
+		8972AE4517EAC02800E74D4F /* DDAbstractDatabaseLogger.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89E3023E1787EF9E000608D2 /* DDAbstractDatabaseLogger.h */; };
+		8972AE4617EAC02800E74D4F /* DDASLLogger.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89E302401787EF9E000608D2 /* DDASLLogger.h */; };
+		8972AE4717EAC02800E74D4F /* DDFileLogger.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89E302421787EF9E000608D2 /* DDFileLogger.h */; };
+		8972AE4817EAC02800E74D4F /* DDLog.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89E302441787EF9E000608D2 /* DDLog.h */; };
+		8972AE4917EAC02800E74D4F /* DDTTYLogger.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89E302461787EF9E000608D2 /* DDTTYLogger.h */; };
+		8972AE4A17EAC02800E74D4F /* ContextFilterLogFormatter.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89E302491787EF9E000608D2 /* ContextFilterLogFormatter.h */; };
+		8972AE4B17EAC02800E74D4F /* DispatchQueueLogFormatter.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89E3024B1787EF9E000608D2 /* DispatchQueueLogFormatter.h */; };
+		8972AE4C17EAC02800E74D4F /* RPCConnection.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89E3036E17887B3E000608D2 /* RPCConnection.h */; };
+		8972AE4D17EAC02800E74D4F /* RPCResponse.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89E3037317887CB1000608D2 /* RPCResponse.h */; };
+		8972AE4E17EAC02800E74D4F /* ROSCore.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 891F1CD2177028F800E4C321 /* ROSCore.h */; };
+		8972AE4F17EAC02800E74D4F /* ROSMsg.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 891F1CDE177142C900E4C321 /* ROSMsg.h */; };
+		8972AE5017EAC02800E74D4F /* ROSSocket.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 898F7E2D179C94F0009B8961 /* ROSSocket.h */; };
+		8972AE5117EAC02800E74D4F /* ROSUDP.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 898F7E4417B86CD8009B8961 /* ROSUDP.h */; };
+		8972AE5217EAC02800E74D4F /* ROSNode.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 891F1CD91770318300E4C321 /* ROSNode.h */; };
+		8972AE5317EAC02800E74D4F /* ROSNodeDelegate.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 891F1CD717702F4100E4C321 /* ROSNodeDelegate.h */; };
+		8972AE5417EAC02800E74D4F /* ROSXMLRPC.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 89949488177D6C26005E306F /* ROSXMLRPC.h */; };
+		8972AE5E17EAC69800E74D4F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8972AE2017EAB3BC00E74D4F /* Cocoa.framework */; };
+		8972AE7D17EAC6A900E74D4F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8972AE2A17EAB43A00E74D4F /* Security.framework */; };
+		8972AE7E17EAC6B800E74D4F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8972AE2617EAB41D00E74D4F /* CFNetwork.framework */; };
+		8972AE7F17EAC6DC00E74D4F /* XMLRPC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 898F7E2817964F55009B8961 /* XMLRPC.framework */; };
+		8972AE8017EAC73900E74D4F /* XMLReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 8972AE2417EAB40F00E74D4F /* XMLReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AE8117EAC73900E74D4F /* DDData.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E301431787EF9C000608D2 /* DDData.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AE8217EAC73900E74D4F /* DDNumber.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E301451787EF9C000608D2 /* DDNumber.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AE8317EAC73900E74D4F /* DDRange.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E301471787EF9C000608D2 /* DDRange.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AE8417EAC73900E74D4F /* HTTPAuthenticationRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E301491787EF9C000608D2 /* HTTPAuthenticationRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AE8517EAC73900E74D4F /* HTTPConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E3014B1787EF9D000608D2 /* HTTPConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AE8617EAC73900E74D4F /* HTTPLogging.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E3014D1787EF9D000608D2 /* HTTPLogging.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AE8717EAC73900E74D4F /* HTTPMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E3014E1787EF9D000608D2 /* HTTPMessage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AE8817EAC73900E74D4F /* HTTPResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E301501787EF9D000608D2 /* HTTPResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AE8917EAC73900E74D4F /* HTTPServer.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E301511787EF9D000608D2 /* HTTPServer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AE8A17EAC73900E74D4F /* MultipartFormDataParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E301541787EF9D000608D2 /* MultipartFormDataParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AE8B17EAC73900E74D4F /* MultipartMessageHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E301561787EF9D000608D2 /* MultipartMessageHeader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AE8C17EAC73900E74D4F /* MultipartMessageHeaderField.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E301581787EF9D000608D2 /* MultipartMessageHeaderField.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AE8D17EAC73900E74D4F /* HTTPAsyncFileResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E3015B1787EF9D000608D2 /* HTTPAsyncFileResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AE8E17EAC73900E74D4F /* HTTPDataResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E3015D1787EF9D000608D2 /* HTTPDataResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AE8F17EAC73900E74D4F /* HTTPDynamicFileResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E3015F1787EF9D000608D2 /* HTTPDynamicFileResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AE9017EAC73900E74D4F /* HTTPErrorResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E301611787EF9D000608D2 /* HTTPErrorResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AE9117EAC73900E74D4F /* HTTPFileResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E301631787EF9D000608D2 /* HTTPFileResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AE9217EAC73900E74D4F /* HTTPRedirectResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E301651787EF9D000608D2 /* HTTPRedirectResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AE9317EAC73900E74D4F /* WebSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E301671787EF9D000608D2 /* WebSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AE9417EAC73900E74D4F /* GCDAsyncSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E3023A1787EF9E000608D2 /* GCDAsyncSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AE9517EAC73900E74D4F /* DDAbstractDatabaseLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E3023E1787EF9E000608D2 /* DDAbstractDatabaseLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AE9617EAC73900E74D4F /* DDASLLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E302401787EF9E000608D2 /* DDASLLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AE9717EAC73900E74D4F /* DDFileLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E302421787EF9E000608D2 /* DDFileLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AE9817EAC73900E74D4F /* DDLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E302441787EF9E000608D2 /* DDLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AE9917EAC73900E74D4F /* DDTTYLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E302461787EF9E000608D2 /* DDTTYLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AE9A17EAC73900E74D4F /* ContextFilterLogFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E302491787EF9E000608D2 /* ContextFilterLogFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AE9B17EAC73900E74D4F /* DispatchQueueLogFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E3024B1787EF9E000608D2 /* DispatchQueueLogFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AE9C17EAC73900E74D4F /* RPCConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E3036E17887B3E000608D2 /* RPCConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AE9D17EAC73900E74D4F /* RPCResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E3037317887CB1000608D2 /* RPCResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AE9F17EAC73900E74D4F /* ROSCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 891F1CD2177028F800E4C321 /* ROSCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AEA017EAC73900E74D4F /* ROSMsg.h in Headers */ = {isa = PBXBuildFile; fileRef = 891F1CDE177142C900E4C321 /* ROSMsg.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AEA117EAC73900E74D4F /* ROSSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 898F7E2D179C94F0009B8961 /* ROSSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AEA217EAC73900E74D4F /* ROSUDP.h in Headers */ = {isa = PBXBuildFile; fileRef = 898F7E4417B86CD8009B8961 /* ROSUDP.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AEA317EAC73900E74D4F /* ROSNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 891F1CD91770318300E4C321 /* ROSNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AEA417EAC73900E74D4F /* ROSNodeDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 891F1CD717702F4100E4C321 /* ROSNodeDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8972AEA517EAC73900E74D4F /* ROSXMLRPC.h in Headers */ = {isa = PBXBuildFile; fileRef = 89949488177D6C26005E306F /* ROSXMLRPC.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		898F7DC217964F53009B8961 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7D5117964F53009B8961 /* NSData+Base64.m */; };
-		898F7DC317964F53009B8961 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7D5117964F53009B8961 /* NSData+Base64.m */; };
-		898F7DC417964F53009B8961 /* NSStringAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 898F7D5217964F53009B8961 /* NSStringAdditions.h */; };
 		898F7DC517964F53009B8961 /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7D5317964F53009B8961 /* NSStringAdditions.m */; };
-		898F7DC617964F53009B8961 /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7D5317964F53009B8961 /* NSStringAdditions.m */; };
-		898F7DC717964F53009B8961 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 898F7D5417964F53009B8961 /* README.md */; };
-		898F7DC817964F53009B8961 /* TestCases.plist in Resources */ = {isa = PBXBuildFile; fileRef = 898F7D5717964F53009B8961 /* TestCases.plist */; };
-		898F7DC917964F53009B8961 /* XMLRPC-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 898F7D5817964F53009B8961 /* XMLRPC-Info.plist */; };
-		898F7DCA17964F53009B8961 /* XMLRPCUnitTests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 898F7D5917964F53009B8961 /* XMLRPCUnitTests-Info.plist */; };
-		898F7DCB17964F53009B8961 /* AlternativeDateFormatsTestCase.xml in Resources */ = {isa = PBXBuildFile; fileRef = 898F7D5B17964F53009B8961 /* AlternativeDateFormatsTestCase.xml */; };
-		898F7DCC17964F53009B8961 /* DefaultTypeTestCase.xml in Resources */ = {isa = PBXBuildFile; fileRef = 898F7D5C17964F53009B8961 /* DefaultTypeTestCase.xml */; };
-		898F7DCD17964F53009B8961 /* EmptyBooleanTestCase.xml in Resources */ = {isa = PBXBuildFile; fileRef = 898F7D5D17964F53009B8961 /* EmptyBooleanTestCase.xml */; };
-		898F7DCE17964F53009B8961 /* EmptyDataTestCase.xml in Resources */ = {isa = PBXBuildFile; fileRef = 898F7D5E17964F53009B8961 /* EmptyDataTestCase.xml */; };
-		898F7DCF17964F53009B8961 /* EmptyDoubleTestCase.xml in Resources */ = {isa = PBXBuildFile; fileRef = 898F7D5F17964F53009B8961 /* EmptyDoubleTestCase.xml */; };
-		898F7DD017964F53009B8961 /* EmptyIntegerTestCase.xml in Resources */ = {isa = PBXBuildFile; fileRef = 898F7D6017964F53009B8961 /* EmptyIntegerTestCase.xml */; };
-		898F7DD117964F53009B8961 /* EmptyStringTestCase.xml in Resources */ = {isa = PBXBuildFile; fileRef = 898F7D6117964F53009B8961 /* EmptyStringTestCase.xml */; };
-		898F7DD217964F53009B8961 /* SimpleArrayTestCase.xml in Resources */ = {isa = PBXBuildFile; fileRef = 898F7D6217964F53009B8961 /* SimpleArrayTestCase.xml */; };
-		898F7DD317964F53009B8961 /* SimpleStructTestCase.xml in Resources */ = {isa = PBXBuildFile; fileRef = 898F7D6317964F53009B8961 /* SimpleStructTestCase.xml */; };
-		898F7E0817964F53009B8961 /* XMLRPC.h in Headers */ = {isa = PBXBuildFile; fileRef = 898F7DA017964F53009B8961 /* XMLRPC.h */; };
-		898F7E0917964F53009B8961 /* XMLRPC.pch in Headers */ = {isa = PBXBuildFile; fileRef = 898F7DA117964F53009B8961 /* XMLRPC.pch */; };
-		898F7E0A17964F53009B8961 /* XMLRPCConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 898F7DA517964F53009B8961 /* XMLRPCConnection.h */; };
 		898F7E0B17964F53009B8961 /* XMLRPCConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7DA617964F53009B8961 /* XMLRPCConnection.m */; };
-		898F7E0C17964F53009B8961 /* XMLRPCConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7DA617964F53009B8961 /* XMLRPCConnection.m */; };
-		898F7E0D17964F53009B8961 /* XMLRPCConnectionDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 898F7DA717964F53009B8961 /* XMLRPCConnectionDelegate.h */; };
-		898F7E0E17964F53009B8961 /* XMLRPCConnectionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 898F7DA817964F53009B8961 /* XMLRPCConnectionManager.h */; };
 		898F7E0F17964F53009B8961 /* XMLRPCConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7DA917964F53009B8961 /* XMLRPCConnectionManager.m */; };
-		898F7E1017964F53009B8961 /* XMLRPCConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7DA917964F53009B8961 /* XMLRPCConnectionManager.m */; };
-		898F7E1117964F53009B8961 /* XMLRPCDefaultEncoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 898F7DAA17964F53009B8961 /* XMLRPCDefaultEncoder.h */; };
 		898F7E1217964F53009B8961 /* XMLRPCDefaultEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7DAB17964F53009B8961 /* XMLRPCDefaultEncoder.m */; };
-		898F7E1317964F53009B8961 /* XMLRPCDefaultEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7DAB17964F53009B8961 /* XMLRPCDefaultEncoder.m */; };
-		898F7E1417964F53009B8961 /* XMLRPCEncoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 898F7DAC17964F53009B8961 /* XMLRPCEncoder.h */; };
-		898F7E1517964F53009B8961 /* XMLRPCEventBasedParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 898F7DAD17964F53009B8961 /* XMLRPCEventBasedParser.h */; };
 		898F7E1617964F53009B8961 /* XMLRPCEventBasedParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7DAE17964F53009B8961 /* XMLRPCEventBasedParser.m */; };
-		898F7E1717964F53009B8961 /* XMLRPCEventBasedParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7DAE17964F53009B8961 /* XMLRPCEventBasedParser.m */; };
-		898F7E1817964F53009B8961 /* XMLRPCEventBasedParserDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 898F7DAF17964F53009B8961 /* XMLRPCEventBasedParserDelegate.h */; };
 		898F7E1917964F53009B8961 /* XMLRPCEventBasedParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7DB017964F53009B8961 /* XMLRPCEventBasedParserDelegate.m */; };
-		898F7E1A17964F53009B8961 /* XMLRPCEventBasedParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7DB017964F53009B8961 /* XMLRPCEventBasedParserDelegate.m */; };
-		898F7E1B17964F53009B8961 /* XMLRPCRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 898F7DB117964F53009B8961 /* XMLRPCRequest.h */; };
 		898F7E1C17964F53009B8961 /* XMLRPCRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7DB217964F53009B8961 /* XMLRPCRequest.m */; };
-		898F7E1D17964F53009B8961 /* XMLRPCRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7DB217964F53009B8961 /* XMLRPCRequest.m */; };
-		898F7E1E17964F53009B8961 /* XMLRPCResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 898F7DB317964F53009B8961 /* XMLRPCResponse.h */; };
 		898F7E1F17964F53009B8961 /* XMLRPCResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7DB417964F53009B8961 /* XMLRPCResponse.m */; };
-		898F7E2017964F53009B8961 /* XMLRPCResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7DB417964F53009B8961 /* XMLRPCResponse.m */; };
-		898F7E2F179C94F0009B8961 /* ROSSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 898F7E2D179C94F0009B8961 /* ROSSocket.h */; };
 		898F7E30179C94F0009B8961 /* ROSSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7E2E179C94F0009B8961 /* ROSSocket.m */; };
-		898F7E31179C94F0009B8961 /* ROSSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7E2E179C94F0009B8961 /* ROSSocket.m */; };
-		898F7E4617B86CD8009B8961 /* ROSUDP.h in Headers */ = {isa = PBXBuildFile; fileRef = 898F7E4417B86CD8009B8961 /* ROSUDP.h */; };
 		898F7E4717B86CD8009B8961 /* ROSUDP.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7E4517B86CD8009B8961 /* ROSUDP.m */; };
-		898F7E4817B86CD8009B8961 /* ROSUDP.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7E4517B86CD8009B8961 /* ROSUDP.m */; };
-		8994948A177D6C26005E306F /* ROSXMLRPC.h in Headers */ = {isa = PBXBuildFile; fileRef = 89949488177D6C26005E306F /* ROSXMLRPC.h */; };
 		8994948B177D6C26005E306F /* ROSXMLRPC.m in Sources */ = {isa = PBXBuildFile; fileRef = 89949489177D6C26005E306F /* ROSXMLRPC.m */; };
-		8994948C177D6C26005E306F /* ROSXMLRPC.m in Sources */ = {isa = PBXBuildFile; fileRef = 89949489177D6C26005E306F /* ROSXMLRPC.m */; };
-		89E3024E1787EF9E000608D2 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 89E3013F1787EF9C000608D2 /* .gitignore */; };
-		89E3024F1787EF9E000608D2 /* .hgignore in Resources */ = {isa = PBXBuildFile; fileRef = 89E301401787EF9C000608D2 /* .hgignore */; };
-		89E302501787EF9E000608D2 /* DDData.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E301431787EF9C000608D2 /* DDData.h */; };
 		89E302511787EF9E000608D2 /* DDData.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301441787EF9C000608D2 /* DDData.m */; };
-		89E302521787EF9E000608D2 /* DDData.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301441787EF9C000608D2 /* DDData.m */; };
-		89E302531787EF9E000608D2 /* DDNumber.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E301451787EF9C000608D2 /* DDNumber.h */; };
 		89E302541787EF9E000608D2 /* DDNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301461787EF9C000608D2 /* DDNumber.m */; };
-		89E302551787EF9E000608D2 /* DDNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301461787EF9C000608D2 /* DDNumber.m */; };
-		89E302561787EF9E000608D2 /* DDRange.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E301471787EF9C000608D2 /* DDRange.h */; };
 		89E302571787EF9E000608D2 /* DDRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301481787EF9C000608D2 /* DDRange.m */; };
-		89E302581787EF9E000608D2 /* DDRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301481787EF9C000608D2 /* DDRange.m */; };
-		89E302591787EF9E000608D2 /* HTTPAuthenticationRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E301491787EF9C000608D2 /* HTTPAuthenticationRequest.h */; };
 		89E3025A1787EF9E000608D2 /* HTTPAuthenticationRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3014A1787EF9D000608D2 /* HTTPAuthenticationRequest.m */; };
-		89E3025B1787EF9E000608D2 /* HTTPAuthenticationRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3014A1787EF9D000608D2 /* HTTPAuthenticationRequest.m */; };
-		89E3025C1787EF9E000608D2 /* HTTPConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E3014B1787EF9D000608D2 /* HTTPConnection.h */; };
 		89E3025D1787EF9E000608D2 /* HTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3014C1787EF9D000608D2 /* HTTPConnection.m */; };
-		89E3025E1787EF9E000608D2 /* HTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3014C1787EF9D000608D2 /* HTTPConnection.m */; };
-		89E3025F1787EF9E000608D2 /* HTTPLogging.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E3014D1787EF9D000608D2 /* HTTPLogging.h */; };
-		89E302601787EF9E000608D2 /* HTTPMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E3014E1787EF9D000608D2 /* HTTPMessage.h */; };
 		89E302611787EF9E000608D2 /* HTTPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3014F1787EF9D000608D2 /* HTTPMessage.m */; };
-		89E302621787EF9E000608D2 /* HTTPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3014F1787EF9D000608D2 /* HTTPMessage.m */; };
-		89E302631787EF9E000608D2 /* HTTPResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E301501787EF9D000608D2 /* HTTPResponse.h */; };
-		89E302641787EF9E000608D2 /* HTTPServer.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E301511787EF9D000608D2 /* HTTPServer.h */; };
 		89E302651787EF9E000608D2 /* HTTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301521787EF9D000608D2 /* HTTPServer.m */; };
-		89E302661787EF9E000608D2 /* HTTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301521787EF9D000608D2 /* HTTPServer.m */; };
-		89E302671787EF9E000608D2 /* MultipartFormDataParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E301541787EF9D000608D2 /* MultipartFormDataParser.h */; };
 		89E302681787EF9E000608D2 /* MultipartFormDataParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301551787EF9D000608D2 /* MultipartFormDataParser.m */; };
-		89E302691787EF9E000608D2 /* MultipartFormDataParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301551787EF9D000608D2 /* MultipartFormDataParser.m */; };
-		89E3026A1787EF9E000608D2 /* MultipartMessageHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E301561787EF9D000608D2 /* MultipartMessageHeader.h */; };
 		89E3026B1787EF9E000608D2 /* MultipartMessageHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301571787EF9D000608D2 /* MultipartMessageHeader.m */; };
-		89E3026C1787EF9E000608D2 /* MultipartMessageHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301571787EF9D000608D2 /* MultipartMessageHeader.m */; };
-		89E3026D1787EF9E000608D2 /* MultipartMessageHeaderField.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E301581787EF9D000608D2 /* MultipartMessageHeaderField.h */; };
 		89E3026E1787EF9E000608D2 /* MultipartMessageHeaderField.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301591787EF9D000608D2 /* MultipartMessageHeaderField.m */; };
-		89E3026F1787EF9E000608D2 /* MultipartMessageHeaderField.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301591787EF9D000608D2 /* MultipartMessageHeaderField.m */; };
-		89E302701787EF9E000608D2 /* HTTPAsyncFileResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E3015B1787EF9D000608D2 /* HTTPAsyncFileResponse.h */; };
 		89E302711787EF9E000608D2 /* HTTPAsyncFileResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3015C1787EF9D000608D2 /* HTTPAsyncFileResponse.m */; };
-		89E302721787EF9E000608D2 /* HTTPAsyncFileResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3015C1787EF9D000608D2 /* HTTPAsyncFileResponse.m */; };
-		89E302731787EF9E000608D2 /* HTTPDataResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E3015D1787EF9D000608D2 /* HTTPDataResponse.h */; };
 		89E302741787EF9E000608D2 /* HTTPDataResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3015E1787EF9D000608D2 /* HTTPDataResponse.m */; };
-		89E302751787EF9E000608D2 /* HTTPDataResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3015E1787EF9D000608D2 /* HTTPDataResponse.m */; };
-		89E302761787EF9E000608D2 /* HTTPDynamicFileResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E3015F1787EF9D000608D2 /* HTTPDynamicFileResponse.h */; };
 		89E302771787EF9E000608D2 /* HTTPDynamicFileResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301601787EF9D000608D2 /* HTTPDynamicFileResponse.m */; };
-		89E302781787EF9E000608D2 /* HTTPDynamicFileResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301601787EF9D000608D2 /* HTTPDynamicFileResponse.m */; };
-		89E302791787EF9E000608D2 /* HTTPErrorResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E301611787EF9D000608D2 /* HTTPErrorResponse.h */; };
 		89E3027A1787EF9E000608D2 /* HTTPErrorResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301621787EF9D000608D2 /* HTTPErrorResponse.m */; };
-		89E3027B1787EF9E000608D2 /* HTTPErrorResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301621787EF9D000608D2 /* HTTPErrorResponse.m */; };
-		89E3027C1787EF9E000608D2 /* HTTPFileResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E301631787EF9D000608D2 /* HTTPFileResponse.h */; };
 		89E3027D1787EF9E000608D2 /* HTTPFileResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301641787EF9D000608D2 /* HTTPFileResponse.m */; };
-		89E3027E1787EF9E000608D2 /* HTTPFileResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301641787EF9D000608D2 /* HTTPFileResponse.m */; };
-		89E3027F1787EF9E000608D2 /* HTTPRedirectResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E301651787EF9D000608D2 /* HTTPRedirectResponse.h */; };
 		89E302801787EF9E000608D2 /* HTTPRedirectResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301661787EF9D000608D2 /* HTTPRedirectResponse.m */; };
-		89E302811787EF9E000608D2 /* HTTPRedirectResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301661787EF9D000608D2 /* HTTPRedirectResponse.m */; };
-		89E302821787EF9E000608D2 /* WebSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E301671787EF9D000608D2 /* WebSocket.h */; };
 		89E302831787EF9E000608D2 /* WebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301681787EF9D000608D2 /* WebSocket.m */; };
-		89E302841787EF9E000608D2 /* WebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301681787EF9D000608D2 /* WebSocket.m */; };
-		89E302911787EF9E000608D2 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 89E301731787EF9D000608D2 /* LICENSE.txt */; };
-		89E302921787EF9E000608D2 /* README.markdown in Resources */ = {isa = PBXBuildFile; fileRef = 89E301741787EF9D000608D2 /* README.markdown */; };
-		89E303341787EF9E000608D2 /* About.txt in Resources */ = {isa = PBXBuildFile; fileRef = 89E302391787EF9E000608D2 /* About.txt */; };
-		89E303351787EF9E000608D2 /* GCDAsyncSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E3023A1787EF9E000608D2 /* GCDAsyncSocket.h */; };
 		89E303361787EF9E000608D2 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3023B1787EF9E000608D2 /* GCDAsyncSocket.m */; };
-		89E303371787EF9E000608D2 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3023B1787EF9E000608D2 /* GCDAsyncSocket.m */; };
-		89E303381787EF9E000608D2 /* About.txt in Resources */ = {isa = PBXBuildFile; fileRef = 89E3023D1787EF9E000608D2 /* About.txt */; };
-		89E303391787EF9E000608D2 /* DDAbstractDatabaseLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E3023E1787EF9E000608D2 /* DDAbstractDatabaseLogger.h */; };
 		89E3033A1787EF9E000608D2 /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3023F1787EF9E000608D2 /* DDAbstractDatabaseLogger.m */; };
-		89E3033B1787EF9E000608D2 /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3023F1787EF9E000608D2 /* DDAbstractDatabaseLogger.m */; };
-		89E3033C1787EF9E000608D2 /* DDASLLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E302401787EF9E000608D2 /* DDASLLogger.h */; };
 		89E3033D1787EF9E000608D2 /* DDASLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E302411787EF9E000608D2 /* DDASLLogger.m */; };
-		89E3033E1787EF9E000608D2 /* DDASLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E302411787EF9E000608D2 /* DDASLLogger.m */; };
-		89E3033F1787EF9E000608D2 /* DDFileLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E302421787EF9E000608D2 /* DDFileLogger.h */; };
 		89E303401787EF9E000608D2 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E302431787EF9E000608D2 /* DDFileLogger.m */; };
-		89E303411787EF9E000608D2 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E302431787EF9E000608D2 /* DDFileLogger.m */; };
-		89E303421787EF9E000608D2 /* DDLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E302441787EF9E000608D2 /* DDLog.h */; };
 		89E303431787EF9E000608D2 /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E302451787EF9E000608D2 /* DDLog.m */; };
-		89E303441787EF9E000608D2 /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E302451787EF9E000608D2 /* DDLog.m */; };
-		89E303451787EF9E000608D2 /* DDTTYLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E302461787EF9E000608D2 /* DDTTYLogger.h */; };
 		89E303461787EF9E000608D2 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E302471787EF9E000608D2 /* DDTTYLogger.m */; };
-		89E303471787EF9E000608D2 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E302471787EF9E000608D2 /* DDTTYLogger.m */; };
-		89E303481787EF9E000608D2 /* ContextFilterLogFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E302491787EF9E000608D2 /* ContextFilterLogFormatter.h */; };
 		89E303491787EF9E000608D2 /* ContextFilterLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3024A1787EF9E000608D2 /* ContextFilterLogFormatter.m */; };
-		89E3034A1787EF9E000608D2 /* ContextFilterLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3024A1787EF9E000608D2 /* ContextFilterLogFormatter.m */; };
-		89E3034B1787EF9E000608D2 /* DispatchQueueLogFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E3024B1787EF9E000608D2 /* DispatchQueueLogFormatter.h */; };
 		89E3034C1787EF9E000608D2 /* DispatchQueueLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3024C1787EF9E000608D2 /* DispatchQueueLogFormatter.m */; };
-		89E3034D1787EF9E000608D2 /* DispatchQueueLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3024C1787EF9E000608D2 /* DispatchQueueLogFormatter.m */; };
-		89E3034E1787EF9E000608D2 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 89E3024D1787EF9E000608D2 /* README.txt */; };
-		89E3037017887B3E000608D2 /* RPCConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E3036E17887B3E000608D2 /* RPCConnection.h */; };
 		89E3037117887B3E000608D2 /* RPCConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3036F17887B3E000608D2 /* RPCConnection.m */; };
-		89E3037217887B3E000608D2 /* RPCConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3036F17887B3E000608D2 /* RPCConnection.m */; };
-		89E3037517887CB1000608D2 /* RPCResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E3037317887CB1000608D2 /* RPCResponse.h */; };
 		89E3037617887CB1000608D2 /* RPCResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3037417887CB1000608D2 /* RPCResponse.m */; };
-		89E3037717887CB1000608D2 /* RPCResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3037417887CB1000608D2 /* RPCResponse.m */; };
+		89F7003117EB500800051479 /* rosobjc.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F7003017EB500800051479 /* rosobjc.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		891F1C891770245400E4C321 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 891F1C6B1770245400E4C321 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 891F1C721770245400E4C321;
-			remoteInfo = rosobjc;
-		};
-		891F1CB91770255500E4C321 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 891F1C6B1770245400E4C321 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 891F1CA01770255500E4C321;
-			remoteInfo = "rosobjc-osx";
-		};
 		898F7E2717964F55009B8961 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 898F7DA217964F53009B8961 /* XMLRPC.xcodeproj */;
@@ -234,13 +202,49 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		891F1C711770245400E4C321 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
-				891F1C7C1770245400E4C321 /* rosobjc.h in CopyFiles */,
+				8972AE3117EAC02800E74D4F /* DDData.h in CopyFiles */,
+				8972AE3217EAC02800E74D4F /* DDNumber.h in CopyFiles */,
+				8972AE3317EAC02800E74D4F /* DDRange.h in CopyFiles */,
+				8972AE3417EAC02800E74D4F /* HTTPAuthenticationRequest.h in CopyFiles */,
+				8972AE3517EAC02800E74D4F /* HTTPConnection.h in CopyFiles */,
+				8972AE3617EAC02800E74D4F /* HTTPLogging.h in CopyFiles */,
+				8972AE3717EAC02800E74D4F /* HTTPMessage.h in CopyFiles */,
+				8972AE3817EAC02800E74D4F /* HTTPResponse.h in CopyFiles */,
+				8972AE3917EAC02800E74D4F /* HTTPServer.h in CopyFiles */,
+				8972AE3A17EAC02800E74D4F /* MultipartFormDataParser.h in CopyFiles */,
+				8972AE3B17EAC02800E74D4F /* MultipartMessageHeader.h in CopyFiles */,
+				8972AE3C17EAC02800E74D4F /* MultipartMessageHeaderField.h in CopyFiles */,
+				8972AE3D17EAC02800E74D4F /* HTTPAsyncFileResponse.h in CopyFiles */,
+				8972AE3E17EAC02800E74D4F /* HTTPDataResponse.h in CopyFiles */,
+				8972AE3F17EAC02800E74D4F /* HTTPDynamicFileResponse.h in CopyFiles */,
+				8972AE4017EAC02800E74D4F /* HTTPErrorResponse.h in CopyFiles */,
+				8972AE4117EAC02800E74D4F /* HTTPFileResponse.h in CopyFiles */,
+				8972AE4217EAC02800E74D4F /* HTTPRedirectResponse.h in CopyFiles */,
+				8972AE4317EAC02800E74D4F /* WebSocket.h in CopyFiles */,
+				8972AE4417EAC02800E74D4F /* GCDAsyncSocket.h in CopyFiles */,
+				8972AE4517EAC02800E74D4F /* DDAbstractDatabaseLogger.h in CopyFiles */,
+				8972AE4617EAC02800E74D4F /* DDASLLogger.h in CopyFiles */,
+				8972AE4717EAC02800E74D4F /* DDFileLogger.h in CopyFiles */,
+				8972AE4817EAC02800E74D4F /* DDLog.h in CopyFiles */,
+				8972AE4917EAC02800E74D4F /* DDTTYLogger.h in CopyFiles */,
+				8972AE4A17EAC02800E74D4F /* ContextFilterLogFormatter.h in CopyFiles */,
+				8972AE4B17EAC02800E74D4F /* DispatchQueueLogFormatter.h in CopyFiles */,
+				8972AE4C17EAC02800E74D4F /* RPCConnection.h in CopyFiles */,
+				8972AE4D17EAC02800E74D4F /* RPCResponse.h in CopyFiles */,
+				8972AE4E17EAC02800E74D4F /* ROSCore.h in CopyFiles */,
+				8972AE4F17EAC02800E74D4F /* ROSMsg.h in CopyFiles */,
+				8972AE5017EAC02800E74D4F /* ROSSocket.h in CopyFiles */,
+				8972AE5117EAC02800E74D4F /* ROSUDP.h in CopyFiles */,
+				8972AE5217EAC02800E74D4F /* ROSNode.h in CopyFiles */,
+				8972AE5317EAC02800E74D4F /* ROSNodeDelegate.h in CopyFiles */,
+				8972AE5417EAC02800E74D4F /* ROSXMLRPC.h in CopyFiles */,
+				8972AE3017EABF8400E74D4F /* XMLRPC.framework in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -248,22 +252,12 @@
 		891F1C731770245400E4C321 /* librosobjc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = librosobjc.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		891F1C761770245400E4C321 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		891F1C7A1770245400E4C321 /* rosobjc-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "rosobjc-Prefix.pch"; sourceTree = "<group>"; };
-		891F1C7B1770245400E4C321 /* rosobjc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = rosobjc.h; sourceTree = "<group>"; };
-		891F1C831770245400E4C321 /* rosobjcTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = rosobjcTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		891F1C841770245400E4C321 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		891F1C871770245400E4C321 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		891F1C8E1770245400E4C321 /* rosobjcTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "rosobjcTests-Info.plist"; sourceTree = "<group>"; };
-		891F1C901770245400E4C321 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		891F1C921770245400E4C321 /* rosobjcTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = rosobjcTests.m; sourceTree = "<group>"; };
-		891F1CA11770255500E4C321 /* rosobjc-osx.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "rosobjc-osx.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		891F1CA21770255500E4C321 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
 		891F1CA51770255500E4C321 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		891F1CA61770255500E4C321 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		891F1CA71770255500E4C321 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
-		891F1CB61770255500E4C321 /* rosobjc-osxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "rosobjc-osxTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		891F1CBE1770255500E4C321 /* rosobjc-osxTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "rosobjc-osxTests-Info.plist"; sourceTree = "<group>"; };
-		891F1CC01770255500E4C321 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		891F1CC21770255500E4C321 /* rosobjc_osxTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = rosobjc_osxTests.m; sourceTree = "<group>"; };
 		891F1CD2177028F800E4C321 /* ROSCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ROSCore.h; sourceTree = "<group>"; };
 		891F1CD3177028F800E4C321 /* ROSCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ROSCore.m; sourceTree = "<group>"; };
 		891F1CD717702F4100E4C321 /* ROSNodeDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ROSNodeDelegate.h; sourceTree = "<group>"; };
@@ -280,7 +274,8 @@
 		8972AE2617EAB41D00E74D4F /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/CFNetwork.framework; sourceTree = DEVELOPER_DIR; };
 		8972AE2817EAB42700E74D4F /* libcommonCrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcommonCrypto.dylib; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib/system/libcommonCrypto.dylib; sourceTree = DEVELOPER_DIR; };
 		8972AE2A17EAB43A00E74D4F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
-		8972AE2B17EAB43A00E74D4F /* SecurityFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SecurityFoundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/SecurityFoundation.framework; sourceTree = DEVELOPER_DIR; };
+		8972AE5D17EAC69800E74D4F /* librosobjc-osx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "librosobjc-osx.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8972AE6117EAC69800E74D4F /* rosobjc-osx-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "rosobjc-osx-Prefix.pch"; sourceTree = "<group>"; };
 		898F7D4117964F53009B8961 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		898F7D4317964F53009B8961 /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		898F7D4417964F53009B8961 /* CommonDevelopment.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = CommonDevelopment.xcconfig; sourceTree = "<group>"; };
@@ -398,6 +393,7 @@
 		89E3036F17887B3E000608D2 /* RPCConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPCConnection.m; sourceTree = "<group>"; };
 		89E3037317887CB1000608D2 /* RPCResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPCResponse.h; sourceTree = "<group>"; };
 		89E3037417887CB1000608D2 /* RPCResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPCResponse.m; sourceTree = "<group>"; };
+		89F7003017EB500800051479 /* rosobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rosobjc.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -409,34 +405,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		891F1C801770245400E4C321 /* Frameworks */ = {
+		8972AE5A17EAC69800E74D4F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				891F1C8B1770245400E4C321 /* librosobjc.a in Frameworks */,
-				891F1C851770245400E4C321 /* XCTest.framework in Frameworks */,
-				891F1C881770245400E4C321 /* UIKit.framework in Frameworks */,
-				891F1C861770245400E4C321 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		891F1C9D1770255500E4C321 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				8972AE2C17EAB43A00E74D4F /* Security.framework in Frameworks */,
-				8972AE2717EAB41D00E74D4F /* CFNetwork.framework in Frameworks */,
-				8972AE2117EAB3BC00E74D4F /* Cocoa.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		891F1CB31770255500E4C321 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				891F1CB81770255500E4C321 /* Cocoa.framework in Frameworks */,
-				891F1CB71770255500E4C321 /* XCTest.framework in Frameworks */,
-				891F1CBB1770255500E4C321 /* rosobjc-osx.framework in Frameworks */,
+				8972AE7F17EAC6DC00E74D4F /* XMLRPC.framework in Frameworks */,
+				8972AE7E17EAC6B800E74D4F /* CFNetwork.framework in Frameworks */,
+				8972AE7D17EAC6A900E74D4F /* Security.framework in Frameworks */,
+				8972AE5E17EAC69800E74D4F /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -453,8 +429,7 @@
 				89E3013E1787EF9C000608D2 /* CocoaHTTPServer */,
 				89E3036D17887A7D000608D2 /* XMLRPC */,
 				891F1C781770245400E4C321 /* rosobjc */,
-				891F1C8C1770245400E4C321 /* rosobjcTests */,
-				891F1CBC1770255500E4C321 /* rosobjc-osxTests */,
+				8972AE5F17EAC69800E74D4F /* rosobjc-osx */,
 				891F1C751770245400E4C321 /* Frameworks */,
 				891F1C741770245400E4C321 /* Products */,
 			);
@@ -464,9 +439,7 @@
 			isa = PBXGroup;
 			children = (
 				891F1C731770245400E4C321 /* librosobjc.a */,
-				891F1C831770245400E4C321 /* rosobjcTests.xctest */,
-				891F1CA11770255500E4C321 /* rosobjc-osx.framework */,
-				891F1CB61770255500E4C321 /* rosobjc-osxTests.xctest */,
+				8972AE5D17EAC69800E74D4F /* librosobjc-osx.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -475,7 +448,6 @@
 			isa = PBXGroup;
 			children = (
 				8972AE2A17EAB43A00E74D4F /* Security.framework */,
-				8972AE2B17EAB43A00E74D4F /* SecurityFoundation.framework */,
 				8972AE2817EAB42700E74D4F /* libcommonCrypto.dylib */,
 				8972AE2617EAB41D00E74D4F /* CFNetwork.framework */,
 				8972AE2017EAB3BC00E74D4F /* Cocoa.framework */,
@@ -493,7 +465,7 @@
 		891F1C781770245400E4C321 /* rosobjc */ = {
 			isa = PBXGroup;
 			children = (
-				891F1C7B1770245400E4C321 /* rosobjc.h */,
+				89F7003017EB500800051479 /* rosobjc.h */,
 				891F1CD2177028F800E4C321 /* ROSCore.h */,
 				891F1CD3177028F800E4C321 /* ROSCore.m */,
 				891F1CDE177142C900E4C321 /* ROSMsg.h */,
@@ -520,24 +492,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		891F1C8C1770245400E4C321 /* rosobjcTests */ = {
-			isa = PBXGroup;
-			children = (
-				891F1C921770245400E4C321 /* rosobjcTests.m */,
-				891F1C8D1770245400E4C321 /* Supporting Files */,
-			);
-			path = rosobjcTests;
-			sourceTree = "<group>";
-		};
-		891F1C8D1770245400E4C321 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				891F1C8E1770245400E4C321 /* rosobjcTests-Info.plist */,
-				891F1C8F1770245400E4C321 /* InfoPlist.strings */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		891F1CA41770255500E4C321 /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -548,20 +502,18 @@
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
-		891F1CBC1770255500E4C321 /* rosobjc-osxTests */ = {
+		8972AE5F17EAC69800E74D4F /* rosobjc-osx */ = {
 			isa = PBXGroup;
 			children = (
-				891F1CC21770255500E4C321 /* rosobjc_osxTests.m */,
-				891F1CBD1770255500E4C321 /* Supporting Files */,
+				8972AE6017EAC69800E74D4F /* Supporting Files */,
 			);
-			path = "rosobjc-osxTests";
+			path = "rosobjc-osx";
 			sourceTree = "<group>";
 		};
-		891F1CBD1770255500E4C321 /* Supporting Files */ = {
+		8972AE6017EAC69800E74D4F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				891F1CBE1770255500E4C321 /* rosobjc-osxTests-Info.plist */,
-				891F1CBF1770255500E4C321 /* InfoPlist.strings */,
+				8972AE6117EAC69800E74D4F /* rosobjc-osx-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -816,61 +768,48 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		891F1C9E1770255500E4C321 /* Headers */ = {
+		8972AE5B17EAC69800E74D4F /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				891F1CDB1770318300E4C321 /* ROSNode.h in Headers */,
-				891F1CD4177028F800E4C321 /* ROSCore.h in Headers */,
-				898F7E1417964F53009B8961 /* XMLRPCEncoder.h in Headers */,
-				8994948A177D6C26005E306F /* ROSXMLRPC.h in Headers */,
-				891F1CD817702F4100E4C321 /* ROSNodeDelegate.h in Headers */,
-				891F1CCB1770284500E4C321 /* rosobjc.h in Headers */,
-				898F7E4617B86CD8009B8961 /* ROSUDP.h in Headers */,
-				891F1CE0177142C900E4C321 /* ROSMsg.h in Headers */,
-				898F7E1B17964F53009B8961 /* XMLRPCRequest.h in Headers */,
-				898F7E0917964F53009B8961 /* XMLRPC.pch in Headers */,
-				89E302501787EF9E000608D2 /* DDData.h in Headers */,
-				898F7E0A17964F53009B8961 /* XMLRPCConnection.h in Headers */,
-				89E302531787EF9E000608D2 /* DDNumber.h in Headers */,
-				89E302561787EF9E000608D2 /* DDRange.h in Headers */,
-				89E302591787EF9E000608D2 /* HTTPAuthenticationRequest.h in Headers */,
-				898F7E1117964F53009B8961 /* XMLRPCDefaultEncoder.h in Headers */,
-				89E3025C1787EF9E000608D2 /* HTTPConnection.h in Headers */,
-				898F7E0D17964F53009B8961 /* XMLRPCConnectionDelegate.h in Headers */,
-				89E3025F1787EF9E000608D2 /* HTTPLogging.h in Headers */,
-				898F7E2F179C94F0009B8961 /* ROSSocket.h in Headers */,
-				898F7E0817964F53009B8961 /* XMLRPC.h in Headers */,
-				89E302601787EF9E000608D2 /* HTTPMessage.h in Headers */,
-				89E302631787EF9E000608D2 /* HTTPResponse.h in Headers */,
-				89E302641787EF9E000608D2 /* HTTPServer.h in Headers */,
-				89E302671787EF9E000608D2 /* MultipartFormDataParser.h in Headers */,
-				898F7DC417964F53009B8961 /* NSStringAdditions.h in Headers */,
-				89E3026A1787EF9E000608D2 /* MultipartMessageHeader.h in Headers */,
-				89E3026D1787EF9E000608D2 /* MultipartMessageHeaderField.h in Headers */,
-				89E302701787EF9E000608D2 /* HTTPAsyncFileResponse.h in Headers */,
-				89E302731787EF9E000608D2 /* HTTPDataResponse.h in Headers */,
-				89E302761787EF9E000608D2 /* HTTPDynamicFileResponse.h in Headers */,
-				89E302791787EF9E000608D2 /* HTTPErrorResponse.h in Headers */,
-				89E3027C1787EF9E000608D2 /* HTTPFileResponse.h in Headers */,
-				898F7E0E17964F53009B8961 /* XMLRPCConnectionManager.h in Headers */,
-				89E3027F1787EF9E000608D2 /* HTTPRedirectResponse.h in Headers */,
-				898F7E1517964F53009B8961 /* XMLRPCEventBasedParser.h in Headers */,
-				89E302821787EF9E000608D2 /* WebSocket.h in Headers */,
-				89E303351787EF9E000608D2 /* GCDAsyncSocket.h in Headers */,
-				898F7E1817964F53009B8961 /* XMLRPCEventBasedParserDelegate.h in Headers */,
-				8972AE1C17EAB37700E74D4F /* rosobjc-osx-Prefix.pch in Headers */,
-				89E303391787EF9E000608D2 /* DDAbstractDatabaseLogger.h in Headers */,
-				89E3033C1787EF9E000608D2 /* DDASLLogger.h in Headers */,
-				898F7DC117964F53009B8961 /* NSData+Base64.h in Headers */,
-				89E3033F1787EF9E000608D2 /* DDFileLogger.h in Headers */,
-				89E303421787EF9E000608D2 /* DDLog.h in Headers */,
-				898F7E1E17964F53009B8961 /* XMLRPCResponse.h in Headers */,
-				89E303451787EF9E000608D2 /* DDTTYLogger.h in Headers */,
-				89E303481787EF9E000608D2 /* ContextFilterLogFormatter.h in Headers */,
-				89E3034B1787EF9E000608D2 /* DispatchQueueLogFormatter.h in Headers */,
-				89E3037017887B3E000608D2 /* RPCConnection.h in Headers */,
-				89E3037517887CB1000608D2 /* RPCResponse.h in Headers */,
+				8972AE8017EAC73900E74D4F /* XMLReader.h in Headers */,
+				8972AE8117EAC73900E74D4F /* DDData.h in Headers */,
+				8972AE8217EAC73900E74D4F /* DDNumber.h in Headers */,
+				8972AE8317EAC73900E74D4F /* DDRange.h in Headers */,
+				8972AE8417EAC73900E74D4F /* HTTPAuthenticationRequest.h in Headers */,
+				8972AE8517EAC73900E74D4F /* HTTPConnection.h in Headers */,
+				8972AE8617EAC73900E74D4F /* HTTPLogging.h in Headers */,
+				8972AE8717EAC73900E74D4F /* HTTPMessage.h in Headers */,
+				8972AE8817EAC73900E74D4F /* HTTPResponse.h in Headers */,
+				89F7003117EB500800051479 /* rosobjc.h in Headers */,
+				8972AE8917EAC73900E74D4F /* HTTPServer.h in Headers */,
+				8972AE8A17EAC73900E74D4F /* MultipartFormDataParser.h in Headers */,
+				8972AE8B17EAC73900E74D4F /* MultipartMessageHeader.h in Headers */,
+				8972AE8C17EAC73900E74D4F /* MultipartMessageHeaderField.h in Headers */,
+				8972AE8D17EAC73900E74D4F /* HTTPAsyncFileResponse.h in Headers */,
+				8972AE8E17EAC73900E74D4F /* HTTPDataResponse.h in Headers */,
+				8972AE8F17EAC73900E74D4F /* HTTPDynamicFileResponse.h in Headers */,
+				8972AE9017EAC73900E74D4F /* HTTPErrorResponse.h in Headers */,
+				8972AE9117EAC73900E74D4F /* HTTPFileResponse.h in Headers */,
+				8972AE9217EAC73900E74D4F /* HTTPRedirectResponse.h in Headers */,
+				8972AE9317EAC73900E74D4F /* WebSocket.h in Headers */,
+				8972AE9417EAC73900E74D4F /* GCDAsyncSocket.h in Headers */,
+				8972AE9517EAC73900E74D4F /* DDAbstractDatabaseLogger.h in Headers */,
+				8972AE9617EAC73900E74D4F /* DDASLLogger.h in Headers */,
+				8972AE9717EAC73900E74D4F /* DDFileLogger.h in Headers */,
+				8972AE9817EAC73900E74D4F /* DDLog.h in Headers */,
+				8972AE9917EAC73900E74D4F /* DDTTYLogger.h in Headers */,
+				8972AE9A17EAC73900E74D4F /* ContextFilterLogFormatter.h in Headers */,
+				8972AE9B17EAC73900E74D4F /* DispatchQueueLogFormatter.h in Headers */,
+				8972AE9C17EAC73900E74D4F /* RPCConnection.h in Headers */,
+				8972AE9D17EAC73900E74D4F /* RPCResponse.h in Headers */,
+				8972AE9F17EAC73900E74D4F /* ROSCore.h in Headers */,
+				8972AEA017EAC73900E74D4F /* ROSMsg.h in Headers */,
+				8972AEA117EAC73900E74D4F /* ROSSocket.h in Headers */,
+				8972AEA217EAC73900E74D4F /* ROSUDP.h in Headers */,
+				8972AEA317EAC73900E74D4F /* ROSNode.h in Headers */,
+				8972AEA417EAC73900E74D4F /* ROSNodeDelegate.h in Headers */,
+				8972AEA517EAC73900E74D4F /* ROSXMLRPC.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -894,32 +833,13 @@
 			productReference = 891F1C731770245400E4C321 /* librosobjc.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		891F1C821770245400E4C321 /* rosobjcTests */ = {
+		8972AE5C17EAC69800E74D4F /* rosobjc-osx */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 891F1C991770245400E4C321 /* Build configuration list for PBXNativeTarget "rosobjcTests" */;
+			buildConfigurationList = 8972AE7717EAC69900E74D4F /* Build configuration list for PBXNativeTarget "rosobjc-osx" */;
 			buildPhases = (
-				891F1C7F1770245400E4C321 /* Sources */,
-				891F1C801770245400E4C321 /* Frameworks */,
-				891F1C811770245400E4C321 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				891F1C8A1770245400E4C321 /* PBXTargetDependency */,
-			);
-			name = rosobjcTests;
-			productName = rosobjcTests;
-			productReference = 891F1C831770245400E4C321 /* rosobjcTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		891F1CA01770255500E4C321 /* rosobjc-osx */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 891F1CC41770255500E4C321 /* Build configuration list for PBXNativeTarget "rosobjc-osx" */;
-			buildPhases = (
-				891F1C9C1770255500E4C321 /* Sources */,
-				891F1C9D1770255500E4C321 /* Frameworks */,
-				891F1C9E1770255500E4C321 /* Headers */,
-				891F1C9F1770255500E4C321 /* Resources */,
+				8972AE5917EAC69800E74D4F /* Sources */,
+				8972AE5A17EAC69800E74D4F /* Frameworks */,
+				8972AE5B17EAC69800E74D4F /* Headers */,
 			);
 			buildRules = (
 			);
@@ -927,26 +847,8 @@
 			);
 			name = "rosobjc-osx";
 			productName = "rosobjc-osx";
-			productReference = 891F1CA11770255500E4C321 /* rosobjc-osx.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		891F1CB51770255500E4C321 /* rosobjc-osxTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 891F1CC71770255500E4C321 /* Build configuration list for PBXNativeTarget "rosobjc-osxTests" */;
-			buildPhases = (
-				891F1CB21770255500E4C321 /* Sources */,
-				891F1CB31770255500E4C321 /* Frameworks */,
-				891F1CB41770255500E4C321 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				891F1CBA1770255500E4C321 /* PBXTargetDependency */,
-			);
-			name = "rosobjc-osxTests";
-			productName = "rosobjc-osxTests";
-			productReference = 891F1CB61770255500E4C321 /* rosobjc-osxTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
+			productReference = 8972AE5D17EAC69800E74D4F /* librosobjc-osx.a */;
+			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
 
@@ -957,14 +859,6 @@
 				CLASSPREFIX = ROS;
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Rachel Brindle";
-				TargetAttributes = {
-					891F1C821770245400E4C321 = {
-						TestTargetID = 891F1CA01770255500E4C321;
-					};
-					891F1CB51770255500E4C321 = {
-						TestTargetID = 891F1CA01770255500E4C321;
-					};
-				};
 			};
 			buildConfigurationList = 891F1C6E1770245400E4C321 /* Build configuration list for PBXProject "rosobjc" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -986,9 +880,7 @@
 			projectRoot = "";
 			targets = (
 				891F1C721770245400E4C321 /* rosobjc */,
-				891F1C821770245400E4C321 /* rosobjcTests */,
-				891F1CA01770255500E4C321 /* rosobjc-osx */,
-				891F1CB51770255500E4C321 /* rosobjc-osxTests */,
+				8972AE5C17EAC69800E74D4F /* rosobjc-osx */,
 			);
 		};
 /* End PBXProject section */
@@ -1017,64 +909,6 @@
 		};
 /* End PBXReferenceProxy section */
 
-/* Begin PBXResourcesBuildPhase section */
-		891F1C811770245400E4C321 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				891F1C911770245400E4C321 /* InfoPlist.strings in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		891F1C9F1770255500E4C321 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				898F7DD217964F53009B8961 /* SimpleArrayTestCase.xml in Resources */,
-				898F7DD117964F53009B8961 /* EmptyStringTestCase.xml in Resources */,
-				898F7DD317964F53009B8961 /* SimpleStructTestCase.xml in Resources */,
-				898F7DCF17964F53009B8961 /* EmptyDoubleTestCase.xml in Resources */,
-				898F7DB517964F53009B8961 /* .gitignore in Resources */,
-				89E3024E1787EF9E000608D2 /* .gitignore in Resources */,
-				898F7DC717964F53009B8961 /* README.md in Resources */,
-				898F7DBA17964F53009B8961 /* XMLRPCDevelopment.xcconfig in Resources */,
-				898F7DC917964F53009B8961 /* XMLRPC-Info.plist in Resources */,
-				898F7DB617964F53009B8961 /* Common.xcconfig in Resources */,
-				898F7DC817964F53009B8961 /* TestCases.plist in Resources */,
-				89E3024F1787EF9E000608D2 /* .hgignore in Resources */,
-				898F7DD017964F53009B8961 /* EmptyIntegerTestCase.xml in Resources */,
-				898F7DCD17964F53009B8961 /* EmptyBooleanTestCase.xml in Resources */,
-				898F7DCA17964F53009B8961 /* XMLRPCUnitTests-Info.plist in Resources */,
-				898F7DB917964F53009B8961 /* XMLRPC.xcconfig in Resources */,
-				89E302911787EF9E000608D2 /* LICENSE.txt in Resources */,
-				898F7DBF17964F53009B8961 /* InfoPlist.strings in Resources */,
-				89E302921787EF9E000608D2 /* README.markdown in Resources */,
-				898F7DBE17964F53009B8961 /* XMLRPCUnitTestsRelease.xcconfig in Resources */,
-				898F7DCE17964F53009B8961 /* EmptyDataTestCase.xml in Resources */,
-				898F7DBB17964F53009B8961 /* XMLRPCRelease.xcconfig in Resources */,
-				898F7DB817964F53009B8961 /* CommonRelease.xcconfig in Resources */,
-				89E303341787EF9E000608D2 /* About.txt in Resources */,
-				898F7DB717964F53009B8961 /* CommonDevelopment.xcconfig in Resources */,
-				898F7DC017964F53009B8961 /* LICENSE.md in Resources */,
-				89E303381787EF9E000608D2 /* About.txt in Resources */,
-				89E3034E1787EF9E000608D2 /* README.txt in Resources */,
-				898F7DBD17964F53009B8961 /* XMLRPCUnitTestsDevelopment.xcconfig in Resources */,
-				898F7DCB17964F53009B8961 /* AlternativeDateFormatsTestCase.xml in Resources */,
-				898F7DCC17964F53009B8961 /* DefaultTypeTestCase.xml in Resources */,
-				898F7DBC17964F53009B8961 /* XMLRPCUnitTests.xcconfig in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		891F1CB41770255500E4C321 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				891F1CC11770255500E4C321 /* InfoPlist.strings in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		891F1C6F1770245400E4C321 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -1098,6 +932,7 @@
 				898F7E1217964F53009B8961 /* XMLRPCDefaultEncoder.m in Sources */,
 				89E3026B1787EF9E000608D2 /* MultipartMessageHeader.m in Sources */,
 				89E3026E1787EF9E000608D2 /* MultipartMessageHeaderField.m in Sources */,
+				891E513317EADAB100DF46A2 /* XMLReader.m in Sources */,
 				898F7DC217964F53009B8961 /* NSData+Base64.m in Sources */,
 				89E302711787EF9E000608D2 /* HTTPAsyncFileResponse.m in Sources */,
 				898F7E30179C94F0009B8961 /* ROSSocket.m in Sources */,
@@ -1125,104 +960,59 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		891F1C7F1770245400E4C321 /* Sources */ = {
+		8972AE5917EAC69800E74D4F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				891F1C931770245400E4C321 /* rosobjcTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		891F1C9C1770255500E4C321 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				8994948C177D6C26005E306F /* ROSXMLRPC.m in Sources */,
-				898F7E1717964F53009B8961 /* XMLRPCEventBasedParser.m in Sources */,
-				898F7E2017964F53009B8961 /* XMLRPCResponse.m in Sources */,
-				898F7E1A17964F53009B8961 /* XMLRPCEventBasedParserDelegate.m in Sources */,
-				891F1CDD1770318300E4C321 /* ROSNode.m in Sources */,
-				891F1CE2177142C900E4C321 /* ROSMsg.m in Sources */,
-				891F1CD6177028F800E4C321 /* ROSCore.m in Sources */,
-				89E302521787EF9E000608D2 /* DDData.m in Sources */,
-				89E302551787EF9E000608D2 /* DDNumber.m in Sources */,
-				89E302581787EF9E000608D2 /* DDRange.m in Sources */,
-				89E3025B1787EF9E000608D2 /* HTTPAuthenticationRequest.m in Sources */,
-				89E3025E1787EF9E000608D2 /* HTTPConnection.m in Sources */,
-				89E302621787EF9E000608D2 /* HTTPMessage.m in Sources */,
-				89E302661787EF9E000608D2 /* HTTPServer.m in Sources */,
-				89E302691787EF9E000608D2 /* MultipartFormDataParser.m in Sources */,
-				898F7E1317964F53009B8961 /* XMLRPCDefaultEncoder.m in Sources */,
-				89E3026C1787EF9E000608D2 /* MultipartMessageHeader.m in Sources */,
-				89E3026F1787EF9E000608D2 /* MultipartMessageHeaderField.m in Sources */,
-				898F7DC317964F53009B8961 /* NSData+Base64.m in Sources */,
-				89E302721787EF9E000608D2 /* HTTPAsyncFileResponse.m in Sources */,
-				898F7E31179C94F0009B8961 /* ROSSocket.m in Sources */,
-				898F7E1017964F53009B8961 /* XMLRPCConnectionManager.m in Sources */,
-				89E302751787EF9E000608D2 /* HTTPDataResponse.m in Sources */,
-				898F7E1D17964F53009B8961 /* XMLRPCRequest.m in Sources */,
-				89E302781787EF9E000608D2 /* HTTPDynamicFileResponse.m in Sources */,
-				898F7DC617964F53009B8961 /* NSStringAdditions.m in Sources */,
-				89E3027B1787EF9E000608D2 /* HTTPErrorResponse.m in Sources */,
-				89E3027E1787EF9E000608D2 /* HTTPFileResponse.m in Sources */,
-				89E302811787EF9E000608D2 /* HTTPRedirectResponse.m in Sources */,
-				89E302841787EF9E000608D2 /* WebSocket.m in Sources */,
-				89E303371787EF9E000608D2 /* GCDAsyncSocket.m in Sources */,
-				89E3033B1787EF9E000608D2 /* DDAbstractDatabaseLogger.m in Sources */,
-				89E3033E1787EF9E000608D2 /* DDASLLogger.m in Sources */,
-				89E303411787EF9E000608D2 /* DDFileLogger.m in Sources */,
-				89E303441787EF9E000608D2 /* DDLog.m in Sources */,
-				89E303471787EF9E000608D2 /* DDTTYLogger.m in Sources */,
-				89E3034A1787EF9E000608D2 /* ContextFilterLogFormatter.m in Sources */,
-				89E3034D1787EF9E000608D2 /* DispatchQueueLogFormatter.m in Sources */,
-				89E3037217887B3E000608D2 /* RPCConnection.m in Sources */,
-				89E3037717887CB1000608D2 /* RPCResponse.m in Sources */,
-				898F7E0C17964F53009B8961 /* XMLRPCConnection.m in Sources */,
-				898F7E4817B86CD8009B8961 /* ROSUDP.m in Sources */,
-				8972AE2317EAB3FA00E74D4F /* XMLReader.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		891F1CB21770255500E4C321 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				891F1CC31770255500E4C321 /* rosobjc_osxTests.m in Sources */,
+				891E514817EADB2100DF46A2 /* HTTPDataResponse.m in Sources */,
+				891E514317EADB0700DF46A2 /* HTTPServer.m in Sources */,
+				891E514617EADB1600DF46A2 /* MultipartMessageHeaderField.m in Sources */,
+				891E514017EADAFB00DF46A2 /* HTTPAuthenticationRequest.m in Sources */,
+				891E513217EADAB000DF46A2 /* XMLReader.m in Sources */,
+				891E513617EADAC800DF46A2 /* XMLRPCConnection.m in Sources */,
+				891E514B17EADB2A00DF46A2 /* HTTPFileResponse.m in Sources */,
+				891E514217EADB0300DF46A2 /* HTTPMessage.m in Sources */,
+				891E515B17EADB7200DF46A2 /* ROSUDP.m in Sources */,
+				891E515417EADB5000DF46A2 /* ContextFilterLogFormatter.m in Sources */,
+				891E514C17EADB2E00DF46A2 /* HTTPRedirectResponse.m in Sources */,
+				891E515017EADB4300DF46A2 /* DDASLLogger.m in Sources */,
+				891E513817EADAD200DF46A2 /* XMLRPCDefaultEncoder.m in Sources */,
+				891E514917EADB2400DF46A2 /* HTTPDynamicFileResponse.m in Sources */,
+				891E515517EADB5600DF46A2 /* DispatchQueueLogFormatter.m in Sources */,
+				891E513B17EADADD00DF46A2 /* XMLRPCRequest.m in Sources */,
+				891E513517EADABE00DF46A2 /* NSStringAdditions.m in Sources */,
+				891E513A17EADAD900DF46A2 /* XMLRPCEventBasedParserDelegate.m in Sources */,
+				891E515C17EADB7500DF46A2 /* ROSNode.m in Sources */,
+				891E514F17EADB3F00DF46A2 /* DDAbstractDatabaseLogger.m in Sources */,
+				891E513717EADACE00DF46A2 /* XMLRPCConnectionManager.m in Sources */,
+				891E515117EADB4600DF46A2 /* DDFileLogger.m in Sources */,
+				891E513417EADABB00DF46A2 /* NSData+Base64.m in Sources */,
+				891E514E17EADB3900DF46A2 /* GCDAsyncSocket.m in Sources */,
+				891E515317EADB4B00DF46A2 /* DDTTYLogger.m in Sources */,
+				891E515717EADB6200DF46A2 /* RPCResponse.m in Sources */,
+				891E514D17EADB3200DF46A2 /* WebSocket.m in Sources */,
+				891E515817EADB6900DF46A2 /* ROSCore.m in Sources */,
+				891E515A17EADB6F00DF46A2 /* ROSSocket.m in Sources */,
+				891E514A17EADB2700DF46A2 /* HTTPErrorResponse.m in Sources */,
+				891E513F17EADAF700DF46A2 /* DDRange.m in Sources */,
+				891E514417EADB0F00DF46A2 /* MultipartFormDataParser.m in Sources */,
+				891E515917EADB6C00DF46A2 /* ROSMsg.m in Sources */,
+				891E514117EADAFE00DF46A2 /* HTTPConnection.m in Sources */,
+				891E514517EADB1300DF46A2 /* MultipartMessageHeader.m in Sources */,
+				891E515617EADB5F00DF46A2 /* RPCConnection.m in Sources */,
+				891E515217EADB4900DF46A2 /* DDLog.m in Sources */,
+				891E514717EADB1D00DF46A2 /* HTTPAsyncFileResponse.m in Sources */,
+				891E513E17EADAF400DF46A2 /* DDNumber.m in Sources */,
+				891E515D17EADB7700DF46A2 /* ROSXMLRPC.m in Sources */,
+				891E513D17EADAF100DF46A2 /* DDData.m in Sources */,
+				891E513917EADAD500DF46A2 /* XMLRPCEventBasedParser.m in Sources */,
+				891E513C17EADAE300DF46A2 /* XMLRPCResponse.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		891F1C8A1770245400E4C321 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 891F1C721770245400E4C321 /* rosobjc */;
-			targetProxy = 891F1C891770245400E4C321 /* PBXContainerItemProxy */;
-		};
-		891F1CBA1770255500E4C321 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 891F1CA01770255500E4C321 /* rosobjc-osx */;
-			targetProxy = 891F1CB91770255500E4C321 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXVariantGroup section */
-		891F1C8F1770245400E4C321 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				891F1C901770245400E4C321 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		891F1CBF1770255500E4C321 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				891F1CC01770255500E4C321 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 		898F7D4D17964F53009B8961 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1334,59 +1124,9 @@
 			};
 			name = Release;
 		};
-		891F1C9A1770245400E4C321 /* Debug */ = {
+		8972AE7817EAC69900E74D4F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/rosobjc-osx.framework/Versions/A/rosobjc-osx";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(SYSTEM_APPS_DIR)/Xcode5-DP.app/Contents/Developer/Library/Frameworks",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "rosobjc/rosobjc-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "rosobjcTests/rosobjcTests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Debug;
-		};
-		891F1C9B1770245400E4C321 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/rosobjc-osx.framework/Versions/A/rosobjc-osx";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(SYSTEM_APPS_DIR)/Xcode5-DP.app/Contents/Developer/Library/Frameworks",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "rosobjc/rosobjc-Prefix.pch";
-				INFOPLIST_FILE = "rosobjcTests/rosobjcTests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Release;
-		};
-		891F1CC51770255500E4C321 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SYSTEM_APPS_DIR)/Xcode5-DP.app/Contents/Developer/Library/Frameworks",
-				);
-				FRAMEWORK_VERSION = A;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "rosobjc-osx/rosobjc-osx-Prefix.pch";
@@ -1395,92 +1135,23 @@
 					"$(inherited)",
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				INFOPLIST_FILE = "rosobjc-osx/rosobjc-osx-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SDKROOT)/usr/lib/system",
-				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
 		};
-		891F1CC61770255500E4C321 /* Release */ = {
+		8972AE7917EAC69900E74D4F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SYSTEM_APPS_DIR)/Xcode5-DP.app/Contents/Developer/Library/Frameworks",
-				);
-				FRAMEWORK_VERSION = A;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "rosobjc-osx/rosobjc-osx-Prefix.pch";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				INFOPLIST_FILE = "rosobjc-osx/rosobjc-osx-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SDKROOT)/usr/lib/system",
-				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				WRAPPER_EXTENSION = framework;
-			};
-			name = Release;
-		};
-		891F1CC81770255500E4C321 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/rosobjc-osx.framework/Versions/A/rosobjc-osx";
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(inherited)",
-				);
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "rosobjc-osx/rosobjc-osx-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				INFOPLIST_FILE = "rosobjc-osxTests/rosobjc-osxTests-Info.plist";
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.8;
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Debug;
-		};
-		891F1CC91770255500E4C321 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/rosobjc-osx.framework/Versions/A/rosobjc-osx";
-				COMBINE_HIDPI_IMAGES = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(inherited)",
-				);
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "rosobjc-osx/rosobjc-osx-Prefix.pch";
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				INFOPLIST_FILE = "rosobjc-osxTests/rosobjc-osxTests-Info.plist";
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.8;
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
 		};
@@ -1505,29 +1176,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		891F1C991770245400E4C321 /* Build configuration list for PBXNativeTarget "rosobjcTests" */ = {
+		8972AE7717EAC69900E74D4F /* Build configuration list for PBXNativeTarget "rosobjc-osx" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				891F1C9A1770245400E4C321 /* Debug */,
-				891F1C9B1770245400E4C321 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		891F1CC41770255500E4C321 /* Build configuration list for PBXNativeTarget "rosobjc-osx" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				891F1CC51770255500E4C321 /* Debug */,
-				891F1CC61770255500E4C321 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		891F1CC71770255500E4C321 /* Build configuration list for PBXNativeTarget "rosobjc-osxTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				891F1CC81770255500E4C321 /* Debug */,
-				891F1CC91770255500E4C321 /* Release */,
+				8972AE7817EAC69900E74D4F /* Debug */,
+				8972AE7917EAC69900E74D4F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
