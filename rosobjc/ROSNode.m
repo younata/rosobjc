@@ -251,7 +251,7 @@
 -(NSArray *)shutdown:(NSString *)callerID msg:(NSString *)msg
 {
     [self shutdown:msg];
-    return nil;
+    return @[@1, @"shutdown", @0];
 }
 
 -(NSArray *)getSubscriptions:(NSString *)callerID

@@ -23,6 +23,7 @@
     HTTPServer *_httpServer;
 }
 
+@property (nonatomic, strong) NSMutableArray *rosobjects;
 @property (nonatomic, strong) NSString *uri;
 @property (nonatomic, strong) NSString *masterURI;
 @property (nonatomic, readonly) unsigned short rpcPort;

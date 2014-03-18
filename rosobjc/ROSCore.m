@@ -23,6 +23,8 @@
 
 @implementation ROSCore
 
+@synthesize rosobjects = rosobjects;
+
 +(NSArray *)ParseRosObjcURI:(NSString *)uri
 {
     //NSAssert1([uri hasPrefix:schema], @"Invalid protocol for ROS service URL: %@", uri);
@@ -206,7 +208,7 @@
     return [rosobjects objectAtIndex:0];
 }
 
--(void)startNode:(ROSNode *)node
+-(void)startNode:(ROSNode *)node // done automagically.
 {
     // something.
 }
@@ -231,6 +233,7 @@
         if ([params count] != 2)
             msg = [params objectAtIndex:1];
         [self signalShutdown:msg];
+        ret = @[@0, msg, @""];
     } else if ([method isEqualToString:@"getPid"]) {
         ret = @[@0, @"", @(getpid())];
     } else if ([method isEqualToString:@"getSubscriptions"]) {
