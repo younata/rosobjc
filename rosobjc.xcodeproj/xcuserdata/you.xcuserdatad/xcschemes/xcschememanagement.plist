@@ -12,9 +12,14 @@
 		<key>rosobjc-osx.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>2</integer>
+			<integer>1</integer>
 		</dict>
 		<key>rosobjc-osxTests.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>4</integer>
+		</dict>
+		<key>rosobjc-specs.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>5</integer>
@@ -38,6 +43,11 @@
 			<true/>
 		</dict>
 		<key>891F1CB51770255500E4C321</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>895127DE18D82BDC003C9190</key>
 		<dict>
 			<key>primary</key>
 			<true/>

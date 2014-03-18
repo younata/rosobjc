@@ -19,8 +19,6 @@
     
     NSMutableArray *rosobjects;
     NSMutableDictionary *knownMessageTypes;
-    //ROSNode *node;
-    
     
     HTTPServer *_httpServer;
 }

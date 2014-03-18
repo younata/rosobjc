@@ -21,8 +21,6 @@
 -(void)setInitialized:(BOOL)inited;
 @end
 
-static ROSCore *roscoreSingleton = nil;
-
 @implementation ROSCore
 
 +(NSArray *)ParseRosObjcURI:(NSString *)uri
@@ -40,24 +38,15 @@ static ROSCore *roscoreSingleton = nil;
 
 +(ROSCore *)sharedCore
 {
-    if (roscoreSingleton == nil)
-        [ROSCore initialize];
-    return roscoreSingleton;
-}
-
-+(void)initialize
-{
-    if (roscoreSingleton == nil) {
-        roscoreSingleton = [[ROSCore alloc] initSingleton];
-    }
+    static ROSCore *ret;
+    static dispatch_once_t onceToken = 0;
+    dispatch_once(&onceToken, ^{
+        ret = [[ROSCore alloc] init];
+    });
+    return ret;
 }
 
 -(id)init
-{
-    return nil;
-}
-
--(id)initSingleton
 {
     if ((self = [super init]) != nil) {
         clientReady = NO;
@@ -135,7 +124,7 @@ static ROSCore *roscoreSingleton = nil;
     for (ROSNode *node in rosobjects) {
         [node shutdown:reason];
     }
-    rosobjects = nil;
+    [rosobjects removeAllObjects];
     
     [_httpServer stop];
     _httpServer = nil;

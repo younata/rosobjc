@@ -149,7 +149,7 @@
     }
     
     if (i >= dataLength) {
-        [self handleServerData];
+        [self handleServerDataFrom:sock];
         dataLength = 0;
     }
     
@@ -191,7 +191,7 @@ void prettyPrintHeader(NSData *data)
     }
 }
 
--(void)handleServerData
+-(void)handleServerDataFrom:(GCDAsyncSocket *)sock
 {
     NSData *s = [readData copy];
     unsigned int len = [self handleReadMsg:s];
@@ -199,21 +199,24 @@ void prettyPrintHeader(NSData *data)
         return;
     if (!exchangedHeaders) {
         NSMutableDictionary *headers = [[NSMutableDictionary alloc] init];
-        NSData *d = [s subdataWithRange:NSMakeRange(4, len)];
+        NSData *d = [s copy];
         while ([d length] != 0) {
             unsigned int l = [self handleReadMsg:d];
-            NSAssert(l < [d length], @"l is longer than data");
-            NSString *t = [[NSString alloc] initWithData:[s subdataWithRange:NSMakeRange(0, len)] encoding:NSUTF8StringEncoding];
+            NSAssert(l <= [d length], @"l is longer than data");
+            NSData *sd = [s subdataWithRange:NSMakeRange(0, l)];
+            NSString *t = [[NSString alloc] initWithData:sd encoding:NSUTF8StringEncoding];
             NSAssert(t != nil, @"t is nil");
             NSArray *a = [t componentsSeparatedByString:@"="];
-            NSAssert([a count] == 1, @"components separated... returned only one object, expected 2");
+            if ([a count] < 2)
+                break; // TODO: fixme.
+            NSAssert([a count] != 1, @"components separated... returned only one object, expected 2");
             [headers setObject:a[1] forKey:a[0]];
             d = [d subdataWithRange:NSMakeRange(4+l, [d length] - (l + 4))];
         }
         // construct a respanse...
         // lookup the md5sum for this...
         
-        [clientSock writeData:[self generatePublisherHeader] withTimeout:-1 tag:0];
+        [sock writeData:[self generatePublisherHeader] withTimeout:-1 tag:0];
         exchangedHeaders = YES;
     } else {
         ROSMsg *foo = [[_msgClass alloc] init];
