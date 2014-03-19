@@ -1422,6 +1422,7 @@
 				895127F318D82BDE003C9190 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8972AE7717EAC69900E74D4F /* Build configuration list for PBXNativeTarget "rosobjc-osx" */ = {
 			isa = XCConfigurationList;

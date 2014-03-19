@@ -277,12 +277,12 @@
 
 -(NSArray *)publisherUpdate:(NSString *)callerID topic:(NSString *)topic publishers:(NSArray *)publishers
 {
-    if ([publishers count] != 0) {
-        return nil;
+    if ([publishers count] == 0) {
+        return @[@(-1), @"Assumed at least 1 publisher", @0];
     }
     NSString *topicType = [topicTypes objectForKey:topic];
     if (!topicType) {
-        return nil;
+        return @[@(-1), @"Unknown topic", @0];
     }
     NSMutableArray *knownHosts = [[NSMutableArray alloc] init];
     for (ROSSocket *soc in clients) {
@@ -296,7 +296,7 @@
             [knownHosts addObject:h];
         }
     }
-    return nil;
+    return @[@1, @"", @0];
 }
 
 -(void)createServerForTopic:(NSString *)topic

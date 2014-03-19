@@ -68,6 +68,14 @@ describe(@"ROSCore", ^{
             ROSNode *node = fake_for([ROSNode class]);
             
             node stub_method("getBusStats:").and_return(@[@1, @"", @[]]);
+            node stub_method("getBusInfo:").and_return(@[@1, @"", @[]]);
+            node stub_method("getMasterUri:").and_return(@[@1, subject.masterURI, subject.masterURI]);
+            node stub_method("getSubscriptions:").and_return(@[@1, @"subscriptions", @[]]);
+            node stub_method("getPublications:").and_return(@[@1, @"publications", @[]]);
+            node stub_method(@selector(paramUpdate:key:val:)).and_return(@[@1, @"", @0]);
+            node stub_method(@selector(publisherUpdate:topic:publishers:)).and_return(@[@1, @"", @0]);
+            node stub_method(@selector(requestTopic:topic:protocols:)).and_return(@[@1, @"", @0]);
+            node stub_method(@selector(getPublishedTopics:)).and_return(@[]);
             
             [subject.rosobjects addObject:node];
             
@@ -79,51 +87,57 @@ describe(@"ROSCore", ^{
         it(@"getBusInfo", PENDING);
         
         it(@"getMasterUri", ^{
-            
             NSArray *ans = call(@"getMasterUri");
+            ans[1] should equal(subject.masterURI);
             ans[2] should equal(subject.masterURI);
         });
         
         it(@"shutdown", ^{
-            NSArray *ans = [subject respondToRPC:@"shutdown" Params:@[callerID, @"shutdown message"]];
-            subject should_have received(@selector(signalShutdown));
+            NSArray *ans = [subject respondToRPC:@"shutdown"
+                                          Params:@[callerID, @"shutdown message"]];
+            subject should have_received(@selector(signalShutdown));
             ans[0] should equal(@1);
+            ans[1] should equal(@"shutdown message");
+            ans[2] should equal(@0);
         });
         
         it(@"getPid", ^{
-            
             NSArray *ans = call(@"getPid");
+            ans[1] should equal(@"");
         });
         
         it(@"getSubscriptions", ^{
-            
             NSArray *ans = call(@"getSubscriptions");
+            ans[1] should equal(@"subscriptions");
             ans[2] should equal(@[]);
         });
         
         it(@"getPublications", ^{
-            
             NSArray *ans = call(@"getPublications");
+            ans[1] should equal(@"publications");
             ans[2] should equal(@[]);
         });
         
         it(@"paramUpdate", ^{
-            
             NSArray *ans = [subject respondToRPC:@"paramUpdate" Params:@[callerID, @"key", @"value"]];
             // hm.
-            ans[0] should equal(@(-1));
+            ans[0] should equal(@1);
+            ans[1] should equal(@"");
             ans[2] should equal(@0);
         });
         
         it(@"publisherUpdate", ^{
-            
             NSArray *ans = [subject respondToRPC:@"publisherUpdate" Params:@[callerID, @"/topic", @[@"publisherA", @"publisherB"]]];
+            ans[0] should equal(@1);
+            ans[1] should equal(@"");
+            ans[2] should equal(@0);
         });
         
         it(@"requestTopic", ^{
-            
             NSArray *ans = [subject respondToRPC:@"requestTopic" Params:@[callerID, @"/topic", @[]]];
             ans[0] should equal(@1);
+            ans[1] should equal(@"");
+            ans[2] should equal(@0);
         });
         
         it(@"should getPublishedTopics", ^{
