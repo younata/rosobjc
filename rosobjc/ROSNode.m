@@ -64,6 +64,11 @@
 }
 
 #pragma mark - Most used by the developer.
+-(BOOL)publishesTopic:(NSString *)topic
+{
+    return [publishedTopics objectForKey:topic] != nil;
+}
+
 -(void)subscribe:(NSString *)topic callback:(void (^)(ROSMsg *))block
 {
     if (![topic hasPrefix:@"/"]) {

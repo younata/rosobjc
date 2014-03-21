@@ -55,13 +55,8 @@
 		891F1CD5177028F800E4C321 /* ROSCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F1CD3177028F800E4C321 /* ROSCore.m */; };
 		891F1CDC1770318300E4C321 /* ROSNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F1CDA1770318300E4C321 /* ROSNode.m */; };
 		891F1CE1177142C900E4C321 /* ROSMsg.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F1CDF177142C900E4C321 /* ROSMsg.m */; };
-		895127E018D82BDC003C9190 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 891F1C871770245400E4C321 /* UIKit.framework */; };
 		895127E118D82BDC003C9190 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8961B0A81778040D005564A5 /* Foundation.framework */; };
 		895127E318D82BDC003C9190 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 895127E218D82BDC003C9190 /* CoreGraphics.framework */; };
-		895127E918D82BDC003C9190 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 895127E718D82BDC003C9190 /* InfoPlist.strings */; };
-		895127EB18D82BDC003C9190 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 895127EA18D82BDC003C9190 /* main.m */; };
-		895127EF18D82BDE003C9190 /* Cedar-iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 895127EE18D82BDE003C9190 /* Cedar-iOS.framework */; };
-		895127F918D82C2A003C9190 /* ROSCoreSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 895127F818D82C2A003C9190 /* ROSCoreSpec.mm */; };
 		895127FA18D82C96003C9190 /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8972AE2217EAB3FA00E74D4F /* XMLReader.m */; };
 		895127FB18D82CA1003C9190 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7D5117964F53009B8961 /* NSData+Base64.m */; };
 		895127FC18D82CA8003C9190 /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7D5317964F53009B8961 /* NSStringAdditions.m */; };
@@ -221,6 +216,9 @@
 		89E3034C1787EF9E000608D2 /* DispatchQueueLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3024C1787EF9E000608D2 /* DispatchQueueLogFormatter.m */; };
 		89E3037117887B3E000608D2 /* RPCConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3036F17887B3E000608D2 /* RPCConnection.m */; };
 		89E3037617887CB1000608D2 /* RPCResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3037417887CB1000608D2 /* RPCResponse.m */; };
+		89F2986518DA0466006408FF /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F2986418DA0466006408FF /* CFNetwork.framework */; };
+		89F2986718DA0471006408FF /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F2986618DA0471006408FF /* Security.framework */; };
+		89F2986918DA047B006408FF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89F2986818DA047B006408FF /* UIKit.framework */; };
 		89F7003117EB500800051479 /* rosobjc.h in Headers */ = {isa = PBXBuildFile; fileRef = 89F7003017EB500800051479 /* rosobjc.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
@@ -316,13 +314,6 @@
 		891F1CDF177142C900E4C321 /* ROSMsg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ROSMsg.m; sourceTree = "<group>"; };
 		895127DF18D82BDC003C9190 /* rosobjc-specs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "rosobjc-specs.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		895127E218D82BDC003C9190 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		895127E618D82BDC003C9190 /* rosobjc-specs-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "rosobjc-specs-Info.plist"; sourceTree = "<group>"; };
-		895127E818D82BDC003C9190 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		895127EA18D82BDC003C9190 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		895127EC18D82BDC003C9190 /* rosobjc-specs-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "rosobjc-specs-Prefix.pch"; sourceTree = "<group>"; };
-		895127ED18D82BDC003C9190 /* Rakefile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Rakefile; sourceTree = "<group>"; };
-		895127EE18D82BDE003C9190 /* Cedar-iOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "Cedar-iOS.framework"; path = "Frameworks/Cedar-iOS.framework"; sourceTree = "<group>"; };
-		895127F818D82C2A003C9190 /* ROSCoreSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ROSCoreSpec.mm; sourceTree = "<group>"; };
 		8961B0A81778040D005564A5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		8961B0AA17780432005564A5 /* libcommonCrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcommonCrypto.dylib; path = usr/lib/system/libcommonCrypto.dylib; sourceTree = SDKROOT; };
 		8972AE1B17EAB37700E74D4F /* rosobjc-osx-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "rosobjc-osx-Prefix.pch"; path = "rosobjc-osx/rosobjc-osx-Prefix.pch"; sourceTree = "<group>"; };
@@ -451,6 +442,9 @@
 		89E3036F17887B3E000608D2 /* RPCConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPCConnection.m; sourceTree = "<group>"; };
 		89E3037317887CB1000608D2 /* RPCResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPCResponse.h; sourceTree = "<group>"; };
 		89E3037417887CB1000608D2 /* RPCResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPCResponse.m; sourceTree = "<group>"; };
+		89F2986418DA0466006408FF /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		89F2986618DA0471006408FF /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		89F2986818DA047B006408FF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		89F7003017EB500800051479 /* rosobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rosobjc.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -467,9 +461,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89F2986918DA047B006408FF /* UIKit.framework in Frameworks */,
+				89F2986718DA0471006408FF /* Security.framework in Frameworks */,
+				89F2986518DA0466006408FF /* CFNetwork.framework in Frameworks */,
 				895127E318D82BDC003C9190 /* CoreGraphics.framework in Frameworks */,
-				895127E018D82BDC003C9190 /* UIKit.framework in Frameworks */,
-				895127EF18D82BDE003C9190 /* Cedar-iOS.framework in Frameworks */,
 				895127E118D82BDC003C9190 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -499,7 +494,6 @@
 				89E3036D17887A7D000608D2 /* XMLRPC */,
 				891F1C781770245400E4C321 /* rosobjc */,
 				8972AE5F17EAC69800E74D4F /* rosobjc-osx */,
-				895127E418D82BDC003C9190 /* rosobjc-specs */,
 				891F1C751770245400E4C321 /* Frameworks */,
 				891F1C741770245400E4C321 /* Products */,
 			);
@@ -518,6 +512,9 @@
 		891F1C751770245400E4C321 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				89F2986818DA047B006408FF /* UIKit.framework */,
+				89F2986618DA0471006408FF /* Security.framework */,
+				89F2986418DA0466006408FF /* CFNetwork.framework */,
 				8972AE2A17EAB43A00E74D4F /* Security.framework */,
 				8972AE2817EAB42700E74D4F /* libcommonCrypto.dylib */,
 				8972AE2617EAB41D00E74D4F /* CFNetwork.framework */,
@@ -572,28 +569,6 @@
 				891F1CA71770255500E4C321 /* AppKit.framework */,
 			);
 			name = "Other Frameworks";
-			sourceTree = "<group>";
-		};
-		895127E418D82BDC003C9190 /* rosobjc-specs */ = {
-			isa = PBXGroup;
-			children = (
-				895127ED18D82BDC003C9190 /* Rakefile */,
-				895127EE18D82BDE003C9190 /* Cedar-iOS.framework */,
-				895127F818D82C2A003C9190 /* ROSCoreSpec.mm */,
-				895127E518D82BDC003C9190 /* Supporting Files */,
-			);
-			path = "rosobjc-specs";
-			sourceTree = "<group>";
-		};
-		895127E518D82BDC003C9190 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				895127E618D82BDC003C9190 /* rosobjc-specs-Info.plist */,
-				895127E718D82BDC003C9190 /* InfoPlist.strings */,
-				895127EA18D82BDC003C9190 /* main.m */,
-				895127EC18D82BDC003C9190 /* rosobjc-specs-Prefix.pch */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		8972AE5F17EAC69800E74D4F /* rosobjc-osx */ = {
@@ -1026,7 +1001,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				895127E918D82BDC003C9190 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1103,7 +1077,6 @@
 				8951281418D82D1C003C9190 /* WebSocket.m in Sources */,
 				8951280018D82CD0003C9190 /* XMLRPCEventBasedParser.m in Sources */,
 				8951280C18D82D1C003C9190 /* MultipartMessageHeader.m in Sources */,
-				895127F918D82C2A003C9190 /* ROSCoreSpec.mm in Sources */,
 				895127FB18D82CA1003C9190 /* NSData+Base64.m in Sources */,
 				8951280A18D82CFD003C9190 /* HTTPServer.m in Sources */,
 				8951281F18D82D40003C9190 /* ROSCore.m in Sources */,
@@ -1125,7 +1098,6 @@
 				8951280318D82CD0003C9190 /* XMLRPCResponse.m in Sources */,
 				8951280D18D82D1C003C9190 /* MultipartMessageHeaderField.m in Sources */,
 				8951280518D82CFD003C9190 /* DDNumber.m in Sources */,
-				895127EB18D82BDC003C9190 /* main.m in Sources */,
 				895127FC18D82CA8003C9190 /* NSStringAdditions.m in Sources */,
 				895127FE18D82CD0003C9190 /* XMLRPCConnectionManager.m in Sources */,
 				8951281318D82D1C003C9190 /* HTTPRedirectResponse.m in Sources */,
@@ -1187,14 +1159,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		895127E718D82BDC003C9190 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				895127E818D82BDC003C9190 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 		898F7D4D17964F53009B8961 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (

@@ -182,14 +182,11 @@
 
 -(ROSNode *)createNode:(NSString *)name
 {
-    // NOTE: this is something that we should fix.
-    // It doesn't scale to run multiple httpservers
-    // if we want to run more than one node.
-    
-    // Unfortunately, it would take a core ROS change to fix this.
-    if ([rosobjects count] != 0) {
-        return [rosobjects objectAtIndex:0];
-    }
+    // NOTE: From the looks of it, ROS was designed to only work with
+    // one node per http server. rosobjc allows the user to run
+    // multiple nodes per http server, HOWEVER, no two nodes may
+    // subscribe or publish to the same topics.
+
     for (ROSNode *node in rosobjects) {
         if ([node.name isEqualToString:name])
             return nil;
@@ -216,57 +213,105 @@
 -(NSArray *)respondToRPC:(NSString *)method Params:(NSArray *)params
 {
     NSArray *ret = nil;
-    ROSNode *r = rosobjects[0];
-    if (r == nil)
-        return nil;
+    if (rosobjects.count == 0) {
+        return @[@(-1), @"No running nodes", @0];
+    }
     NSString *cid = params[0];
     if (cid == nil)
         return nil;
     if ([method isEqualToString:@"getBusStats"]) {
-        ret = [r getBusStats:cid];
+        NSMutableSet *pubStats = [[NSMutableSet alloc] init];
+        NSMutableSet *subStats = [[NSMutableSet alloc] init];
+        NSMutableSet *serStats = [[NSMutableSet alloc] init];
+        for (ROSNode *node in rosobjects) {
+            NSArray *a = [node getBusStats:cid][2];
+            if (a.count == 0) {
+                continue;
+            }
+            [pubStats addObjectsFromArray:a[0]];
+            [subStats addObjectsFromArray:a[1]];
+            [serStats addObjectsFromArray:a[2]];
+        }
+        ret = @[@1, @"bus stats", @[[pubStats allObjects], [subStats allObjects], [serStats allObjects]]];
     } else if ([method isEqualToString:@"getBusInfo"]) {
-        ret = [r getBusInfo:cid];
+        NSMutableSet *set = [[NSMutableSet alloc] init];
+        for (ROSNode *node in rosobjects) {
+            [set addObjectsFromArray:[node getBusStats:cid][2]];
+        }
+        ret = @[@1, @"bus info", [set allObjects]];
     } else if ([method isEqualToString:@"getMasterUri"]) {
-        ret = [r getMasterUri:cid];
+        if (self.masterURI) {
+            ret = @[@1, self.masterURI, self.masterURI];
+        } else {
+            ret = @[@0, @"master URI not set", @""];
+        }
     } else if ([method isEqualToString:@"shutdown"]) {
         NSString *msg = @"";
         if ([params count] != 2)
             msg = [params objectAtIndex:1];
         [self signalShutdown:msg];
-        ret = @[@0, msg, @""];
+        ret = @[@0, @"shutdown", @0];
     } else if ([method isEqualToString:@"getPid"]) {
         ret = @[@0, @"", @(getpid())];
     } else if ([method isEqualToString:@"getSubscriptions"]) {
-        ret = [r getSubscriptions:cid];
+        NSMutableSet *set = [[NSMutableSet alloc] init];
+        for (ROSNode *node in rosobjects) {
+            [set addObjectsFromArray:[node getSubscriptions:cid][2]];
+        }
+        ret = @[@1, @"subscriptions", [set allObjects]];
     } else if ([method isEqualToString:@"getPublications"]) {
-        ret = [r getPublications:cid];
+        NSMutableSet *set = [[NSMutableSet alloc] init];
+        for (ROSNode *node in rosobjects) {
+            [set addObjectsFromArray:[node getPublishedTopics:cid][2]];
+        }
+        ret = @[@1, @"subscriptions", [set allObjects]];
     } else if ([method isEqualToString:@"paramUpdate"]) {
         if ([params count] != 3)
             return nil;
         NSString *k = [params objectAtIndex:1];
         id val = [params objectAtIndex:2];
-        ret = [r paramUpdate:cid key:k val:val];
+        for (ROSNode *node in rosobjects) {
+            [node paramUpdate:cid key:k val:val];
+        }
+        ret = @[@1, @"", @0];
     } else if ([method isEqualToString:@"publisherUpdate"]) {
         if ([params count] != 3)
             return nil;
         NSString *t = [params objectAtIndex:1];
         NSArray *p = [params objectAtIndex:2];
-        ret = [r publisherUpdate:cid topic:t publishers:p];
+        if (p.count == 0) {
+            ret = @[@(-1), @"Assumed at least 1 publisher", @0];
+        } else {
+            for (ROSNode *node in rosobjects) {
+                [node publisherUpdate:cid topic:t publishers:p];
+            }
+        }
+        ret = @[@1, @"", @0];
     } else if ([method isEqualToString:@"requestTopic"]) {
         if ([params count] != 3)
             return nil;
         NSString *t = [params objectAtIndex:1];
         NSArray *p = [params objectAtIndex:2];
         ret = [r requestTopic:cid topic:t protocols:p];
+        for (ROSNode *node in rosobjects) {
+            if ([node publishesTopic:t]) {
+                ret = [node requestTopic:cid topic:t protocols:p];
+                if ([ret[0] integerValue] == 1) {
+                    break;
+                }
+            }
+        }
     }
     return ret;
 }
 
 -(NSArray *)getPublishedTopics:(NSString *)NameSpace
 {
-    NSArray *t = [rosobjects[0] getPublishedTopics:NameSpace];
-    NSAssert1([[t objectAtIndex:0] intValue] == 1, @"unable to get published topics: %@", [t objectAtIndex:1]);
-    return ([t objectAtIndex:2]);
+    NSMutableSet *set = [[NSMutableSet alloc] init];
+    for (ROSNode *node in rosobjects) {
+        [set addObjectsFromArray:[node getPublishedTopics:NameSpace][2]];
+    }
+    return [set allObjects];
 }
 
 @end

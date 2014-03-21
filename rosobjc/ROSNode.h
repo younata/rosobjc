@@ -42,6 +42,8 @@
 
 #pragma mark - Stuff most used by the programmer.
 
+-(BOOL)publishesTopic:(NSString *)topic;
+
 -(void)subscribe:(NSString *)topic callback:(void(^)(ROSMsg *))block;
 
 -(void)advertize:(NSString *)topic msgType:(NSString *)msgName;
