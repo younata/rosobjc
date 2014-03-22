@@ -43,7 +43,7 @@
 
 -(void)shutdown;
 
--(int)sendMsg:(ROSMsg *)msg;
+-(NSUInteger)sendMsg:(ROSMsg *)msg;
 
 
 @end

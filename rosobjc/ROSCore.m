@@ -292,7 +292,6 @@
             return nil;
         NSString *t = [params objectAtIndex:1];
         NSArray *p = [params objectAtIndex:2];
-        ret = [r requestTopic:cid topic:t protocols:p];
         for (ROSNode *node in rosobjects) {
             if ([node publishesTopic:t]) {
                 ret = [node requestTopic:cid topic:t protocols:p];

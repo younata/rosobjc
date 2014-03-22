@@ -57,7 +57,7 @@
 {
     ROSMsg *a = [[_msgClass alloc] init];
     NSString *md5sum = [@"md5sum=" stringByAppendingString:[a md5sum]];
-    int i = (int)[md5sum length];
+    NSInteger i = [md5sum length];
     BOOL NSStringPreservesEndingZero = NO;
     NSData *d = [md5sum dataUsingEncoding:NSUTF8StringEncoding];
     if ([d length] != 39) {
@@ -113,7 +113,7 @@
         [ret1 appendBytes:&l length:4];
         [ret1 appendData:[[s dataUsingEncoding:NSUTF8StringEncoding] subdataWithRange:NSMakeRange(0, l)]];
     }
-    int i = [ret1 length];
+    NSUInteger i = [ret1 length];
     [ret appendBytes:&i length:4];
     [ret appendData:ret1];
     
@@ -238,7 +238,7 @@ void prettyPrintHeader(NSData *data)
 {
     // this is the way rospy works.
     unsigned char *c = malloc(4096);
-    unsigned int r = 0;
+    size_t r = 0;
     if ((r = recv(sockfd, c, 4096, 0)) == -1) {
         perror("readMsg");
         [self shutdown];
@@ -555,7 +555,7 @@ void prettyPrintHeader(NSData *data)
     return totalSent;
 }
 
--(int)sendMsg:(ROSMsg *)msg
+-(NSUInteger)sendMsg:(ROSMsg *)msg
 {
     if (sockfd < 0 || !_run) {
         return -1;

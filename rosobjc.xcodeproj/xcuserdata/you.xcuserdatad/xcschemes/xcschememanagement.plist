@@ -17,7 +17,12 @@
 		<key>rosobjc-osxTests.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>4</integer>
+			<integer>2</integer>
+		</dict>
+		<key>rosobjc-specs.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
@@ -53,6 +58,11 @@
 			<true/>
 		</dict>
 		<key>8972AE6817EAC69900E74D4F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>89A4E56518DE22D300207676</key>
 		<dict>
 			<key>primary</key>
 			<true/>
