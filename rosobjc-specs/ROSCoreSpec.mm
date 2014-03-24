@@ -11,6 +11,7 @@ describe(@"ROSCore", ^{
 
     beforeEach(^{
         subject = [[ROSCore alloc] init];
+        subject.masterURI = @"http://localhost:11311";
     });
     
     describe(@"initial state", ^{
@@ -55,7 +56,7 @@ describe(@"ROSCore", ^{
     });
     
     // slave API
-    describe(@"responding to RPC calls: ", ^{
+    describe(@"responding to RPC calls:", ^{
         static NSString *callerID = @"/examplenode";
         NSArray *(^call)(NSString *) = ^NSArray *(NSString *method){
             NSArray *ret = [subject respondToRPC:method Params:@[callerID]];
@@ -76,6 +77,8 @@ describe(@"ROSCore", ^{
             node stub_method(@selector(publisherUpdate:topic:publishers:)).and_return(@[@1, @"", @0]);
             node stub_method(@selector(requestTopic:topic:protocols:)).and_return(@[@1, @"", @0]);
             node stub_method(@selector(getPublishedTopics:)).and_return(@[]);
+            node stub_method(@selector(publishesTopic:)).and_return(NO);
+            node stub_method(@selector(shutdown:));
             
             [subject.rosobjects addObject:node];
             
@@ -97,7 +100,7 @@ describe(@"ROSCore", ^{
                                           Params:@[callerID, @"shutdown message"]];
             subject should have_received(@selector(signalShutdown:));
             ans[0] should equal(@1);
-            ans[1] should equal(@"shutdown message");
+            ans[1] should equal(@"shutdown");
             ans[2] should equal(@0);
         });
         
@@ -135,9 +138,7 @@ describe(@"ROSCore", ^{
         
         it(@"requestTopic", ^{
             NSArray *ans = [subject respondToRPC:@"requestTopic" Params:@[callerID, @"/topic", @[]]];
-            ans[0] should equal(@1);
-            ans[1] should equal(@"");
-            ans[2] should equal(@0);
+            ans[0] should equal(@0);
         });
         
         it(@"should getPublishedTopics", ^{

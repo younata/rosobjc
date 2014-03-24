@@ -250,9 +250,9 @@
         if ([params count] != 2)
             msg = [params objectAtIndex:1];
         [self signalShutdown:msg];
-        ret = @[@0, @"shutdown", @0];
+        ret = @[@1, @"shutdown", @0];
     } else if ([method isEqualToString:@"getPid"]) {
-        ret = @[@0, @"", @(getpid())];
+        ret = @[@1, @"", @(getpid())];
     } else if ([method isEqualToString:@"getSubscriptions"]) {
         NSMutableSet *set = [[NSMutableSet alloc] init];
         for (ROSNode *node in rosobjects) {
@@ -262,9 +262,12 @@
     } else if ([method isEqualToString:@"getPublications"]) {
         NSMutableSet *set = [[NSMutableSet alloc] init];
         for (ROSNode *node in rosobjects) {
-            [set addObjectsFromArray:[node getPublishedTopics:cid][2]];
+            NSArray *a = [node getPublishedTopics:cid];
+            if (a.count == 3) {
+                [set addObjectsFromArray:a[2]];
+            }
         }
-        ret = @[@1, @"subscriptions", [set allObjects]];
+        ret = @[@1, @"publications", [set allObjects]];
     } else if ([method isEqualToString:@"paramUpdate"]) {
         if ([params count] != 3)
             return nil;
@@ -289,9 +292,10 @@
         ret = @[@1, @"", @0];
     } else if ([method isEqualToString:@"requestTopic"]) {
         if ([params count] != 3)
-            return nil;
+            return @[@(-1), @"Not enough parameters", @0];
         NSString *t = [params objectAtIndex:1];
         NSArray *p = [params objectAtIndex:2];
+        ret = @[@0, [NSString stringWithFormat:@"Not a publisher of %@", t], @[]];
         for (ROSNode *node in rosobjects) {
             if ([node publishesTopic:t]) {
                 ret = [node requestTopic:cid topic:t protocols:p];
@@ -308,7 +312,10 @@
 {
     NSMutableSet *set = [[NSMutableSet alloc] init];
     for (ROSNode *node in rosobjects) {
-        [set addObjectsFromArray:[node getPublishedTopics:NameSpace][2]];
+        NSArray *a = [node getPublishedTopics:NameSpace];
+        if (a.count == 3) {
+            [set addObjectsFromArray:a[2]];
+        }
     }
     return [set allObjects];
 }
