@@ -18,6 +18,11 @@
 
 @implementation ROSNode
 
+-(id)init
+{
+    return [self initWithName:@"Untitled"];
+}
+
 -(id)initWithName:(NSString *)name
 {
     if ((self = [super init]) != nil) {

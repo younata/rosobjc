@@ -25,7 +25,7 @@
     _node = node;
 }
 
--(int)sendMsg:(ROSMsg *)msg
+-(NSUInteger)sendMsg:(ROSMsg *)msg
 {
     return 0;
 }

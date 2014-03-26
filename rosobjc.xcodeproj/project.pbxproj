@@ -190,6 +190,9 @@
 		89A4E59F18DE23B700207676 /* ROSUDP.m in Sources */ = {isa = PBXBuildFile; fileRef = 898F7E4517B86CD8009B8961 /* ROSUDP.m */; };
 		89A4E5A018DE23B700207676 /* ROSNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 891F1CDA1770318300E4C321 /* ROSNode.m */; };
 		89A4E5A118DE23B700207676 /* ROSXMLRPC.m in Sources */ = {isa = PBXBuildFile; fileRef = 89949489177D6C26005E306F /* ROSXMLRPC.m */; };
+		89A4E5A418E2741500207676 /* ROSMsgSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89A4E5A318E2741500207676 /* ROSMsgSpec.mm */; };
+		89A4E5A618E2748B00207676 /* ROSSocketSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89A4E5A518E2748B00207676 /* ROSSocketSpec.mm */; };
+		89A4E5A818E276F000207676 /* ROSNodeSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89A4E5A718E276F000207676 /* ROSNodeSpec.mm */; };
 		89E302511787EF9E000608D2 /* DDData.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301441787EF9C000608D2 /* DDData.m */; };
 		89E302541787EF9E000608D2 /* DDNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301461787EF9C000608D2 /* DDNumber.m */; };
 		89E302571787EF9E000608D2 /* DDRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301481787EF9C000608D2 /* DDRange.m */; };
@@ -356,6 +359,9 @@
 		89A4E56C18DE22D400207676 /* Cedar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cedar.framework; path = Frameworks/Cedar.framework; sourceTree = "<group>"; };
 		89A4E56E18DE22D500207676 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		89A4E57518DE230100207676 /* ROSCoreSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ROSCoreSpec.mm; sourceTree = "<group>"; };
+		89A4E5A318E2741500207676 /* ROSMsgSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ROSMsgSpec.mm; sourceTree = "<group>"; };
+		89A4E5A518E2748B00207676 /* ROSSocketSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ROSSocketSpec.mm; sourceTree = "<group>"; };
+		89A4E5A718E276F000207676 /* ROSNodeSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ROSNodeSpec.mm; sourceTree = "<group>"; };
 		89E3013F1787EF9C000608D2 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		89E301401787EF9C000608D2 /* .hgignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .hgignore; sourceTree = "<group>"; };
 		89E301431787EF9C000608D2 /* DDData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDData.h; sourceTree = "<group>"; };
@@ -662,6 +668,9 @@
 				89A4E56C18DE22D400207676 /* Cedar.framework */,
 				89A4E56E18DE22D500207676 /* main.m */,
 				89A4E57518DE230100207676 /* ROSCoreSpec.mm */,
+				89A4E5A318E2741500207676 /* ROSMsgSpec.mm */,
+				89A4E5A518E2748B00207676 /* ROSSocketSpec.mm */,
+				89A4E5A718E276F000207676 /* ROSNodeSpec.mm */,
 				89A4E56A18DE22D300207676 /* Supporting Files */,
 			);
 			path = "rosobjc-specs";
@@ -1079,6 +1088,7 @@
 				89A4E59F18DE23B700207676 /* ROSUDP.m in Sources */,
 				89A4E59318DE239D00207676 /* DDAbstractDatabaseLogger.m in Sources */,
 				89A4E58618DE237B00207676 /* HTTPMessage.m in Sources */,
+				89A4E5A418E2741500207676 /* ROSMsgSpec.mm in Sources */,
 				89A4E59618DE239D00207676 /* DDLog.m in Sources */,
 				89A4E58518DE237B00207676 /* HTTPConnection.m in Sources */,
 				89A4E57E18DE235F00207676 /* XMLRPCEventBasedParserDelegate.m in Sources */,
@@ -1089,12 +1099,14 @@
 				89A4E58918DE238E00207676 /* MultipartMessageHeader.m in Sources */,
 				89A4E57618DE230100207676 /* ROSCoreSpec.mm in Sources */,
 				89A4E57818DE235F00207676 /* NSData+Base64.m in Sources */,
+				89A4E5A618E2748B00207676 /* ROSSocketSpec.mm in Sources */,
 				89A4E58718DE237B00207676 /* HTTPServer.m in Sources */,
 				89A4E59C18DE23B700207676 /* ROSCore.m in Sources */,
 				89A4E58818DE238E00207676 /* MultipartFormDataParser.m in Sources */,
 				89A4E59418DE239D00207676 /* DDASLLogger.m in Sources */,
 				89A4E59B18DE23AB00207676 /* RPCResponse.m in Sources */,
 				89A4E58F18DE238E00207676 /* HTTPFileResponse.m in Sources */,
+				89A4E5A818E276F000207676 /* ROSNodeSpec.mm in Sources */,
 				89A4E58118DE237B00207676 /* DDData.m in Sources */,
 				89A4E59A18DE23AB00207676 /* RPCConnection.m in Sources */,
 				89A4E59918DE239D00207676 /* DispatchQueueLogFormatter.m in Sources */,
