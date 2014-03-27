@@ -33,7 +33,13 @@ describe(@"ROSNode", ^{
         [[ROSCore sharedCore] signalShutdown:@""];
     });
     
-    
+    describe(@"Not publishing", ^{
+        static NSString *topic = @"/example";
+        
+        it(@"should not publishesTopic:", ^{
+            [subject publishesTopic:topic] should be_falsy;
+        });
+    });
 });
 
 SPEC_END
