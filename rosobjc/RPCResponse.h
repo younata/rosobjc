@@ -16,6 +16,6 @@
 
 @property (nonatomic) UInt64 offset;
 
--(id)initWithHeaders:(NSDictionary *)headers bodyData:(NSData *)bodyData;
+-(id)initWithHeaders:(NSDictionary *)headers bodyData:(NSData *)bodyData from:(NSString *)ipAddr;
 
 @end

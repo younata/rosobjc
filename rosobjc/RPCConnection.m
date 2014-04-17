@@ -9,6 +9,7 @@
 #import "RPCConnection.h"
 #import "HTTPMessage.h"
 #import "RPCResponse.h"
+#import "GCDAsyncSocket.h"
 
 @implementation RPCConnection
 
@@ -41,7 +42,7 @@
 -(id<HTTPResponse>)httpResponseForMethod:(NSString *)method URI:(NSString *)path
 {
     if ([method isEqualToString:@"POST"])
-        return [[RPCResponse alloc] initWithHeaders:[request allHeaderFields] bodyData:requestContentBody];
+        return [[RPCResponse alloc] initWithHeaders:[request allHeaderFields] bodyData:requestContentBody from:[asyncSocket connectedHost]];
     return nil;
 }
 

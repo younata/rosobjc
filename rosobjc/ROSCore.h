@@ -27,10 +27,13 @@
 @property (nonatomic, strong) NSString *uri;
 @property (nonatomic, strong) NSString *masterURI;
 @property (nonatomic, readonly) unsigned short rpcPort;
+@property (nonatomic, strong) NSMutableSet *hostWhitelist; // if nil, then accepts requests/will connect to everything.
 
 // takes a string, outputs an array of form [address, port]
 +(NSArray *)ParseRosObjcURI:(NSString *)uri;
 +(ROSCore *)sharedCore;
+
+-(BOOL)isIPDenied:(NSString *)ipAddr;
 
 -(BOOL)isInitialized;
 -(void)setInitialized:(BOOL)inited;
@@ -38,7 +41,6 @@
 -(BOOL)isShutdown;
 -(BOOL)isShutdownRequested;
 -(void)signalShutdown:(NSString *)reason;
-
 
 -(void)registerMessageClasses:(NSArray *)classes;
 -(Class)getClassForMessageType:(NSString *)type;

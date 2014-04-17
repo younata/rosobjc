@@ -60,6 +60,28 @@
     return self;
 }
 
+-(BOOL)isIPDenied:(NSString *)ipAddr
+{
+    if ([self.hostWhitelist count] == 0) {
+        return NO;
+    }
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"^(?:[0-9]{1,3}\\.){3}[0-9]{1,3}$" options:0 error:nil];
+    for (NSString *str in self.hostWhitelist) {
+        if ([regex numberOfMatchesInString:str options:0 range:NSMakeRange(0, str.length)] == 0) {
+            NSHost *host = [NSHost hostWithAddress:ipAddr];
+            for (NSString *hn in host.names) {
+                if ([hn isEqualToString:str]) {
+                    return NO;
+                }
+            }
+        }
+        if ([str isEqualToString:ipAddr]) {
+            return NO;
+        }
+    }
+    return YES;
+}
+
 -(void)setUri:(NSString *)uri
 {
     [ROSCore ParseRosObjcURI:uri];
