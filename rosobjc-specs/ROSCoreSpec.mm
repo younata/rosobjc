@@ -30,6 +30,43 @@ describe(@"ROSCore", ^{
         });
     });
     
+    describe(@"ip/dns whitelist", ^{
+        it(@"should allow everything through when the whitelist is nil", ^{
+            subject.hostWhitelist = nil;
+            [subject isIPDenied:@""] should be_falsy;
+            [subject isIPDenied:@"1.1.1.1"] should be_falsy;
+            [subject isIPDenied:@"192.168.1.1"] should be_falsy;
+            [subject isIPDenied:@"74.125.226.37"] should be_falsy; // google.com, according to first result on my nslookup
+        });
+        
+        it(@"should allow everything through when the whitelist is empty", ^{
+            subject.hostWhitelist = [[NSMutableSet alloc] init];
+            [subject isIPDenied:@""] should be_falsy;
+            [subject isIPDenied:@"1.1.1.1"] should be_falsy;
+            [subject isIPDenied:@"192.168.1.1"] should be_falsy;
+            [subject isIPDenied:@"74.125.226.37"] should be_falsy;
+        });
+        
+        it(@"should allow ip addresses which are whitelisted to be passed through", ^{
+            subject.hostWhitelist = [[NSMutableSet alloc] init];
+            [subject.hostWhitelist addObject:@"1.1.1.1"];
+            [subject isIPDenied:@""] should be_truthy;
+            [subject isIPDenied:@"1.1.1.1"] should be_falsy;
+            [subject isIPDenied:@"192.168.1.1"] should be_truthy;
+            [subject isIPDenied:@"74.125.226.37"] should be_truthy;
+        });
+        
+        it(@"should reverse dns lookup to pass through ip addresses", ^{
+            subject.hostWhitelist = [[NSMutableSet alloc] init];
+            
+            [subject.hostWhitelist addObject:@"localhost"];
+            NSHost *currentHost = [NSHost hostWithName:@"localhost"];
+            for (NSString *ip in currentHost.addresses) {
+                [subject isIPDenied:ip] should be_falsy; // everything for current host...
+            }
+        });
+    });
+    
     describe(@"shutting down", ^{
         beforeEach(^{
             [subject setInitialized:YES];

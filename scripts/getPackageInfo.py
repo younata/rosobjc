@@ -34,7 +34,7 @@ def convertBaseToObjc(baseType, context):
     if is_array:
         return "NSArray"
     if msgs.is_header_type(base_type):
-        return "ROSMsgstd_msgsHeader"
+        return "ROSMSGstd_msgsHeader"
     baseType = baseType.lower()
     nums = ['bool', 'int8', 'uint8', 'int16', 'uint16', 'int32', 'uint32', 'int64', 'uint64', 'float32', 'float64']
     if baseType in nums:
@@ -52,7 +52,7 @@ def writeHeader(className, fn, msgFileLoc):
     retString = ""
     #f = open(fn+".h", "a")
     a = string.join(className.split("/"), "")
-    retString += "@interface ROSMsg%s : ROSMsg\n" % a
+    retString += "@interface ROSMSG%s : ROSMSG\n" % a
     j = open(msgFileLoc)
     c = j.read()
     j.close()
@@ -75,7 +75,7 @@ def writeHeader(className, fn, msgFileLoc):
 def writeImpl(className, fn, msgFileLoc, classDef, md5):
     a = string.join(className.split("/"), "")
     retString = ""
-    retString += "@implementation ROSMsg%s\n" % a
+    retString += "@implementation ROSMSG%s\n" % a
     f.write("-(NSString *)md5sum { return @\"%s\"; }\n" % md5)
     j = open(msgFileLoc)
     c = j.read();
@@ -141,7 +141,7 @@ def generateSingleMsg(f, classFile):
     fi.close()
 
 
-    ret = "ROSMsg" + string.join(a.split("/"), "")
+    ret = "ROSMSG" + string.join(a.split("/"), "")
     print ret
     return (ret, a.split("/")[0], a.split("/")[1])
     #print a
