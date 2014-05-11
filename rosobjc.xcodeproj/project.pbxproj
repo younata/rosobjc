@@ -193,6 +193,8 @@
 		89A4E5A418E2741500207676 /* ROSMsgSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89A4E5A318E2741500207676 /* ROSMsgSpec.mm */; };
 		89A4E5A618E2748B00207676 /* ROSSocketSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89A4E5A518E2748B00207676 /* ROSSocketSpec.mm */; };
 		89A4E5A818E276F000207676 /* ROSNodeSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89A4E5A718E276F000207676 /* ROSNodeSpec.mm */; };
+		89C99BDA191F287200922FC6 /* ROSMsgstd_msgs.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C99BD9191F287200922FC6 /* ROSMsgstd_msgs.m */; };
+		89C99BDD191F2A1600922FC6 /* ROSMsgstd_msgsSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89C99BDC191F2A1600922FC6 /* ROSMsgstd_msgsSpec.mm */; };
 		89E302511787EF9E000608D2 /* DDData.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301441787EF9C000608D2 /* DDData.m */; };
 		89E302541787EF9E000608D2 /* DDNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301461787EF9C000608D2 /* DDNumber.m */; };
 		89E302571787EF9E000608D2 /* DDRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E301481787EF9C000608D2 /* DDRange.m */; };
@@ -272,6 +274,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8912CCE619025A7700B0FF61 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		8912CCFE19025EAD00B0FF61 /* rosobjc-framework copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "rosobjc-framework copy-Info.plist"; path = "/Users/you/Desktop/dev/rosobjc/rosobjc-framework copy-Info.plist"; sourceTree = "<absolute>"; };
 		891F1C731770245400E4C321 /* librosobjc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = librosobjc.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		891F1C761770245400E4C321 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		891F1C7A1770245400E4C321 /* rosobjc-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "rosobjc-Prefix.pch"; sourceTree = "<group>"; };
@@ -362,6 +366,9 @@
 		89A4E5A318E2741500207676 /* ROSMsgSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ROSMsgSpec.mm; sourceTree = "<group>"; };
 		89A4E5A518E2748B00207676 /* ROSSocketSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ROSSocketSpec.mm; sourceTree = "<group>"; };
 		89A4E5A718E276F000207676 /* ROSNodeSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ROSNodeSpec.mm; sourceTree = "<group>"; };
+		89C99BD8191F287200922FC6 /* ROSMsgstd_msgs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ROSMsgstd_msgs.h; sourceTree = "<group>"; };
+		89C99BD9191F287200922FC6 /* ROSMsgstd_msgs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ROSMsgstd_msgs.m; sourceTree = "<group>"; };
+		89C99BDC191F2A1600922FC6 /* ROSMsgstd_msgsSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ROSMsgstd_msgsSpec.mm; sourceTree = "<group>"; };
 		89E3013F1787EF9C000608D2 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		89E301401787EF9C000608D2 /* .hgignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .hgignore; sourceTree = "<group>"; };
 		89E301431787EF9C000608D2 /* DDData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDData.h; sourceTree = "<group>"; };
@@ -476,6 +483,7 @@
 				89A4E56818DE22D300207676 /* rosobjc-specs */,
 				891F1C751770245400E4C321 /* Frameworks */,
 				891F1C741770245400E4C321 /* Products */,
+				8912CCFE19025EAD00B0FF61 /* rosobjc-framework copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -506,6 +514,7 @@
 				891F1C871770245400E4C321 /* UIKit.framework */,
 				891F1CA21770255500E4C321 /* Cocoa.framework */,
 				895127E218D82BDC003C9190 /* CoreGraphics.framework */,
+				8912CCE619025A7700B0FF61 /* CoreFoundation.framework */,
 				891F1CA41770255500E4C321 /* Other Frameworks */,
 			);
 			name = Frameworks;
@@ -519,6 +528,7 @@
 				891F1CD3177028F800E4C321 /* ROSCore.m */,
 				891F1CDE177142C900E4C321 /* ROSMsg.h */,
 				891F1CDF177142C900E4C321 /* ROSMsg.m */,
+				89C99BDB191F287700922FC6 /* Built-in Messages */,
 				898F7E2D179C94F0009B8961 /* ROSSocket.h */,
 				898F7E2E179C94F0009B8961 /* ROSSocket.m */,
 				898F7E4417B86CD8009B8961 /* ROSUDP.h */,
@@ -669,6 +679,7 @@
 				89A4E56E18DE22D500207676 /* main.m */,
 				89A4E57518DE230100207676 /* ROSCoreSpec.mm */,
 				89A4E5A318E2741500207676 /* ROSMsgSpec.mm */,
+				89C99BDC191F2A1600922FC6 /* ROSMsgstd_msgsSpec.mm */,
 				89A4E5A518E2748B00207676 /* ROSSocketSpec.mm */,
 				89A4E5A718E276F000207676 /* ROSNodeSpec.mm */,
 				89A4E56A18DE22D300207676 /* Supporting Files */,
@@ -682,6 +693,15 @@
 				89A4E56B18DE22D300207676 /* rosobjc-specs-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		89C99BDB191F287700922FC6 /* Built-in Messages */ = {
+			isa = PBXGroup;
+			children = (
+				89C99BD8191F287200922FC6 /* ROSMsgstd_msgs.h */,
+				89C99BD9191F287200922FC6 /* ROSMsgstd_msgs.m */,
+			);
+			name = "Built-in Messages";
 			sourceTree = "<group>";
 		};
 		89E3013E1787EF9C000608D2 /* CocoaHTTPServer */ = {
@@ -1013,6 +1033,7 @@
 				89E303361787EF9E000608D2 /* GCDAsyncSocket.m in Sources */,
 				89E3033A1787EF9E000608D2 /* DDAbstractDatabaseLogger.m in Sources */,
 				89E3033D1787EF9E000608D2 /* DDASLLogger.m in Sources */,
+				89C99BDA191F287200922FC6 /* ROSMsgstd_msgs.m in Sources */,
 				89E303401787EF9E000608D2 /* DDFileLogger.m in Sources */,
 				89E303431787EF9E000608D2 /* DDLog.m in Sources */,
 				89E303461787EF9E000608D2 /* DDTTYLogger.m in Sources */,
@@ -1098,6 +1119,7 @@
 				89A4E57D18DE235F00207676 /* XMLRPCEventBasedParser.m in Sources */,
 				89A4E58918DE238E00207676 /* MultipartMessageHeader.m in Sources */,
 				89A4E57618DE230100207676 /* ROSCoreSpec.mm in Sources */,
+				89C99BDD191F2A1600922FC6 /* ROSMsgstd_msgsSpec.mm in Sources */,
 				89A4E57818DE235F00207676 /* NSData+Base64.m in Sources */,
 				89A4E5A618E2748B00207676 /* ROSSocketSpec.mm in Sources */,
 				89A4E58718DE237B00207676 /* HTTPServer.m in Sources */,
@@ -1351,6 +1373,7 @@
 				89A4E57418DE22D500207676 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
